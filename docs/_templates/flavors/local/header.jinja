@@ -1,11 +1,9 @@
 {% macro top_level_header(branch, latest_version, release_candidate_version) -%}
-    <a class="klavika-font hover-opacity" href="/">Ryzen AI</a>
+    <a class="klavika-font hover-opacity" href="/">Quark</a>
 {%- endmacro -%}
 
 {%
 set nav_secondary_items = {
-    "GitHub": theme_repository_url|replace("-docs", ""),
-    "Community": "https://community.amd.com/t5/ai/ct-p/amd_ai",
-    "Products": "https://www.amd.com/en/products/ryzen-ai"
+    "GitHub": theme_repository_url|replace("-docs", "")
 }
 %}
