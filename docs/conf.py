@@ -91,7 +91,7 @@ pdf_documents = [('index', u'', u'', u'AMD, Inc.'),]
 
 
 # Configure 'Edit on GitHub' extension
-edit_on_github_project = '/amd/ryzen-ai-documentation'
+edit_on_github_project = '/amd/quark-documentation'
 edit_on_github_branch = 'main/docs'
 
 # Add any paths that contain templates here, relative to this directory.
@@ -218,7 +218,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'ryzenai.tex', 'Ryzen AI',
+    (master_doc, 'quark.tex', 'Quark',
      'AMD', 'manual'),
 ]
 
@@ -228,7 +228,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'ryzenai.tex', 'Ryzen AI',
+    (master_doc, 'quark.tex', 'Quark',
      [author], 1)
 ]
 
@@ -290,6 +290,3 @@ if "READTHEDOCS" in os.environ:
 #    app.add_transform(AutoStructify)
 
 
-#################################################################################  
-#License
-#Ryzen AI is licensed under `MIT License <https://github.com/amd/ryzen-ai-documentation/blob/main/License>`_ . Refer to the `LICENSE File <https://github.com/amd/ryzen-ai-documentation/blob/main/License>`_ for the full license text and copyright notice.
