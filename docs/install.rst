@@ -29,3 +29,12 @@ Install from TAR
    .. code:: bash
 
       python -c "import quark.torch.kernel"
+
+..
+  ------------
+
+  #####################################
+  License
+  #####################################
+
+  Quark is licensed under MIT License. Refer to the LICENSE file for the full license text and copyright notice.

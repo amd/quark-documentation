@@ -16,3 +16,12 @@ Welcome to Quark's documentation!
    APIs <api_doc/apis.rst>
    Examples <example_gen.rst>
    FAQ <faq.rst>
+
+..
+  ------------
+
+  #####################################
+  License
+  #####################################
+
+  Quark is licensed under MIT License. Refer to the LICENSE file for the full license text and copyright notice.

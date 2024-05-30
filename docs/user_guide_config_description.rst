@@ -151,3 +151,12 @@ Users can choose the ``observer_cls`` in:
 -  ``PerChannelMinMaxObserver``
 -  ``PerTensorPercentileObserver``
 -  ``PerTensorMSEObserver``
+
+..
+  ------------
+
+  #####################################
+  License
+  #####################################
+
+  Quark is licensed under MIT License. Refer to the LICENSE file for the full license text and copyright notice.

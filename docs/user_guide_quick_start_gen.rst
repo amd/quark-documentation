@@ -49,3 +49,12 @@ step will be provided on other chapter of the User Guide.
    # input_args = input_args.to('cuda')
    # exporter = ModelExporter('export_path')
    # exporter.export_onnx_model(quant_model, input_args, uint4_int4_flag=False)
+
+..
+  ------------
+
+  #####################################
+  License
+  #####################################
+
+  Quark is licensed under MIT License. Refer to the LICENSE file for the full license text and copyright notice.
