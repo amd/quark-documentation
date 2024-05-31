@@ -25,3 +25,12 @@ There are several steps to quantize a floating-point model with
 
 `Feature Description <./user_guide_feature_description.md>`__
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..
+  ------------
+
+  #####################################
+  License
+  #####################################
+
+  Quark is licensed under MIT License. Refer to the LICENSE file for the full license text and copyright notice.

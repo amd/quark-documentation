@@ -196,3 +196,12 @@ optimization.
    re-implements the algorithm of GPTQ. Quark for PyTorch only supports
    ``GPTQ`` with quantization data type as ``uint4`` and ``per group``,
    running on ``Linux`` with the ``GPU mode`` for now.
+
+..
+  ------------
+
+  #####################################
+  License
+  #####################################
+
+  Quark is licensed under MIT License. Refer to the LICENSE file for the full license text and copyright notice.

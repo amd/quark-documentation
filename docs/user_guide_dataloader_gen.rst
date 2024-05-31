@@ -65,3 +65,12 @@ collate_fn, for example:
 
    input_dict = {'input_ids':torch.rand(128, 128)}
    calib_dataloader = DataLoader(input_dict, batch_size=4, collate_fn=my_collate_fn)
+
+..
+  ------------
+
+  #####################################
+  License
+  #####################################
+
+  Quark is licensed under MIT License. Refer to the LICENSE file for the full license text and copyright notice.

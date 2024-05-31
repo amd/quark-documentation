@@ -166,3 +166,12 @@ Recipe 7: Quantization & vLLM_Adopt_SafeTensors_Export of W_FP8_A_FP8_O_FP8 with
 If the code runs successfully, it will produce one JSON file and one
 .safetensor file in ``[output_dir]`` and the terminal will display
 ``[Quark] Quantized model exported to ... successfully.``
+
+..
+  ------------
+
+  #####################################
+  License
+  #####################################
+
+  Quark is licensed under MIT License. Refer to the LICENSE file for the full license text and copyright notice.
