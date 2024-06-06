@@ -72,7 +72,7 @@ class LLMModelInfoBuilder:
     @staticmethod
     def get_scale(quantizer: FakeQuantize) -> Optional[torch.Tensor]:
         """Returns scale from the quantizer as torch.Tensor."""
-        if quantizer is None or (not quantizer.is_enabled):
+        if quantizer is None:
             return None
 
         if hasattr(quantizer, 'scale') and quantizer.scale is not None and quantizer.scale.numel() > 0:
@@ -101,7 +101,7 @@ class LLMModelInfoBuilder:
     @staticmethod
     def get_zero_point(quantizer: FakeQuantize) -> Optional[torch.Tensor]:
         """Returns zero point from the quantizer as torch.Tensor."""
-        if quantizer is None or (not quantizer.is_enabled):
+        if quantizer is None:
             return None
 
         if hasattr(quantizer, 'zero_point') and quantizer.zero_point is not None and quantizer.zero_point.numel() > 0:

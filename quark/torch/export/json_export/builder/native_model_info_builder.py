@@ -45,12 +45,18 @@ class NativeModelInfoBuilder:
         quant_dict["zero_point"] = tensor_name
         param_dict[tensor_name] = quantizer.zero_point.detach()
 
-        quant_dict["dtype"] = quantizer.dtype.name if quantizer.dtype is not None else None
-        quant_dict["qscheme"] = quantizer.qscheme.name if quantizer.qscheme is not None else None
-        quant_dict["ch_axis"] = quantizer.ch_axis
-        quant_dict["group_size"] = quantizer.group_size
-        quant_dict["round_method"] = quantizer.round_method.name if quantizer.round_method is not None else None
-        quant_dict["scale_type"] = quantizer.scale_type.name if quantizer.scale_type is not None else None
+        quant_dict["dtype"] = quantizer.dtype.name if (hasattr(quantizer, "dtype")
+                                                       and quantizer.dtype is not None) else None
+        quant_dict["qscheme"] = quantizer.qscheme.name if (hasattr(quantizer, "qscheme")
+                                                           and quantizer.qscheme is not None) else None
+        quant_dict["ch_axis"] = quantizer.ch_axis if (hasattr(quantizer, "ch_axis")
+                                                      and quantizer.ch_axis is not None) else 0
+        quant_dict["group_size"] = quantizer.group_size if (hasattr(quantizer, "group_size")
+                                                            and quantizer.group_size is not None) else 0
+        quant_dict["round_method"] = quantizer.round_method.name if (hasattr(quantizer, "round_method")
+                                                                     and quantizer.round_method is not None) else None
+        quant_dict["scale_type"] = quantizer.scale_type.name if (hasattr(quantizer, "scale_type")
+                                                                 and quantizer.scale_type is not None) else "float"
 
         return quant_dict
 

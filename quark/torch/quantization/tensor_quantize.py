@@ -167,7 +167,7 @@ class FakeQuantize(FakeQuantizeBase):
                 X = X.to(self.input_origin_type)
         elif self.dtype in [Dtype.int4, Dtype.uint4, Dtype.int8]:
 
-            # Reshape for per_group input
+            # Reshape for per_group input. TODO: Write a new kernel named fake_quantize_per_group_affine
             if self.qscheme in [QSchemeType.per_group] and (self.observer_enabled[0] == 1
                                                             or self.fake_quant_enabled[0] == 1):
                 org_x_shape = X.shape
@@ -206,7 +206,7 @@ class FakeQuantize(FakeQuantizeBase):
                 else:
                     ValueError(f"Do not support QSchema as {self.qscheme}")
 
-            # Reshape back for per_group input
+            # Reshape back for per_group input. TODO: Remove this and write a new kernel named fake_quantize_per_group_affine
             if self.qscheme in [QSchemeType.per_group] and ((self.observer_enabled[0] == 1) or
                                                             (self.fake_quant_enabled[0] == 1)):
                 X = X.reshape(org_x_shape)
@@ -332,6 +332,76 @@ class FakeQuantize(FakeQuantizeBase):
     def block_sizes(self, value: int) -> None:
         self._axis = None
         self.group_size = value
+
+
+class FreezedFakeQuantize(nn.Module):
+    scale: torch.Tensor
+    zero_point: torch.Tensor
+
+    def __init__(self, ) -> None:
+        super(FreezedFakeQuantize, self).__init__()
+        self.register_buffer('scale', torch.tensor([1.0], dtype=torch.float))
+        self.register_buffer('zero_point', torch.tensor([0], dtype=torch.int))
+        self.quant_min: Optional[int] = None
+        self.quant_max: Optional[int] = None
+        self.dtype: Optional[Dtype] = None
+        self.qscheme: Optional[QSchemeType] = None
+        self.ch_axis: Optional[int] = None
+        self.group_size: Optional[int] = None
+        self.round_method: Optional[RoundType] = None
+
+    def forward(self, X: torch.Tensor) -> torch.Tensor:
+        if self.dtype in [Dtype.bfloat16, Dtype.float16]:
+            quant_dtype = {Dtype.bfloat16: torch.bfloat16, Dtype.float16: torch.float16}.get(self.dtype)
+            input_origin_type = X.dtype
+            if input_origin_type != quant_dtype:
+                X = X.to(quant_dtype)
+                X = X.to(input_origin_type)
+        elif self.dtype in [Dtype.int4, Dtype.uint4, Dtype.int8]:
+            # Reshape for per_group input. TODO: Remove this and write a new kernel named fake_quantize_per_group_affine
+            if self.qscheme in [QSchemeType.per_group]:
+                org_x_shape = X.shape
+                if self.group_size and self.group_size > 0:
+                    assert org_x_shape[-1] % self.group_size == 0
+                    X = X.reshape(-1, self.group_size)
+                assert X.dim() == 2
+                self.scale = self.scale.reshape(-1)
+                self.zero_point = self.zero_point.reshape(-1)
+
+            if self.qscheme == QSchemeType.per_tensor:
+                X = quark.torch.kernel.fake_quantize_per_tensor_affine(  # type: ignore[attr-defined]
+                    X, self.scale, self.zero_point.to(torch.int), self.quant_min, self.quant_max, RoundMode.NEARBYINT)
+            elif self.qscheme in [QSchemeType.per_channel, QSchemeType.per_group]:
+                assert self.ch_axis is not None
+                X = quark.torch.kernel.fake_quantize_per_channel_affine(  # type: ignore[attr-defined]
+                    X, self.scale, self.zero_point.to(torch.int), self.ch_axis, self.quant_min, self.quant_max,
+                    RoundMode.NEARBYINT)
+            else:
+                ValueError(f"Do not support QSchema as {self.qscheme}")
+
+            # Reshape back for per_group input. TODO: Write a new kernel named fake_quantize_per_group_affine
+            if self.qscheme in [QSchemeType.per_group]:
+                X = X.reshape(org_x_shape)
+                self.scale = self.scale.reshape(X.shape[0], -1)
+                self.zero_point = self.zero_point.reshape(X.shape[0], -1)
+        elif self.dtype == Dtype.fp8_e4m3:
+            X = quark.torch.kernel.quant_dequant_fp8_e4m3(X, self.scale)  # type: ignore[attr-defined]
+        return X
+
+    @classmethod
+    def from_fake_quantize(cls, fake_quantize_model: FakeQuantize) -> nn.Module:
+        freezed_fake_quantize_model = cls()
+        freezed_fake_quantize_model.dtype = fake_quantize_model.dtype
+        if fake_quantize_model.dtype in [Dtype.int4, Dtype.uint4, Dtype.int8, Dtype.fp8_e4m3]:
+            freezed_fake_quantize_model.register_buffer('scale', fake_quantize_model.scale)
+            freezed_fake_quantize_model.register_buffer('zero_point', fake_quantize_model.zero_point)
+        freezed_fake_quantize_model.qscheme = fake_quantize_model.qscheme
+        freezed_fake_quantize_model.ch_axis = fake_quantize_model.ch_axis
+        freezed_fake_quantize_model.group_size = fake_quantize_model.group_size
+        freezed_fake_quantize_model.round_method = fake_quantize_model.round_method
+        freezed_fake_quantize_model.quant_min = getattr(fake_quantize_model, 'quant_min', None)
+        freezed_fake_quantize_model.quant_max = getattr(fake_quantize_model, 'quant_max', None)
+        return freezed_fake_quantize_model
 
 
 class SequentialFakeQuantize(nn.Sequential):

@@ -74,15 +74,14 @@ class DequantE4M3Function(Function):
 class QuantDequantE4M3Function(Function):
 
     @staticmethod
-    def forward(ctx: Any, inputs: torch.Tensor, scale: Union[float, None] = None) -> torch.Tensor:  # type: ignore
-        if scale is None:
-            return ops.quant_scope.quant_dequant_fp8_e4m3(inputs)
-        else:
-            return ops.quant_scope.quant_dequant_fp8_e4m3_with_scale(inputs, scale)
+    def forward(ctx: Any, inputs: torch.Tensor, scale: torch.Tensor) -> torch.Tensor:  # type: ignore
+        # if scale is None:
+        #     return ops.quant_scope.quant_dequant_fp8_e4m3(inputs)
+        return ops.quant_scope.quant_dequant_fp8_e4m3_with_scale(inputs, scale)
 
     @staticmethod
     def backward(ctx: Any, grad_outputs: torch.Tensor) -> Any:  # type: ignore
-        return grad_outputs
+        return grad_outputs, None
 
     @staticmethod
     @symbolic_helper.parse_args("v", "v")
@@ -108,7 +107,7 @@ class FakeQuantizePerTensorAffine(Function):
 
     @staticmethod
     def backward(ctx: Any, grad_outputs: torch.Tensor) -> Any:  # type: ignore
-        return grad_outputs
+        return grad_outputs, None, None, None, None, None
 
     @staticmethod
     @symbolic_helper.parse_args("v", "v", "v", "i", "i", "i")
@@ -140,7 +139,7 @@ class FakeQuantizePerChannelAffine(Function):
 
     @staticmethod
     def backward(ctx: Any, grad_outputs: torch.Tensor) -> Any:  # type: ignore
-        return grad_outputs
+        return grad_outputs, None, None, None, None, None, None
 
     @staticmethod
     @symbolic_helper.parse_args("v", "v", "v", "i", "i", "i", "i")
