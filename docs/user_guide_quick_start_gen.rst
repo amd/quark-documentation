@@ -40,21 +40,22 @@ step will be provided on other chapter of the User Guide.
    quantizer = ModelQuantizer(quant_config)
    quant_model = quantizer.quantize_model(model, calib_dataloader)
 
-   # 5. (Optional) Export onnx
+   # # 5. (Optional) Export onnx
+   # # If user want to export the quantized model, please freeze the quantized model first
+   # freezed_quantized_model = quantizer.freeze(quant_model)
    # from quark.torch import ModelExporter
+   # # Get dummy input
    # for data in calib_dataloader:
    #     input_args = data
    #     break
    # quant_model = quant_model.to('cuda')
    # input_args = input_args.to('cuda')
    # exporter = ModelExporter('export_path')
-   # exporter.export_onnx_model(quant_model, input_args, uint4_int4_flag=False)
+   # exporter.export_onnx_model(quant_model, input_args)
 
-..
-  ------------
+.. raw:: html
 
-  #####################################
-  License
-  #####################################
-
-  Quark is licensed under MIT License. Refer to the LICENSE file for the full license text and copyright notice.
+   <!-- 
+   ## License
+   Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved. SPDX-License-Identifier: MIT
+   -->

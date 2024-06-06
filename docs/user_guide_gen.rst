@@ -11,26 +11,23 @@ There are several steps to quantize a floating-point model with
    modules with quantized module.
 5. (Optional) Export quantized model to other format such as ONNX
 
-`Quick Start Example <././user_guide_quick_start_gen.html>`__
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+More details:
 
-`Configuring Quark for PyTorch <././user_guide_config_description_gen.html>`__
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-  `Quick Start Example <././user_guide_quick_start_gen.html>`__
 
-`Adding Calibration Datasets <././user_guide_dataloader_gen.html>`__
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-  `Configuring Quark for
+   PyTorch <././user_guide_config_description_gen.html>`__
 
-`Exporting for ONNX & Json-Safetensors(vLLM Adopted) <././user_guide_exporting_gen.html>`__
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-  `Adding Calibration Datasets <././user_guide_dataloader_gen.html>`__
 
-`Feature Description <././user_guide_feature_description_gen.html>`__
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-  `Exporting for ONNX & Json-Safetensors(vLLM
+   Adopted) <././user_guide_exporting_gen.html>`__
 
-..
-  ------------
+-  `Feature Description <././user_guide_feature_description_gen.html>`__
 
-  #####################################
-  License
-  #####################################
+.. raw:: html
 
-  Quark is licensed under MIT License. Refer to the LICENSE file for the full license text and copyright notice.
+   <!-- 
+   ## License
+   Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved. SPDX-License-Identifier: MIT
+   -->

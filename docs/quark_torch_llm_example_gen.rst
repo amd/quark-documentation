@@ -11,33 +11,17 @@ Guide <./user_guide_gen.html>`__ for help.
 Models supported
 ----------------
 
-+----+---------+---+---+-------+--------------+---+----+---------+------+
-| M  | Model   | F | B | FP8   | W_UIN4(Per   | I | S  | FP8     | INT8 |
-| od | Name    | P | F | (+FP8 | group)+A_BF1 | N | mo | Safe    | ONNX |
-| el |         | 1 | P | _KV_C | 6(+AWQ/GPTQ) | T | ot | Tensors | Ex   |
-| Fa |         | 6 | 1 | ACHE) |              | 8 | hQ | Export  | port |
-| mi |         |   | 6 |       |              |   | ua |         |      |
-| ly |         |   |   |       |              |   | nt |         |      |
-+====+=========+===+===+=======+==============+===+====+=========+======+
-| L  | met     | ✓ | ✓ | ✓     | ✓            | ✓ | ✓  | ✓       | ✓    |
-| LA | a-llama |   |   |       |              |   |    |         |      |
-| MA | /Llama- |   |   |       |              |   |    |         |      |
-| 2  | 2-\*-hf |   |   |       |              |   |    |         |      |
-+----+---------+---+---+-------+--------------+---+----+---------+------+
-| L  | met     | ✓ | ✓ | ✓     | ✓            | ✓ | ✓  | ✓       | ✓    |
-| LA | a-llama |   |   |       |              |   |    |         |      |
-| MA | /Llama- |   |   |       |              |   |    |         |      |
-| 3  | 3-\*-hf |   |   |       |              |   |    |         |      |
-+----+---------+---+---+-------+--------------+---+----+---------+------+
-| O  | f       | ✓ | ✓ | ✓     | ✓            | ✓ | ✓  | ×       | ✓    |
-| PT | acebook |   |   |       |              |   |    |         |      |
-|    | /opt-\* |   |   |       |              |   |    |         |      |
-+----+---------+---+---+-------+--------------+---+----+---------+------+
-| Qw | Q       | ✓ | ✓ | ✓     | ✓            | ✓ | ✓  | ×       | ✓    |
-| en | wen/Qwe |   |   |       |              |   |    |         |      |
-| 1  | n1.5-\* |   |   |       |              |   |    |         |      |
-| .5 |         |   |   |       |              |   |    |         |      |
-+----+---------+---+---+-------+--------------+---+----+---------+------+
++--------------+-------------------------+---------+---------+--------------------+-------------------------------------+---------+-------------+------------------------+------------------+
+| Model Family | Model Name              |  FP16   | BFP16   | FP8(+FP8_KV_CACHE) | W_UIN4(Per group)+A_BF16(+AWQ/GPTQ) | INT8    | SmoothQuant | FP8 SafeTensors Export | INT8 ONNX Export |
++==============+=========================+=========+=========+====================+=====================================+=========+=============+========================+==================+
+| LLAMA 2      | meta-llama/Llama-2-*-hf |  ✓      | ✓       | ✓                  | ✓                                   | ✓       | ✓           | ✓                      | ✓                |
++--------------+-------------------------+---------+---------+--------------------+-------------------------------------+---------+-------------+------------------------+------------------+
+| LLAMA 3      | meta-llama/Llama-3-*-hf |  ✓      | ✓       | ✓                  | ✓                                   | ✓       | ✓           | ✓                      | ✓                |
++--------------+-------------------------+---------+---------+--------------------+-------------------------------------+---------+-------------+------------------------+------------------+
+| OPT          | facebook/opt-*          |  ✓      | ✓       | ✓                  | ✓                                   | ✓       | ✓           | ✗                      | ✓                |
++--------------+-------------------------+---------+---------+--------------------+-------------------------------------+---------+-------------+------------------------+------------------+
+| Qwen 1.5     | Qwen/Qwen1.5-*          |  ✓      | ✓       | ✓                  | ✓                                   | ✓       | ✓           | ✗                      | ✓                |
++--------------+-------------------------+---------+---------+--------------------+-------------------------------------+---------+-------------+------------------------+------------------+
 
 Note: ``*`` represents different model sizes, such as ``7b``.
 
@@ -58,8 +42,7 @@ You can run the following python scripts in the
 ``examples/torch/language_modeling`` path. Here we use Llama2-7b as an
 example.
 
-Recipe 1: Evaluation of Llama2 float16 model without quantization
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Recipe 1: Evaluation of Llama2 float16 model without quantization**
 
 ::
 
@@ -68,8 +51,8 @@ Recipe 1: Evaluation of Llama2 float16 model without quantization
 
 Llama2-7b perplexity with wikitext dataset (on A100 GPU): 5.4720
 
-Recipe 2: Quantization of Llama2 with AWQ (W_uint4 A_float16 per_group asymmetric)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Recipe 2: Quantization of Llama2 with AWQ (W_uint4 A_float16 per_group
+asymmetric)**
 
 ::
 
@@ -83,8 +66,8 @@ Recipe 2: Quantization of Llama2 with AWQ (W_uint4 A_float16 per_group asymmetri
 
 Llama2-7b perplexity with wikitext dataset (on A100 GPU): 5.6168
 
-Recipe 3: Quantization of & vLLM_Adopt_SafeTensors_Export Llama2 with W_int4 A_float16 per_group symmetric
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Recipe 3: Quantization of & vLLM_Adopt_SafeTensors_Export Llama2 with
+W_int4 A_float16 per_group symmetric**
 
 ::
 
@@ -92,15 +75,15 @@ Recipe 3: Quantization of & vLLM_Adopt_SafeTensors_Export Llama2 with W_int4 A_f
                              --output_dir output_dir \
                              --quant_scheme w_int4_per_group_sym \
                              --num_calib_data 128 \
-                             --export_safetensors
+                             --model_export vllm_adopted_safetensors
 
 If the code runs successfully, it will produce one JSON file and one
 .safetensor file in ``[output_dir]`` and the terminal will display
 ``[Quark] Quantized model exported to ... successfully.`` Llama2-7b
 perplexity with wikitext dataset (on A100 GPU): 5.7912
 
-Recipe 4: Quantization & vLLM_Adopt_SafeTensors_Export of W_FP8_A_FP8 with FP8 KV cache
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Recipe 4: Quantization & vLLM_Adopt_SafeTensors_Export of W_FP8_A_FP8
+with FP8 KV cache**
 
 ::
 
@@ -109,7 +92,7 @@ Recipe 4: Quantization & vLLM_Adopt_SafeTensors_Export of W_FP8_A_FP8 with FP8 K
                              --quant_scheme w_fp8_a_fp8 \
                              --kv_cache_dtype fp8 \
                              --num_calib_data 128 \
-                             --export_safetensors
+                             --model_export vllm_adopted_safetensors
 
 If the code runs successfully, it will produce one JSON file and one
 .safetensor file in ``[output_dir]`` and the terminal will display
@@ -117,8 +100,8 @@ If the code runs successfully, it will produce one JSON file and one
 
 Llama2-7b perplexity with wikitext dataset (on A100 GPU): 5.5133
 
-Recipe 5: Quantization & vLLM_Adopt_SafeTensors_Export of only W_FP8_A_FP8
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Recipe 5: Quantization & vLLM_Adopt_SafeTensors_Export of only
+W_FP8_A_FP8**
 
 ::
 
@@ -126,7 +109,7 @@ Recipe 5: Quantization & vLLM_Adopt_SafeTensors_Export of only W_FP8_A_FP8
                              --output_dir output_dir \
                              --quant_scheme w_fp8_a_fp8 \
                              --num_calib_data 128 \
-                             --export_safetensors
+                             --model_export vllm_adopted_safetensors
 
 If the code runs successfully, it will produce one JSON file and one
 .safetensor file in ``[output_dir]`` and the terminal will display
@@ -134,8 +117,8 @@ If the code runs successfully, it will produce one JSON file and one
 
 Llama2-7b perplexity with wikitext dataset (on A100 GPU): 5.5093
 
-Recipe 6: Quantization & vLLM_Adopt_SafeTensors_Export of W_FP8_A_FP8_O_FP8
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Recipe 6: Quantization & vLLM_Adopt_SafeTensors_Export of
+W_FP8_A_FP8_O_FP8**
 
 ::
 
@@ -143,7 +126,7 @@ Recipe 6: Quantization & vLLM_Adopt_SafeTensors_Export of W_FP8_A_FP8_O_FP8
                              --output_dir output_dir \
                              --quant_scheme w_fp8_a_fp8_o_fp8 \
                              --num_calib_data 128 \
-                             --export_safetensors
+                             --model_export vllm_adopted_safetensors
 
 If the code runs successfully, it will produce one JSON file and one
 .safetensor file in ``[output_dir]`` and the terminal will display
@@ -151,8 +134,10 @@ If the code runs successfully, it will produce one JSON file and one
 
 Llama2-7b perplexity with wikitext dataset (on A100 GPU): 5.5487
 
-Recipe 7: Quantization & vLLM_Adopt_SafeTensors_Export of W_FP8_A_FP8_O_FP8 without weight scaling factors of gate_proj and up_proj merged. And if option “–no_weight_matrix_merge” is not set, weight scaling factors of gate_proj and up_proj are merged.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Recipe 7: Quantization & vLLM_Adopt_SafeTensors_Export of
+W_FP8_A_FP8_O_FP8 without weight scaling factors of gate_proj and
+up_proj merged.** And if option “–no_weight_matrix_merge” is not set,
+weight scaling factors of gate_proj and up_proj are merged.
 
 ::
 
@@ -160,18 +145,28 @@ Recipe 7: Quantization & vLLM_Adopt_SafeTensors_Export of W_FP8_A_FP8_O_FP8 with
                              --output_dir output_dir \
                              --quant_scheme w_fp8_a_fp8_o_fp8 \
                              --num_calib_data 128 \
-                             --export_safetensors \
+                             --model_export vllm_adopted_safetensors \
                              --no_weight_matrix_merge
 
 If the code runs successfully, it will produce one JSON file and one
 .safetensor file in ``[output_dir]`` and the terminal will display
 ``[Quark] Quantized model exported to ... successfully.``
 
-..
-  ------------
+**Recipe 8: Quantization & Torch compile of W_INT8_A_INT8_PER_TENSOR_SYM**
 
-  #####################################
-  License
-  #####################################
+::
 
-  Quark is licensed under MIT License. Refer to the LICENSE file for the full license text and copyright notice.
+   python3 quantize_quark.py --model_dir [llama2 checkpoint folder] \
+                             --output_dir output_dir \
+                             --quant_scheme w_int8_a_int8_per_tensor_sym \
+                             --num_calib_data 128 \
+                             --device cpu \
+                             --data_type bfloat16 \
+                             --model_export torch_compile
+
+.. raw:: html
+
+   <!--
+   ## License
+   Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved. SPDX-License-Identifier: MIT
+   -->

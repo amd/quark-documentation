@@ -15,7 +15,7 @@ from quark.torch.quantization.config.config import Config, QuantizationConfig, Q
 from quark.torch.quantization.config.config_verification import init_quantization_config, verify_quantization_spec
 from quark.torch.quantization.transformation.model_transformation import set_op_by_name, get_op_by_name
 from quark.torch.quantization.nn.modules.quantize_linear import QuantLinear
-from quark.torch.quantization.tensor_quantize import FakeQuantize
+from quark.torch.quantization.tensor_quantize import FakeQuantize, FreezedFakeQuantize
 from quark.torch.utils.log import DebugLogger, ScreenLogger
 
 __all__ = ["ModelQuantizer"]
@@ -174,6 +174,27 @@ class ModelQuantizer:
                     module.disable_observer()
                     module.enable_fake_quant()
         return self.model
+
+    def freeze(self, model: nn.Module) -> nn.Module:
+        """
+        Freezes the quantized model by replacing FakeQuantize modules with FreezedFakeQuantize modules.
+        If Users want to export quantized model to torch_compile, please freeze model first.
+
+        Args:
+            model (nn.Module): The neural network model containing quantized layers.
+
+        Returns:
+            nn.Module: The modified model with FakeQuantize modules replaced by FreezedFakeQuantize modules.
+        """
+        logger.info("Freeze model start.")
+        assert isinstance(self.model, nn.Module)
+        named_modules = dict(self.model.named_modules(remove_duplicate=False))
+        for name, module in named_modules.items():
+            if isinstance(module, FakeQuantize):
+                freezed_qlinear_module = FreezedFakeQuantize.from_fake_quantize(module)
+                set_op_by_name(self.model, name, freezed_qlinear_module)
+        logger.info("Freeze model end.")
+        return model
 
     def init_config(self) -> None:
         logger.info("Configuration checking start.")

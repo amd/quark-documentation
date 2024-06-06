@@ -1,17 +1,18 @@
 Installation Guide
 ==================
 
-Install from TAR
+Install from ZIP
 ----------------
 
-1. Install `PyTorch <https://pytorch.org/>`_ for the compute platform(CUDA, ROCM, CPU...). Version of torch >= 2.2.0.
+1. Install `PyTorch <https://pytorch.org/>`__ for the compute
+   platform(CUDA, ROCM, CPU…). Version of torch >= 2.2.0.
 
-2. Download the `📥quark.tar.gz <ADD%20TAR%20LINK%20HERE!!!>`__. Extract
-   the downloaded tar file and there is a whl package in it.
+2. Download the `📥quark.zip <https://www.xilinx.com/bin/public/openDownload?filename=quark-0.1.0+0ace7a2.zip>`__. Extract
+   the downloaded zip file and there is a whl package in it.
 
 3. Install quark whl package by
 
-   ::
+   .. code:: bash
 
       pip install [quark whl package].whl
 
@@ -30,11 +31,9 @@ Install from TAR
 
       python -c "import quark.torch.kernel"
 
-..
-  ------------
+   .. raw:: html
 
-  #####################################
-  License
-  #####################################
-
-  Quark is licensed under MIT License. Refer to the LICENSE file for the full license text and copyright notice.
+      <!-- 
+      ## License
+      Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved. SPDX-License-Identifier: MIT
+      -->

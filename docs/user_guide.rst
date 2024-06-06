@@ -11,26 +11,23 @@ There are several steps to quantize a floating-point model with
    modules with quantized module.
 5. (Optional) Export quantized model to other format such as ONNX
 
-`Quick Start Example <./user_guide_quick_start.md>`__
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+More details:
 
-`Configuring Quark for PyTorch <./user_guide_config_description.md>`__
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-  `Quick Start Example <./user_guide_quick_start.md>`__
 
-`Adding Calibration Datasets <./user_guide_dataloader.md>`__
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-  `Configuring Quark for
+   PyTorch <./user_guide_config_description.md>`__
 
-`Exporting for ONNX & Json-Safetensors(vLLM Adopted) <./user_guide_exporting.md>`__
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-  `Adding Calibration Datasets <./user_guide_dataloader.md>`__
 
-`Feature Description <./user_guide_feature_description.md>`__
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-  `Exporting for ONNX & Json-Safetensors(vLLM
+   Adopted) <./user_guide_exporting.md>`__
 
-..
-  ------------
+-  `Feature Description <./user_guide_feature_description.md>`__
 
-  #####################################
-  License
-  #####################################
+.. raw:: html
 
-  Quark is licensed under MIT License. Refer to the LICENSE file for the full license text and copyright notice.
+   <!-- 
+   ## License
+   Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved. SPDX-License-Identifier: MIT
+   -->
