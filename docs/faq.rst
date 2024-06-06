@@ -37,11 +37,9 @@ terminal shows like:
 delete the cache folder ``[cache folder path]/torch_extensions`` and run
 quark again.
 
-..
-  ------------
+.. raw:: html
 
-  #####################################
-  License
-  #####################################
-
-  Quark is licensed under MIT License. Refer to the LICENSE file for the full license text and copyright notice.
+   <!-- 
+   ## License
+   Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved. SPDX-License-Identifier: MIT
+   -->

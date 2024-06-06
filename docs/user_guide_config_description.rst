@@ -70,7 +70,7 @@ The ``QuantizationConfig`` should be like:
 Configuring Quantization Strategy (Setting ``QuantizationSpec``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-``QuantizationSpec`` aims to describ the quantization specification for
+``QuantizationSpec`` aims to describe the quantization specification for
 each tensor. Users can set these features: + ``dtype``: The data type
 for quantization (e.g., int8, int4). + ``is_dynamic``: Specifies whether
 dynamic or static quantization should be used. Default is None, which
@@ -152,11 +152,9 @@ Users can choose the ``observer_cls`` in:
 -  ``PerTensorPercentileObserver``
 -  ``PerTensorMSEObserver``
 
-..
-  ------------
+.. raw:: html
 
-  #####################################
-  License
-  #####################################
-
-  Quark is licensed under MIT License. Refer to the LICENSE file for the full license text and copyright notice.
+   <!-- 
+   ## License
+   Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved. SPDX-License-Identifier: MIT
+   -->

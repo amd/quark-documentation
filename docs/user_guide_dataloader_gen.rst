@@ -37,7 +37,7 @@ Pytorch Dataloader is simple. For example:
    calib_dataloader = DataLoader(input_tensor, batch_size=4, shuffle=False)
 
 Dataloader with List[Dict[str, torch.Tensor]] or List[torch.Tensor]
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------------------------
 
 If the Dataset format is
 
@@ -48,7 +48,7 @@ If the Dataset format is
    calib_dataloader = DataLoader(input_list, batch_size=None, shuffle=False)
 
 Dataloader with Dict[str, torch.Tensor]
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------------------
 
 If the Dataset format is Dict, user should define the function of
 collate_fn, for example:
@@ -66,11 +66,9 @@ collate_fn, for example:
    input_dict = {'input_ids':torch.rand(128, 128)}
    calib_dataloader = DataLoader(input_dict, batch_size=4, collate_fn=my_collate_fn)
 
-..
-  ------------
+.. raw:: html
 
-  #####################################
-  License
-  #####################################
-
-  Quark is licensed under MIT License. Refer to the LICENSE file for the full license text and copyright notice.
+   <!-- 
+   ## License
+   Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved. SPDX-License-Identifier: MIT
+   -->

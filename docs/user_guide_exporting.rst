@@ -55,11 +55,9 @@ Example of Json-Safetensors(vLLM Adopted) Exporting
    exporter = ModelExporter(config=DEFAULT_EXPORTER_CONFIG, export_dir=export_path)
    exporter.export_model_info(model, model_type, model_dtype, export_type="vllm-adopt")
 
-..
-  ------------
+.. raw:: html
 
-  #####################################
-  License
-  #####################################
-
-  Quark is licensed under MIT License. Refer to the LICENSE file for the full license text and copyright notice.
+   <!-- 
+   ## License
+   Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved. SPDX-License-Identifier: MIT
+   -->
