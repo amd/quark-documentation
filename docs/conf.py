@@ -31,9 +31,9 @@ copyright = '2024, Advanced Micro Devices, Inc'
 author = 'Advanced Micro Devices, Inc'
 
 # The short X.Y version
-version = '1.1'
+version = '0.1.0'
 # The full version, including alpha/beta/rc tags
-release = '1.1'
+release = '0.1.0'
 html_last_updated_fmt = 'May 29, 2024'
 
 
@@ -59,6 +59,8 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
     "notfound.extension",
+    "sphinx.ext.autosummary",
+    "autoapi.extension",
 	#'recommonmark',
 	#'sphinx_markdown_tables',
 	#'edit_on_github',
@@ -73,7 +75,13 @@ graphviz_output_format = 'svg'
 # rather than 'path/to/file:heading'
 autosectionlabel_prefix_document = True
 
-
+# for generating api docs automatically.
+autoapi_dirs = ['../quark']
+autoapi_keep_files = True
+autoapi_add_toctree_entry = False
+autosummary_generate = True
+autoapi_options = ["members", "show-module-summary"]
+autoapi_ignore = []
 
 # Breathe Configuration
 breathe_projects = {
