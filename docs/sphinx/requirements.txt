@@ -149,4 +149,3 @@ zipp==3.17.0
     # via
     #   importlib-metadata
     #   importlib-resources
-sphinx-autoapi==3.0.0
