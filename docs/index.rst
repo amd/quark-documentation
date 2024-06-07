@@ -13,7 +13,7 @@ Welcome to Quark's documentation!
    Quark for Pytorch <quark_torch_main_gen.rst>
    Installation Guide <install.rst>
    User Guide <user_guide_gen.rst>
-   APIs <api_doc/apis.rst>
+   APIs <apis.rst>
    Examples <example_gen.rst>
    FAQ <faq.rst>
 
