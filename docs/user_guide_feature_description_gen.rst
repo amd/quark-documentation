@@ -37,9 +37,7 @@ Quark for PyTorch provides the key features as below:
 +--------------------+-------------------------------------------------+
 | Quant Algorithm    | AWQ / GPTQ (Single_GPU/CPU)                     |
 +--------------------+-------------------------------------------------+
-| Export Format      | `ONNX <#onnx-exporting>`__ /                    |
-|                    | `Json-Safetensors(vLLM                          |
-|                    | Adopted) <#json-safetensors-exporting>`__       |
+| Export Format      | ONNX / Json-Safetensors (vLLM Adopted)          |
 +--------------------+-------------------------------------------------+
 | Operating Systems  | Linux(ROCm/CUDA) / Windows(CPU)                 |
 +--------------------+-------------------------------------------------+
