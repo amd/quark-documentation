@@ -7,7 +7,7 @@ Install from ZIP
 1. Install `PyTorch <https://pytorch.org/>`__ for the compute
    platform(CUDA, ROCM, CPU…). Version of torch >= 2.2.0.
 
-2. Download the `📥quark.zip <https://www.xilinx.com/bin/public/openDownload?filename=quark-0.1.0+9062ed.zip>`__. Extract
+2. Download the 📥quark.zip (Sorry for the inconvenience. The download link will be available shortly.). Extract
    the downloaded zip file and there is a whl package in it.
 
 3. Install quark whl package by
