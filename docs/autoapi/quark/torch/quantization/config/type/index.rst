@@ -19,6 +19,7 @@ Classes
    quark.torch.quantization.config.type.ScaleType
    quark.torch.quantization.config.type.RoundType
    quark.torch.quantization.config.type.DeviceType
+   quark.torch.quantization.config.type.QuantizationMode
 
 
 
@@ -44,11 +45,13 @@ Classes
    The data types used for quantization of tensors.
 
    - `int8`: Signed 8-bit integer, range from -128 to 127.
+   - `uint8`: Unsigned 8-bit integer, range from 0 to 255.
    - `int4`: Signed 4-bit integer, range from -8 to 7.
    - `uint4`: Unsigned 4-bit integer, range from 0 to 15.
-   - `fp8_e4m3`: FP8 format with 4 exponent bits and 3 bits of mantissa.
    - `bfloat16`: Bfloat16 format.
    - `float16`: Standard 16-bit floating point format.
+   - `fp8_e4m3`: FP8 format with 4 exponent bits and 3 bits of mantissa.
+   - `mx`: MX format 8 bit shared scale value with fp8 element data types.
 
 
 
@@ -71,6 +74,8 @@ Classes
 
    The rounding methods used during quantization.
 
+   - `round`: Rounds.
+   - `floor`: Floors towards the nearest even number.
    - `half_even`: Rounds towards the nearest even number.
 
 
@@ -84,5 +89,16 @@ Classes
 
    - `CPU`: CPU.
    - `IPU`: IPU.
+
+
+.. py:class:: QuantizationMode
+
+
+
+
+   Different quantization modes.
+
+   - `eager_mode`: The eager mode based on PyTorch in-place operator replacement.
+   - `fx_graph_mode`: The graph mode based on torch.fx.
 
 

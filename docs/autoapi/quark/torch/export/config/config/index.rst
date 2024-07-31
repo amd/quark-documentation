@@ -39,6 +39,8 @@ Classes
    A data class that specifies configurations for json-safetensors exporting.
 
    :param Optional[List[List[str]]] weight_merge_groups: A list of operators group that share the same weight scaling factor. These operators' names should correspond to the original module names from the model. Additionally, wildcards can be used to denote a range of operators. Default is None.
+   :param List[str] kv_cache_group: A list of operators group that should be merged to kv_cache. These operators' names should correspond to the original module names from the model. Additionally, wildcards can be used to denote a range of operators.
+   :param str weight_format: The flag indicating whether to export the real quantized weights.
 
 
 

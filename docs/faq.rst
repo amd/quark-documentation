@@ -1,11 +1,21 @@
 Frequently Asked Questions (FAQ)
 ================================
 
-Environment Issues
-------------------
+How to give feedback
+--------------------
 
-Issue 1
-~~~~~~~
+If AMD internal users need to report an issue or make a request, they
+should file a JIRA ticket under the project named “quark” in the
+`internal JIRA
+system <https://jira.xilinx.com/secure/CreateIssue!default.jspa>`__.
+
+Quark for Pytorch
+-----------------
+
+Environment Issues
+~~~~~~~~~~~~~~~~~~
+
+**Issue 1**:
 
 Windows CPU mode does not support fp16.
 
@@ -16,12 +26,9 @@ Because of torch
 CPU mode cannot perfectly support fp16.
 
 C++ Compilation Issues
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~
 
-.. _issue-1-1:
-
-Issue 1
-~~~~~~~
+**Issue 1**:
 
 Stuck in the compilation phase for a long time (over ten minutes), the
 terminal shows like:
@@ -36,6 +43,39 @@ terminal shows like:
 
 delete the cache folder ``[cache folder path]/torch_extensions`` and run
 quark again.
+
+Quark for ONNX
+--------------
+
+Model Issues
+~~~~~~~~~~~~
+
+**Issue 1**:
+
+Error of “ValueError:Message onnx.ModelProto exceeds maximum protobuf
+size of 2GB”
+
+**Solution**:
+
+This error is caused by the input model size exceeding 2GB. Pleaes set
+optimize_model=False and use_external_data_format=True.
+
+Quantization Issues
+~~~~~~~~~~~~~~~~~~~
+
+**Issue 1**:
+
+Error of “onnxruntime.capi.onnxruntime_pybind11_state.RuntimeException:
+[ONNXRuntimeError] : 6 : RUNTIME_EXCEPTION : Non-zero status code
+returned while running Reshape node.”
+
+**Solution**:
+
+For networks with an ROI head, such as Mask R-CNN or Faster R-CNN,
+quantization errors may arise if ROIs are not generated in the network.
+Please use quark.onnx.PowerOfTwoMethod.MinMSE or
+quark.onnx.CalibrationMethod.Percentile quantization and perform
+inference with real data.
 
 .. raw:: html
 

@@ -19,7 +19,7 @@ Classes
 
 
 
-.. py:class:: QuantLinear(in_features: int, out_features: int, bias: bool, quant_config: quark.torch.quantization.config.config.QuantizationConfig, **kwargs: Any)
+.. py:class:: QuantLinear(in_features: int, out_features: int, device: torch.device, bias: bool, quant_config: quark.torch.quantization.config.config.QuantizationConfig, **kwargs: Any)
 
 
 

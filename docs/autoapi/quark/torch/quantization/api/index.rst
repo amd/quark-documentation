@@ -30,7 +30,7 @@ Classes
    :param config: Configuration object containing settings for quantization.
    :type config: Config
 
-   .. py:method:: quantize_model(model: torch.nn.Module, dataloader: Union[torch.utils.data.DataLoader[torch.Tensor], torch.utils.data.DataLoader[List[Dict[str, torch.Tensor]]], torch.utils.data.DataLoader[Dict[str, torch.Tensor]]]) -> torch.nn.Module
+   .. py:method:: quantize_model(model: torch.nn.Module, dataloader: Optional[Union[torch.utils.data.DataLoader[torch.Tensor], torch.utils.data.DataLoader[List[Dict[str, torch.Tensor]]], torch.utils.data.DataLoader[Dict[str, torch.Tensor]]]] = None) -> torch.nn.Module
 
       This function aims to quantize the given PyTorch model to optimize its performance and reduce its size. This function accepts a model and a torch dataloader. The dataloader is used to provide data necessary for calibration during the quantization process. Depending on the type of data provided (either tensors directly or structured as lists or dictionaries of tensors), the function will adapt the quantization approach accordingly.It's important that the model and dataloader are compatible in terms of the data they expect and produce. Misalignment in data handling between the model and the dataloader can lead to errors during the quantization process.
 
@@ -54,7 +54,18 @@ Classes
               model.eval()
               tokenizer = AutoTokenizer.from_pretrained("facebook/opt-125m")
               from quark.torch.quantization.config.config import Config
-              from quark.torch.quantization.config.custom_config import DEFAULT_W_UINT4_PER_GROUP_CONFIG
+              from quark.torch.quantization.config.type import Dtype, ScaleType, RoundType, QSchemeType
+              from quark.torch.quantization.observer.observer import PerGroupMinMaxObserver
+              DEFAULT_UINT4_PER_GROUP_ASYM_SPEC = QuantizationSpec(dtype=Dtype.uint4,
+                                                          observer_cls=PerGroupMinMaxObserver,
+                                                          symmetric=False,
+                                                          scale_type=ScaleType.float,
+                                                          round_method=RoundType.half_even,
+                                                          qscheme=QSchemeType.per_group,
+                                                          ch_axis=1,
+                                                          is_dynamic=False,
+                                                          group_size=128)
+              DEFAULT_W_UINT4_PER_GROUP_CONFIG = QuantizationConfig(weight=DEFAULT_UINT4_PER_GROUP_ASYM_SPEC)
               quant_config = Config(global_quant_config=DEFAULT_W_UINT4_PER_GROUP_CONFIG)
               from torch.utils.data import DataLoader
               text = "Hello, how are you?"
@@ -63,11 +74,12 @@ Classes
 
               from quark.torch import ModelQuantizer
               quantizer = ModelQuantizer(quant_config)
-              quant_model = quantizer.quantize_model(model, calib_dataloader)
+              quant_model = quantizer.quantize(model, calib_dataloader)
 
 
 
    .. py:method:: freeze(model: torch.nn.Module) -> torch.nn.Module
+      :staticmethod:
 
       Freezes the quantized model by replacing FakeQuantize modules with FreezedFakeQuantize modules.
       If Users want to export quantized model to torch_compile, please freeze model first.

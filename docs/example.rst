@@ -2,9 +2,25 @@ Examples
 ========
 
 Quark for Pytorch
+-----------------
 
-1. `Language Model Quantization &
-   Export <../../../examples/torch/language_modeling/README.md>`__
+-  `Language Model Quantization &
+   Export <../../../examples/torch/language_modeling/README.html>`__
+
+-  `Diffusion Model Quantization &
+   Export <../../../examples/torch/diffusers/README.html>`__
+
+-  `Vision Model Quantization using Quark FX Graph
+   Mode <../../../examples/torch/vision/README.html>`__
+
+-  `Extension for
+   PyTorchLight <../../../examples/torch/extensions/pytorch_light/README.html>`__
+
+Quark for ONNX
+--------------
+
+-  `Image Classification
+   Quantization <../../../examples/onnx/image_classification/README.html>`__
 
 .. raw:: html
 

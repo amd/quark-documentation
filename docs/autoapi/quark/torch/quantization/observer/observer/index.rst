@@ -19,6 +19,8 @@ Classes
    quark.torch.quantization.observer.observer.UniformScalingObserver
    quark.torch.quantization.observer.observer.PerTensorMinMaxObserver
    quark.torch.quantization.observer.observer.PerChannelMinMaxObserver
+   quark.torch.quantization.observer.observer.PerBlockMXObserver
+   quark.torch.quantization.observer.observer.PerGroupMinMaxObserver
    quark.torch.quantization.observer.observer.PerTensorHistogramObserver
    quark.torch.quantization.observer.observer.PerTensorPercentileObserver
    quark.torch.quantization.observer.observer.PerTensorMSEObserver
@@ -26,7 +28,7 @@ Classes
 
 
 
-.. py:class:: ObserverBase(qspec: quark.torch.quantization.config.config.QuantizationSpec)
+.. py:class:: ObserverBase(qspec: quark.torch.quantization.config.config.QuantizationSpec, device: Optional[torch.device] = None)
 
 
 
@@ -35,7 +37,7 @@ Classes
    inheritance.
 
 
-.. py:class:: PlaceholderObserver(qspec: quark.torch.quantization.config.config.QuantizationSpec)
+.. py:class:: PlaceholderObserver(qspec: quark.torch.quantization.config.config.QuantizationSpec, device: Optional[torch.device] = None)
 
 
 
@@ -57,7 +59,7 @@ Classes
 
 
 
-.. py:class:: UniformScalingObserver(qspec: quark.torch.quantization.config.config.QuantizationSpec, eps: float = torch.finfo(torch.float32).eps)
+.. py:class:: UniformScalingObserver(qspec: quark.torch.quantization.config.config.QuantizationSpec, device: Optional[torch.device] = None, eps: float = torch.finfo(torch.float32).eps)
 
 
 
@@ -85,7 +87,7 @@ Classes
 
 
 
-.. py:class:: PerTensorMinMaxObserver(qspec: quark.torch.quantization.config.config.QuantizationSpec)
+.. py:class:: PerTensorMinMaxObserver(qspec: quark.torch.quantization.config.config.QuantizationSpec, device: Optional[torch.device] = None)
 
 
 
@@ -99,7 +101,7 @@ Classes
 
 
 
-.. py:class:: PerChannelMinMaxObserver(qspec: quark.torch.quantization.config.config.QuantizationSpec, eps: float = torch.finfo(torch.float32).eps)
+.. py:class:: PerChannelMinMaxObserver(qspec: quark.torch.quantization.config.config.QuantizationSpec, device: Optional[torch.device] = None, eps: float = torch.finfo(torch.float32).eps)
 
 
 
@@ -108,7 +110,30 @@ Classes
 
 
 
-.. py:class:: PerTensorHistogramObserver(qspec: quark.torch.quantization.config.config.QuantizationSpec)
+.. py:class:: PerBlockMXObserver(qspec: quark.torch.quantization.config.config.QuantizationSpec, device: Optional[torch.device] = None, eps: float = torch.finfo(torch.float32).eps)
+
+
+
+
+   Helper class that provides a standard way to create an ABC using
+   inheritance.
+
+
+.. py:class:: PerGroupMinMaxObserver(qspec: quark.torch.quantization.config.config.QuantizationSpec, device: Optional[torch.device] = None, eps: float = torch.finfo(torch.float32).eps)
+
+
+
+
+   Observer for uniform scaling quantizer. For example 'int uniform quantizer' or 'fp8 uniform scaling'.
+
+
+   .. py:method:: calculate_qparams(min_val: torch.Tensor, max_val: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]
+
+      Calculates the quantization parameters.
+
+
+
+.. py:class:: PerTensorHistogramObserver(qspec: quark.torch.quantization.config.config.QuantizationSpec, device: Optional[torch.device] = None)
 
 
 
@@ -126,7 +151,7 @@ Classes
 
 
 
-.. py:class:: PerTensorPercentileObserver(qspec: quark.torch.quantization.config.config.QuantizationSpec)
+.. py:class:: PerTensorPercentileObserver(qspec: quark.torch.quantization.config.config.QuantizationSpec, device: Optional[torch.device] = None)
 
 
 
@@ -157,7 +182,7 @@ Classes
 
 
 
-.. py:class:: PerTensorMSEObserver(qspec: quark.torch.quantization.config.config.QuantizationSpec)
+.. py:class:: PerTensorMSEObserver(qspec: quark.torch.quantization.config.config.QuantizationSpec, device: Optional[torch.device] = None)
 
 
 
