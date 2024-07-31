@@ -30,25 +30,25 @@ Classes
 
    :param config: Configuration object containing settings for exporting.
    :type config: ExporterConfig
-   :param export_dir: The target export diretory. This could be a string or a pathlib.Path(string) object.
+   :param export_dir: The target export directory. This could be a string or a pathlib.Path(string) object.
    :type export_dir: Union[Path, str]
 
-   .. py:method:: export_model_info(model: torch.nn.Module, model_type: str, model_dtype: torch.dtype = torch.float16, export_type: str = 'vllm-adopt') -> None
+   .. py:method:: export_model_info(model: torch.nn.Module, model_type: str = '', model_dtype: torch.dtype = torch.float16, quant_config: Optional[quark.torch.quantization.config.config.Config] = None, export_type: Optional[str] = None) -> None
 
       This function aims to export json and safetensors files of the quantized Pytorch model.
-      The model's network architecture is stored in the json file, and parameters including weight, bias, scale, and zero_point are stored in the safetensors file.
-
+      The model's network architecture or configuration is stored in the json file, and parameters including weight, bias, scale, and zero_point are stored in the safetensors file.
       :param model: The quantized model to be exported.
       :type model: torch.nn.Module
       :param model_type: The type of the model, e.g. gpt2, gptj, llama or gptnext.
       :type model_type: str
       :param model_dtype: The weight data type of the quantized model. Default is torch.float16.
       :type model_dtype: torch.dtype
-      :param export_type: The specific format in which the JSON and safetensors files are stored.
-                          The choices include 'vllm-adopt' and 'native'. Default is vllm-adopt.
-                          If set to 'vllm-adopt', the exported files are customized for the VLLM compiler.
-                          The 'native' configuration is currently for internal testing use.
-      :type export_type: str
+      :param quant_config: Configuration object containing settings for quantization. Default is None.
+      :type quant_config: Optional[Config]
+      :param export_type: The specific format in which the JSON and safetensors files are stored. Default is None.
+                          The file list of the default exporting format is the same as the original HuggingFace file list. On the basis of these files, add quantization information into them.
+                          If set to 'vllm-adopt', the exported files are customized for the VLLM compiler. This option is going to be deprecated soon.
+      :type export_type: Optional[str]
 
       :returns: None
 
@@ -56,17 +56,26 @@ Classes
 
           .. code-block:: python
 
+              # default exporting:
               export_path = "./output_dir"
               from quark.torch import ModelExporter
               from quark.torch.export.config.custom_config import DEFAULT_EXPORTER_CONFIG
               exporter = ModelExporter(config=DEFAULT_EXPORTER_CONFIG, export_dir=export_path)
-              exporter.export_model_info(model, model_type, model_dtype, export_type="vllm-adopt")
+              exporter.export_model_info(model, quant_config=quant_config)
+
+          .. code-block:: python
+
+              # vllm adopted exporting:
+              export_path = "./output_dir"
+              from quark.torch import ModelExporter
+              from quark.torch.export.config.custom_config import DEFAULT_EXPORTER_CONFIG
+              exporter = ModelExporter(config=DEFAULT_EXPORTER_CONFIG, export_dir=export_path)
+              exporter.export_model_info(model, model_type=model_type, model_dtype=model_dtype, export_type="vllm-adopt")
 
       .. note::
 
-         Since the export_type "native" is only for internal testing use currently, this function is only used to export files required by the VLLM compiler.
-         Supported quantization types include fp8, int4_per_group, and w4a8_per_group.
-         Supported models include Llama2-7b, Llama2-13b, Llama2-70b, and Llama3-8b.
+         Currently, default exporting format supports large language models(LLM) in HuggingFace.
+         If set to 'vllm-adopt', supported quantization types include fp8, int4_per_group, and w4a8_per_group, and supported models include Llama2-7b, Llama2-13b, Llama2-70b, and Llama3-8b.
 
 
    .. py:method:: export_onnx_model(model: torch.nn.Module, input_args: Union[torch.Tensor, Tuple[float]], input_names: List[str] = [], output_names: List[str] = [], verbose: bool = False, opset_version: Optional[str] = None, do_constant_folding: bool = True, operator_export_type: torch.onnx.OperatorExportTypes = torch.onnx.OperatorExportTypes.ONNX, uint4_int4_flag: bool = False) -> None
@@ -110,6 +119,35 @@ Classes
 
          Mix quantization of int4/uint4 and int8/uint8 is not supported currently.
          In other words, if the model contains both quantized nodes of uint4/int4 and uint8/int8, this function cannot be used to export the ONNX graph.
+
+
+   .. py:method:: export_gguf_model(model: torch.nn.Module, tokenizer_path: Union[str, pathlib.Path], model_type: str) -> None
+
+      This function aims to export gguf file of the quantized Pytorch model.
+
+      :param model: The quantized model to be exported.
+      :type model: torch.nn.Module
+      :param tokenizer_path: Tokenizer needs to be encoded into gguf model.
+                             This argument specifies the directory path of tokenizer which contains tokenizer.json, tokenizer_config.json and/or tokenizer.model
+      :type tokenizer_path: Union[str, Path]
+      :param model_type: The type of the model, e.g. gpt2, gptj, llama or gptnext.
+      :type model_type: str
+
+      :returns: None
+
+      **Examples**:
+
+          .. code-block:: python
+
+              from quark.torch import ModelExporter
+              from quark.torch.export.config.custom_config import DEFAULT_EXPORTER_CONFIG
+              exporter = ModelExporter(config=DEFAULT_EXPORTER_CONFIG, export_dir=export_path)
+              exporter.export_gguf_model(model, tokenizer_path, model_type)
+
+      .. note::
+
+         Currently, only support asymetric int4 per_group weight-only quantization, and the group_size must be 32.
+         Supported models include Llama2-7b, Llama2-13b, Llama2-70b, and Llama3-8b.
 
 
 

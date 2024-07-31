@@ -19,7 +19,7 @@ Classes
 
 
 
-.. py:class:: GptqProcessor(gptq_model: quark.torch.algorithm.models.base.BaseQuantModelForCausalLM, model: transformers.PreTrainedModel, quant_algo_config: quark.torch.quantization.config.config.GPTQConfig, data_loader: List[Dict[str, torch.Tensor]])
+.. py:class:: GptqProcessor(model: transformers.PreTrainedModel, quant_algo_config: quark.torch.quantization.config.config.GPTQConfig, data_loader: List[Dict[str, torch.Tensor]])
 
 
 

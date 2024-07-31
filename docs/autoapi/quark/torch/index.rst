@@ -24,7 +24,9 @@ Functions
 
 .. autoapisummary::
 
-   quark.torch.from_exported_files
+   quark.torch.load_params
+   quark.torch.save_params
+
 
 
 

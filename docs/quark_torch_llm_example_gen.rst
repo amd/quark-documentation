@@ -5,8 +5,7 @@ This document provides examples of quantizing and exporting the language
 models(OPT, Llama…) using Quark. We offer several scripts for various
 quantization strategies. If users wish to apply their own **Customer
 Settings** for the ``calibration method``, ``dataset``, or
-``quant config``, they can refer to the `User
-Guide <./user_guide_gen.html>`__ for help.
+``quant config``, they can refer to the Quark’s User Guide for help.
 
 Models supported
 ----------------
@@ -22,6 +21,7 @@ Models supported
 +--------------+-------------------------+---------+---------+--------------------+-------------------------------------+---------+-------------+------------------------+------------------+
 | Qwen 1.5     | Qwen/Qwen1.5-*          |  ✓      | ✓       | ✓                  | ✓                                   | ✓       | ✓           | ✗                      | ✓                |
 +--------------+-------------------------+---------+---------+--------------------+-------------------------------------+---------+-------------+------------------------+------------------+
+
 
 Note: ``*`` represents different model sizes, such as ``7b``.
 
@@ -51,8 +51,8 @@ example.
 
 Llama2-7b perplexity with wikitext dataset (on A100 GPU): 5.4720
 
-**Recipe 2: Quantization of Llama2 with AWQ (W_uint4 A_float16 per_group
-asymmetric)**
+**Recipe 2: Quantization & Json_SafeTensors_Export of Llama2 with AWQ
+(W_uint4 A_float16 per_group asymmetric)**
 
 ::
 
@@ -62,12 +62,16 @@ asymmetric)**
                              --num_calib_data 128 \
                              --quant_algo awq \
                              --dataset pileval_for_awq_benchmark \
-                             --seq_len 512
+                             --seq_len 512 \
+                             --model_export quark_safetensors
 
+If the code runs successfully, it will produce one JSON file and one
+.safetensor file in ``[output_dir]`` and the terminal will display
+``[Quark] Json-safetensors quantized model exported to ... successfully.``
 Llama2-7b perplexity with wikitext dataset (on A100 GPU): 5.6168
 
-**Recipe 3: Quantization of & vLLM_Adopt_SafeTensors_Export Llama2 with
-W_int4 A_float16 per_group symmetric**
+**Recipe 3: Quantization & Json_SafeTensors_Export of Llama2 with W_int4
+A_float16 per_group symmetric**
 
 ::
 
@@ -75,15 +79,15 @@ W_int4 A_float16 per_group symmetric**
                              --output_dir output_dir \
                              --quant_scheme w_int4_per_group_sym \
                              --num_calib_data 128 \
-                             --model_export vllm_adopted_safetensors
+                             --model_export quark_safetensors
 
 If the code runs successfully, it will produce one JSON file and one
 .safetensor file in ``[output_dir]`` and the terminal will display
-``[Quark] Quantized model exported to ... successfully.`` Llama2-7b
-perplexity with wikitext dataset (on A100 GPU): 5.7912
+``[Quark] Json-safetensors quantized model exported to ... successfully.``
+Llama2-7b perplexity with wikitext dataset (on A100 GPU): 5.7912
 
-**Recipe 4: Quantization & vLLM_Adopt_SafeTensors_Export of W_FP8_A_FP8
-with FP8 KV cache**
+**Recipe 4: Quantization & Json_SafeTensors_Export of W_FP8_A_FP8 with
+FP8 KV cache**
 
 ::
 
@@ -92,16 +96,15 @@ with FP8 KV cache**
                              --quant_scheme w_fp8_a_fp8 \
                              --kv_cache_dtype fp8 \
                              --num_calib_data 128 \
-                             --model_export vllm_adopted_safetensors
+                             --model_export quark_safetensors
 
 If the code runs successfully, it will produce one JSON file and one
 .safetensor file in ``[output_dir]`` and the terminal will display
-``[Quark] Quantized model exported to ... successfully.``
+``[Quark] Json-safetensors quantized model exported to ... successfully.``
 
 Llama2-7b perplexity with wikitext dataset (on A100 GPU): 5.5133
 
-**Recipe 5: Quantization & vLLM_Adopt_SafeTensors_Export of only
-W_FP8_A_FP8**
+**Recipe 5: Quantization & Json_SafeTensors_Export of only W_FP8_A_FP8**
 
 ::
 
@@ -109,15 +112,50 @@ W_FP8_A_FP8**
                              --output_dir output_dir \
                              --quant_scheme w_fp8_a_fp8 \
                              --num_calib_data 128 \
-                             --model_export vllm_adopted_safetensors
+                             --model_export quark_safetensors
+
+If the code runs successfully, it will produce one JSON file and one
+.safetensor file in ``[output_dir]`` and the terminal will display
+``[Quark] Json-safetensors quantized model exported to ... successfully.``
+
+Llama2-7b perplexity with wikitext dataset (on A100 GPU): 5.5093
+
+**Recipe 6: Quantization & Json_SafeTensors_Export of
+W_FP8_A_FP8_O_FP8**
+
+::
+
+   python3 quantize_quark.py --model_dir [llama2 checkpoint folder] \
+                             --output_dir output_dir \
+                             --quant_scheme w_fp8_a_fp8_o_fp8 \
+                             --num_calib_data 128 \
+                             --model_export quark_safetensors
+
+If the code runs successfully, it will produce one JSON file and one
+.safetensor file in ``[output_dir]`` and the terminal will display
+``[Quark] Json-safetensors quantized model exported to ... successfully.``
+
+Llama2-7b perplexity with wikitext dataset (on A100 GPU): 5.5487
+
+**Recipe 7: Quantization & Json_SafeTensors_Export of W_FP8_A_FP8_O_FP8
+without weight scaling factors merged.** And if option
+“–no_weight_matrix_merge” is not set, weight scaling factors of are
+merged.
+
+::
+
+   python3 quantize_quark.py --model_dir [llama2 checkpoint folder] \
+                             --output_dir output_dir \
+                             --quant_scheme w_fp8_a_fp8_o_fp8 \
+                             --num_calib_data 128 \
+                             --model_export quark_safetensors \
+                             --no_weight_matrix_merge
 
 If the code runs successfully, it will produce one JSON file and one
 .safetensor file in ``[output_dir]`` and the terminal will display
 ``[Quark] Quantized model exported to ... successfully.``
 
-Llama2-7b perplexity with wikitext dataset (on A100 GPU): 5.5093
-
-**Recipe 6: Quantization & vLLM_Adopt_SafeTensors_Export of
+**Recipe 8: Quantization & vLLM_Adopt_SafeTensors_Export of
 W_FP8_A_FP8_O_FP8**
 
 ::
@@ -130,29 +168,10 @@ W_FP8_A_FP8_O_FP8**
 
 If the code runs successfully, it will produce one JSON file and one
 .safetensor file in ``[output_dir]`` and the terminal will display
-``[Quark] Quantized model exported to ... successfully.``
+``[Quark] VLLM adopted quantized model exported to ... successfully.``
 
-Llama2-7b perplexity with wikitext dataset (on A100 GPU): 5.5487
-
-**Recipe 7: Quantization & vLLM_Adopt_SafeTensors_Export of
-W_FP8_A_FP8_O_FP8 without weight scaling factors of gate_proj and
-up_proj merged.** And if option “–no_weight_matrix_merge” is not set,
-weight scaling factors of gate_proj and up_proj are merged.
-
-::
-
-   python3 quantize_quark.py --model_dir [llama2 checkpoint folder] \
-                             --output_dir output_dir \
-                             --quant_scheme w_fp8_a_fp8_o_fp8 \
-                             --num_calib_data 128 \
-                             --model_export vllm_adopted_safetensors \
-                             --no_weight_matrix_merge
-
-If the code runs successfully, it will produce one JSON file and one
-.safetensor file in ``[output_dir]`` and the terminal will display
-``[Quark] Quantized model exported to ... successfully.``
-
-**Recipe 8: Quantization & Torch compile of W_INT8_A_INT8_PER_TENSOR_SYM**
+**Recipe 9: Quantization & Torch compile of
+W_INT8_A_INT8_PER_TENSOR_SYM**
 
 ::
 
@@ -163,6 +182,47 @@ If the code runs successfully, it will produce one JSON file and one
                              --device cpu \
                              --data_type bfloat16 \
                              --model_export torch_compile
+
+**Recipe 10: Quantization & GGUF_Export with AWQ (W_uint4 A_float16
+per_group asymmetric)**
+
+::
+
+   python3 quantize_quark.py --model_dir [llama2 checkpoint folder] \
+                             --output_dir output_dir \
+                             --quant_scheme w_uint4_per_group_asym \
+                             --quant_algo awq \
+                             --num_calib_data 128 \
+                             --group_size 32 \
+                             --model_export gguf
+
+If the code runs successfully, it will produce one gguf file in
+``[output_dir]`` and the terminal will display
+``GGUF quantized model exported to ... successfully.``
+
+**Recipe 11: MX Quantization**
+
+Quark now supports the datatype microscaling which is abbreviated as MX.
+Use the following command to quantize model to datatype MX:
+
+::
+
+   python3 quantize_quark.py --model_dir [llama2 checkpoint folder] \
+                             --output_dir output_dir \
+                             --quant_scheme w_mx_fp8 \
+                             --num_calib_data 32 \
+                             --group_size 32
+
+the command above is weight-only quantization. If uses want activations
+to be quantized as well, use the command below:
+
+::
+
+   python3 quantize_quark.py --model_dir [llama2 checkpoint folder] \
+                             --output_dir output_dir \
+                             --quant_scheme w_mx_fp8_a_mx_fp8 \
+                             --num_calib_data 32 \
+                             --group_size 32
 
 .. raw:: html
 

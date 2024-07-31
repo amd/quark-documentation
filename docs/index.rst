@@ -10,11 +10,14 @@ Welcome to Quark's documentation!
 .. toctree::
    :maxdepth: 1
    
-   Quark for Pytorch <quark_torch_main_gen.rst>
-   Installation Guide <install.rst>
-   User Guide <user_guide_gen.rst>
+   What's New <whats_new.rst>
+   Installation <install.rst>
+   Getting Started <getting_started.rst>
+   User Guide <user_guide.rst>
    APIs <apis.rst>
    Examples <example_gen.rst>
+   Tutorial <tutorial.rst>
+   Release Note <release_note.rst>
    FAQ <faq.rst>
 
 ..
