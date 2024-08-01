@@ -13,8 +13,11 @@ Quark for Pytorch
 -  `Vision Model Quantization using Quark FX Graph
    Mode <../../../examples/torch/vision/README.html>`__
 
+-  `Extension for Pytorch-light(AMD internal
+   project) <../../../examples/torch/extensions/pytorch_light/README.html>`__
+
 -  `Extension for
-   PyTorchLight <../../../examples/torch/extensions/pytorch_light/README.html>`__
+   Brevitas <../../../examples/torch/extensions/brevitas/README.html>`__
 
 Quark for ONNX
 --------------

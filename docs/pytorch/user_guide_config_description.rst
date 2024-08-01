@@ -198,7 +198,7 @@ For SmoothQuant parameter explanation:
 +------------------------+----------------------------------+---------+
 | ``scaling_layers``     |``Optional[List[Dict[str, str]]]``| None    |
 +------------------------+----------------------------------+---------+
-|``model_decoder_layers``| ``Optional[str]``              | None    |
+|``model_decoder_layers``| ``Optional[str]``                | None    |
 +------------------------+----------------------------------+---------+
 | ``embedding_layers``   | ``Optional[List[str]]``          | None    |
 +------------------------+----------------------------------+---------+

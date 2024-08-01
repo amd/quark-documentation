@@ -1,11 +1,7 @@
-:align: center
 
 Bridge from Quark to llama.cpp
 ==============================
 
-.. raw:: html
-
-   </div>
 
 Introduction
 ------------
