@@ -39,39 +39,53 @@ You can run the following python scripts in the
 Run with SDXL Without Quantization
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--  Run original SDXL: ``shell     python quantize_sdxl.py --float`` ###
-   Calibration and Export SafeTensor
+-  Run original SDXL: 
+--------------------------------------
+
+.. code::
+
+   python quantize_sdxl.py --float
+
+
+Calibration and Export SafeTensor
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   
 -  Run Calibration:
-   ``shell     python quantize_sdxl.py --input_scheme {'per-tensor'} --weight_scheme {'per-tensor', 'per-channel'} --calib_data_tsv_file_path {your calibration dataset file path} --export``
+--------------------------------------
+
+.. code::
+
+   python quantize_sdxl.py --input_scheme {'per-tensor'} --weight_scheme {'per-tensor', 'per-channel'} --calib_data_tsv_file_path {your calibration dataset file path} --export
 
 Load SafeTensor and Test
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 -  Load and Test:
-   ``shell     python quantize_sdxl.py --input_scheme {'per-tensor'} --weight_scheme {'per-tensor', 'per-channel'}  --test_data_tsv_file_path {your calibration dataset file path} --load --test``
-   ### Load SafeTensor and Run with a prompt
+--------------------------------------
+
+.. code::
+
+   python quantize_sdxl.py --input_scheme {'per-tensor'} --weight_scheme {'per-tensor', 'per-channel'}  --test_data_tsv_file_path {your calibration dataset file path} --load --test
+
+Load SafeTensor and Run with a prompt
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 -  Load and Run:
-   ``shell     python quantize_sdxl.py --input_scheme {'per-tensor'} --weight_scheme {'per-tensor', 'per-channel'} --load --prompt "A city at night with people walking around."``
+--------------------------------------
+
+.. code::
+
+   python quantize_sdxl.py --input_scheme {'per-tensor'} --weight_scheme {'per-tensor', 'per-channel'} --load --prompt "A city at night with people walking around."
 
 SDXL Benchmark
 --------------
 
 **MI210** GPU, diffusers==0.21.2
 
-+--------------------------------------------------+-------------+-----+
-| Model Name                                       | FP16        | FP8 |
-|                                                  | (Without    | +   |
-|                                                  | Qu          | P   |
-|                                                  | antization) | er- |
-|                                                  |             | Ten |
-|                                                  |             | sor |
-+==================================================+=============+=====+
-| clip score                                       | 31.74845    | 31  |
-|                                                  |             | .83 |
-|                                                  |             | 954 |
-+--------------------------------------------------+-------------+-----+
-| fid                                              | 23.56758    | 23. |
-|                                                  |             | 614 |
-|                                                  |             | 748 |
-+--------------------------------------------------+-------------+-----+
++----------------+-------------------------------+------------------+
+| Model Name     | FP16  (Without Quantization)  | FP8 + Per-Tensor |
++================+===============================+==================+
+| clip score     | 31.74845                      | 31.83954         |
++----------------+-------------------------------+------------------+
+| fid            | 23.56758                      | 23.614748        |
++----------------+-------------------------------+------------------+

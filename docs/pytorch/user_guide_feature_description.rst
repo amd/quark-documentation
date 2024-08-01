@@ -202,18 +202,11 @@ optimization.
 Advanced Quant Algorithm
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Quark for PyTorch supports ``AWQ`` and ``GPTQ`` as the pre-quant
-optimization.
+Quark for PyTorch supports ``AWQ`` and ``GPTQ`` the advanced algorithm.
 
--  `AWQ <https://arxiv.org/abs/2306.00978>`__ : Quark for PyTorch
-   re-implements the algorithm of AWQ. Quark for PyTorch only supports
-   ``AWQ`` with quantization data type as ``uint4`` and ``per group``,
-   running on ``Linux`` with the ``GPU mode`` for now.
+-  `AWQ <https://arxiv.org/abs/2306.00978>`__ : Quark for PyTorch re-implements the algorithm of AWQ. Quark for PyTorch only supports ``AWQ`` with quantization data type as ``UINT4/INT4`` and ``per group/channel``, running on ``Linux`` with the ``GPU mode`` for now. If users want to used it with ``per group/channel``, they should set qscheme as per_group with group_size=-1.
 
--  `GPTQ <https://arxiv.org/abs/2210.17323>`__ : Quark for PyTorch
-   re-implements the algorithm of GPTQ. Quark for PyTorch only supports
-   ``GPTQ`` with quantization data type as ``uint4`` and ``per group``,
-   running on ``Linux`` with the ``GPU mode`` for now.
+-  `GPTQ <https://arxiv.org/abs/2210.17323>`__ : Quark for PyTorch re-implements the algorithm of GPTQ. Quark for PyTorch only supports ``GPTQ`` with quantization data type as ``UINT4/INT4`` and ``per group/channel``, running on ``Linux`` with the ``GPU mode`` for now. If users want to used it with ``per group/channel``, they should set qscheme as per_group with group_size=-1.
 
 .. raw:: html
 
