@@ -19,8 +19,9 @@ Install from ZIP
 ~~~~~~~~~~~~~~~~
 
 1. Download the
-   `📥quark.zip <https://xcoartifactory/ui/native/uai-pip-local/com/amd/quark/main/nightly/>`__.
-   Extract the downloaded zip file and there is a whl package in it.
+   `📥quark.zip <https://www.xilinx.com/bin/public/openDownload?filename=quark-0.2.0+6af1bac23.zip>`__.
+   Extract the downloaded zip file and there is a whl package in it. Or You can download whl package directly.
+   `📥quark.whl <https://www.xilinx.com/bin/public/openDownload?filename=quark-0.2.0+6af1bac23-py3-none-any.whl>`__.
 
 2. Install quark whl package by
 
