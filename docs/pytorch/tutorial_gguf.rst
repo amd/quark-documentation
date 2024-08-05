@@ -15,10 +15,8 @@ quantization algorithms integrated, such as AWQ, SmoothQaunt, GPTQ, and
 more.
 
 After quantization, Quark can export the quantized model in different
-formats. Quark has already implemented `ONNX
-exporting <./user_guide_exporting.md#onnx-exporting>`__ and
-`JSON-Safetensors
-exporting <./user_guide_exporting.md#json-safetensors-exporting>`__. Now
+formats. Quark has already implemented `ONNX exporting <./user_guide_exporting.html#onnx-exporting>`__ and
+`JSON-Safetensors exporting <./user_guide_exporting.html#json-safetensors-exporting>`__. Now
 we introduce GGUF exporting in this tutorial. Thanks to this feature,
 users can obtain both high accuracy with Quark and high performance with
 GGML based frameworks like ``llama.cpp``.
@@ -141,7 +139,7 @@ quantized models. To export GGUF models, call
 
 After running the code above successfully, there will be a ``.gguf``
 file under export_path, ``./output_dir/llama.gguf`` for example. Users
-can refer to `user guide <./user_guide_exporting.md#gguf-exporting>`__
+can refer to `user guide <./user_guide_exporting.html#gguf-exporting>`__
 for more information.
 
 Step 3: Run with llama.cpp
