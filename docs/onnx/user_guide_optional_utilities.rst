@@ -61,13 +61,13 @@ quantization. It consists of the following three optional steps:
 -  ONNX shape inference.
 
 The goal of these steps is to improve quantization quality. ONNX Runtime
-quantization tool works best when the tensor’s shape is known. Both
+quantization tool works best when the tensor's shape is known. Both
 symbolic shape inference and ONNX shape inference help figure out tensor
 shapes. Symbolic shape inference works best with transformer-based
 models, and ONNX shape inference works with other models.
 
 Model optimization performs certain operator fusion that makes the
-quantization tool’s job easier. For instance, a Convolution operator
+quantization tool's job easier. For instance, a Convolution operator
 followed by BatchNormalization can be fused into one during the
 optimization, which can be quantized very efficiently.
 
@@ -138,7 +138,7 @@ onnxruntime.quantization.shape_inference, function quant_pre_process().
    save all the external data to one file. The default value is False.
 -  **external_data_location**: (String) This parameter specifies the
    file location where the external file is saved. The default value is
-   “./”.
+   "./".
 -  **external_data_size_threshold**: (Integer) This parameter specifies
    the size threshold for external data. The default value is 1024.
 
@@ -167,8 +167,8 @@ compare the simulation results on the CPU/GPU and the output values on
 the DPU. You can use the dump_model API of Quark ONNX to dump the
 simulation results with the quantized_model. Currently, only models
 containing FixNeuron nodes support this feature. For models using
-QuantFormat.QDQ, you can set ‘dump_float’ to True to save float data for
-all nodes’ results.
+QuantFormat.QDQ, you can set 'dump_float' to True to save float data for
+all nodes' results.
 
 .. code:: python
 
@@ -203,16 +203,16 @@ all nodes’ results.
    example, random_data_reader_input_shape=[[1, 1, 224, 224], [1, 2,
    224, 224]] for 2 inputs. Moreover, it is possible to use dict {name :
    shape} to specify a certain input, for example,
-   random_data_reader_input_shape={“image” : [1, 3, 224, 224]} for the
-   input named “image”. The default value is [].
+   random_data_reader_input_shape={"image" : [1, 3, 224, 224]} for the
+   input named "image". The default value is [].
 -  **dump_float**: (Boolean) This flag determines whether to dump the
-   floating-point value of nodes’ results. If set to True, the float
+   floating-point value of nodes' results. If set to True, the float
    values will be dumped. Note that this may require a lot of storage
    space. The default value is False.
 -  **output_dir**: (String) This parameter specifies the directory where
    the dumped simulation results will be saved. After successful
    execution of the function, dump results are generated in this
-   specified directory. The default value is ‘./dump_results’.
+   specified directory. The default value is './dump_results'.
 
 Note: The batch_size of the dump_data_reader will be better to set to 1
 for DPU debugging.
@@ -222,14 +222,14 @@ are generated in output_dir after the command has been successfully
 executed.
 
 For each quantized node, results are saved in *.bin and* .txt formats
-(\* represents the output name of the node). If “dump_float” is set to
+(\* represents the output name of the node). If "dump_float" is set to
 True, output of all nodes are saved in \*_float.bin and \*_float.txt (\*
 represents the output name of the node), please note that this may
 require a lot of storage space.
 
 Examples of dumping results are shown in the following table. Due to
-considerations for the storage path, the ‘/’ in the node name will be
-replaced with ‘\_’.
+considerations for the storage path, the '/' in the node name will be
+replaced with '\_'.
 
 Table 2. Example of Dumping Results
 

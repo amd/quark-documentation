@@ -95,8 +95,7 @@ Customized Configurations
 
 Besides the default configurations in Quark ONNX, user can also
 customize the quantization configuration like the example below. Please
-refer to `Full List of Quantization Config
-Features <./appendix_full_quant_config_features.html>`__ for more details.
+refer to `Full List of Quantization Config Features <./appendix_full_quant_config_features.html>`__ for more details.
 
 .. code:: python
 

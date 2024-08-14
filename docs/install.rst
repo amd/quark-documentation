@@ -5,12 +5,9 @@ Prerequisites
 -------------
 
 1. Python 3.9+ is required.
-2. Install `PyTorch <https://pytorch.org/>`__ for the compute
-   platform(CUDA, ROCM, CPU…). Version of torch >= 2.2.0.
-3. Install `ONNX <https://onnx.ai/>`__ of version >= 1.12.0, `ONNX
-   Runtime <https://onnxruntime.ai/>`__ of version ~= 1.17.0,
-   `onnxruntime-extensions <https://onnxruntime.ai/docs/extensions/>`__
-   of version >= 0.4.2
+2. Install `PyTorch <https://pytorch.org/>`__ for the compute platform(CUDA, ROCM, CPU…). Version of torch >= 2.2.0.
+3. Install `ONNX <https://onnx.ai/>`__ of version >= 1.12.0, `ONNX Runtime <https://onnxruntime.ai/>`__ of version ~= 1.17.0,
+   `onnxruntime-extensions <https://onnxruntime.ai/docs/extensions/>`__ of version >= 0.4.2
 
 Installation
 ------------
@@ -19,9 +16,7 @@ Install from ZIP
 ~~~~~~~~~~~~~~~~
 
 1. Download the
-   `📥quark.zip <https://www.xilinx.com/bin/public/openDownload?filename=quark-0.2.0+6af1bac23.zip>`__.
-   Extract the downloaded zip file and there is a whl package in it. Or you can download whl package
-   `📥quark.whl <https://www.xilinx.com/bin/public/openDownload?filename=quark-0.2.0+6af1bac23-py3-none-any.whl>`__ directly.
+   `📥quark.zip <https://xcoartifactory/ui/native/uai-pip-local/com/amd/quark/main/nightly/>`__. Extract the downloaded zip file and there is a whl package in it.
 
 2. Install quark whl package by
 
@@ -33,25 +28,20 @@ Installation Verification
 -------------------------
 
 1. (Optional) Verify the installation by running
-   ``python -c "import quark"``. If it does not report error, the
-   installation is done.
+   ``python -c "import quark"``. If it does not report error, the installation is done.
 
-2. (Optional) Compile the ``fast quantization kernels``. When using
-   Quark’s quantization APIs for the first time, it will compile the
-   ``fast quantization kernels`` using your installed Torch and CUDA if
-   available. This process may take a few minutes but subsequent
-   quantization calls will be much faster. To invoke this compilation
-   now and check if it is successful, run the following command:
+2. (Optional) Compile the ``fast quantization kernels``. 
+   When using Quark's quantization APIs for the first time, it will compile the ``fast quantization kernels`` using your installed Torch and CUDA if available. 
+   This process may take a few minutes but subsequent quantization calls will be much faster. 
+   To invoke this compilation now and check if it is successful, run the following command:
 
    .. code:: bash
 
       python -c "import quark.torch.kernel"
 
-3. (Optional) Compile the ``custom operators library``. When using
-   Quark-ONNX’s custom operators for the first time, it will compile the
-   ``custom operators library`` using your local environment. To invoke
-   this compilation now and check if it is successful, run the following
-   command:
+3. (Optional) Compile the ``custom operators library``. 
+   When using Quark-ONNX's custom operators for the first time, it will compile the ``custom operators library`` using your local environment. 
+   To invoke this compilation now and check if it is successful, run the following command:
 
    .. code:: bash
 

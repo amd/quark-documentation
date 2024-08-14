@@ -28,20 +28,20 @@ In addition to the INT8/UINT8, the quark.onnx supports quantizing models
 to other data formats, including INT16/UINT16, INT32/UINT32, Float16 and
 BFloat16, which can provide better accuracy or be used for experimental
 purposes. These new data formats are achieved by a customized version of
-QuantizeLinear and DequantizeLinear named “VitisQuantizeLinear” and
-“VitisDequantizeLinear”, which expands onnxruntime’s UInt8 and Int8
+QuantizeLinear and DequantizeLinear named "VitisQuantizeLinear" and
+"VitisDequantizeLinear", which expands onnxruntime's UInt8 and Int8
 quantization to support UInt16, Int16, UInt32, Int32, Float16 and
 BFloat16. This customized Q/DQ was implemented by a custom operations
-library in quark.onnx using onnxruntime’s custom operation C API.
+library in quark.onnx using onnxruntime's custom operation C API.
 
 The custom operations library was developed based on Linux and does not
 currently support compilation on Windows. If you want to run the
 quantized model that has the custom Q/DQ on Windows, it is recommended
 to switch to WSL as a workaround.
 
-To use this feature, the “quant_format” should be set to
+To use this feature, the "quant_format" should be set to
 VitisQuantFormat.QDQ. You may have noticed that in both the recommended
-NPU_CNN and NPU_Transformer configurations, the “quant_format” is set to
+NPU_CNN and NPU_Transformer configurations, the "quant_format" is set to
 QuantFormat.QDQ. NPU targets that support acceleration for models
 quantized to INT8/UINT8, do not support other precisions.
 
@@ -49,8 +49,8 @@ quantized to INT8/UINT8, do not support other precisions.
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The quantizer supports quantizing float32 models to Int16 or Int32 data
-formats. To enable this, you need to set the “activation_type” and
-“weight_type” in the quantize_static API to the new data types. Options
+formats. To enable this, you need to set the "activation_type" and
+"weight_type" in the quantize_static API to the new data types. Options
 are VitisQuantType.QInt16/VitisQuantType.QUInt16 or
 VitisQuantType.QInt32/VitisQuantType.QUInt32.
 
@@ -71,7 +71,7 @@ VitisQuantType.QInt32/VitisQuantType.QUInt32.
 
 Besides interger data formats, the quantizer also supports quantizing
 float32 models to float16 or bfloat16 data formats, just set the
-“activation_type” and “weight_type” to VitisQuantType.QFloat16 or
+"activation_type" and "weight_type" to VitisQuantType.QFloat16 or
 VitisQuantType.QBFloat16.
 
 .. code:: python
@@ -90,8 +90,8 @@ VitisQuantType.QBFloat16.
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The quantizer also supports quantizing float32 models to BFP data
-formats. The block size can be modified by changing the ‘block_size’
-parameter in the ‘extra_options’. Currently, BFP only supports symmetric
+formats. The block size can be modified by changing the 'block_size'
+parameter in the 'extra_options'. Currently, BFP only supports symmetric
 activation. The following is the configuration for BFP16 with a block
 size of 8.
 
@@ -158,7 +158,7 @@ before quantization, reducing redundant nodes such as cast in the model.
 
 **Note**: When using convert_fp16_to_fp32 in quark.onnx, it requires
 onnxsim to simplify the ONNX model. Please make sure that onnxsim is
-installed by using ‘python -m pip install onnxsim’.
+installed by using 'python -m pip install onnxsim'.
 
 Supported OpType
 ----------------
