@@ -27,13 +27,13 @@ float32 model:
 
 **Note**: When using convert_fp16_to_fp32 in Quark ONNX, it requires
 onnxsim to simplify the ONNX model. Please make sure that onnxsim is
-installed by using ‘python -m pip install onnxsim’.
+installed by using 'python -m pip install onnxsim'.
 
 Convert a NCHW input model to a NHWC model
 ------------------------------------------
 
 Given that some models are designed with an input shape of NCHW instead
-of NHWC, it’s recommended to convert an NCHW input model to NHWC before
+of NHWC, it's recommended to convert an NCHW input model to NHWC before
 quantizing a float32 model.
 
 Use the convert_nchw_to_nhwc tool to convert a NCHW model to a NHWC
@@ -58,7 +58,7 @@ Use the random_quantize tool to quantize a onnx model:
 Convert a A8W8 NPU model to a A8W8 CPU model
 --------------------------------------------
 
-Given that some models are quantized by A8W8 NPU, it’s convenient and
+Given that some models are quantized by A8W8 NPU, it's convenient and
 efficient to convert them to A8W8 CPU models.
 
 Use the convert_a8w8_npu_to_a8w8_cpu tool to convert a A8W8 NPU model to

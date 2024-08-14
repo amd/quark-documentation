@@ -66,7 +66,7 @@ example, the exported file list and added information are as below:
 For fp8 per_tensor quantization, this exporting format is the same as
 the exporting format of AutoFP8. And for AWQ quantization, this
 exporting format is the same as the exporting format of AutoAWQ when the
-version is ‘gemm’.
+version is 'gemm'.
 
 Example of Json-Safetensors Exporting
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

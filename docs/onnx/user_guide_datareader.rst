@@ -25,7 +25,8 @@ example showing how to define the class of calibration data loader.
                    calibration_image_folder, input_height, input_width)
 
        # The pre-processing of calibration images should be defined by users.
-       def _preprocess_images(self, image_folder: str, input_height: int, input_width: int):
+       # Recommended batch_size is 1. 
+       def _preprocess_images(self, image_folder: str, input_height: int, input_width: int, batch_size: int = 1):
            data_list = []
            '''
            The pre-processing for each image

@@ -19,10 +19,10 @@ to enable CLE using quark.onnx.
 
 .. code:: python
 
-   quark.onnx.quantize_static(
-       model_input,
-       model_output,
-       calibration_data_reader,
+   from quark.onnx import ModelQuantizer, PowerOfTwoMethod, QuantType
+   from quark.onnx.quantization.config.config import Config, QuantizationConfig
+
+   quant_config = QuantizationConfig(
        quant_format=QuantFormat.QDQ,
        calibrate_method=quark.onnx.PowerOfTwoMethod.MinMSE,
        activation_type=QuantType.QUInt8,
@@ -36,6 +36,10 @@ to enable CLE using quark.onnx.
            'CLEScaleAppendBias':True,
            },
    )
+   config = Config(global_quant_config=quant_config)
+
+   quantizer = ModelQuantizer(config)
+   quantizer.quantize_model(input_model_path, output_model_path, calibration_data_reader=None)
 
 **Arguments**
 
@@ -58,15 +62,17 @@ to enable CLE using quark.onnx.
 1.2 Quantizing Using Mix Precision
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Mix precision improved the quantized model’s accuracy by quantizing some
+Mix precision improved the quantized model's accuracy by quantizing some
 nodes with higher precision, though it leads to a loss in performance.
 The mix-precision options: A16W16_A8W16, A16W16_A16W8, A16W16_A8W8,
-A16W8_A8W8, A8W16_A8W8. For example, if A8W8 quantized model’s accuracy
+A16W8_A8W8, A8W16_A8W8. For example, if A8W8 quantized model's accuracy
 could not reach your target, you can use the quantization configuration
 to mix A16W8 and A8W8 as follows:
 
 .. code:: python
 
+   from quark.onnx import ModelQuantizer, PowerOfTwoMethod, QuantType
+   from quark.onnx.quantization.config.config import Config, QuantizationConfig
    import torch
 
    def get_acc_top1(preds, labels):
@@ -86,10 +92,7 @@ to mix A16W8 and A8W8 as follows:
        top1_acc_result = get_acc_top1(preds, labels)
        return top1_acc_result
 
-   quark.onnx.quantize_static(
-       model_input,
-       model_output,
-       calibration_data_reader,
+   quant_config = QuantizationConfig(
        calibrate_method=quark.onnx.CalibrationMethod.Percentile,
        quant_format=quark.onnx.VitisQuantFormat.QDQ,
        activation_type=quark.onnx.VitisQuantType.QInt16,
@@ -108,6 +111,10 @@ to mix A16W8 and A8W8 as follows:
            },
        },
    )
+   config = Config(global_quant_config=quant_config)
+
+   quantizer = ModelQuantizer(config)
+   quantizer.quantize_model(input_model_path, output_model_path, calibration_data_reader=None)
 
 **Arguments**
 
@@ -126,7 +133,7 @@ to mix A16W8 and A8W8 as follows:
 -  **extra_options**: (Dictionary or None) Contains key-value pairs for
    various options in different cases. Mix precision related options are
    packaged within extra_options as a member whose key is
-   “AutoMixprecision” and values are:
+   "AutoMixprecision" and values are:
 
    -  ActTargetQuantType: (Class) The quant type corresponding to
       activation in mixed precision has lower or equal precision. No
@@ -147,9 +154,9 @@ to mix A16W8 and A8W8 as follows:
 1.3 Quantizing Using Fast Finetune
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Fast finetune improves the quantized model’s accuracy by training the
+Fast finetune improves the quantized model's accuracy by training the
 output of each layer as close as possible to the floating-point model.
-It includes two practical algorithms “AdaRound” and “AdaQuant”. Applying
+It includes two practical algorithms "AdaRound" and "AdaQuant". Applying
 fast finetune may get better accuracy for some models but will take much
 longer time than normal PTQ. It is disabled by default to save
 quantization time but can be turned on if you see accuracy issues. Note
@@ -158,10 +165,10 @@ package.
 
 .. code:: python
 
-   quark.onnx.quantize_static(
-       model_input,
-       model_output,
-       calibration_data_reader,
+   from quark.onnx import ModelQuantizer, PowerOfTwoMethod, QuantType
+   from quark.onnx.quantization.config.config import Config, QuantizationConfig
+
+   quant_config = QuantizationConfig(
        quant_format=QuantFormat.QDQ,
        calibrate_method=quark.onnx.PowerOfTwoMethod.MinMSE,
        activation_type=QuantType.QUInt8,
@@ -179,6 +186,10 @@ package.
            },
        },
    )
+   config = Config(global_quant_config=quant_config)
+
+   quantizer = ModelQuantizer(config)
+   quantizer.quantize_model(input_model_path, output_model_path, calibration_data_reader=None)
 
 **Arguments**
 
@@ -187,18 +198,18 @@ package.
    True to do fast finetune (default is False).
 -  **extra_options**: (Dictionary or None) Contains key-value pairs for
    various options in different cases. Fast finetune related options are
-   packaged within extra_options as a member whose key is “FastFinetune”
+   packaged within extra_options as a member whose key is "FastFinetune"
    and values are:
 
    -  OptimAlgorithm: (String) The specified algorithm for fast
-      finetune. Optional values are “adaround” and “adaquant”, the
-      former adjusts the weight’s rounding function, which is relatively
+      finetune. Optional values are "adaround" and "adaquant", the
+      former adjusts the weight's rounding function, which is relatively
       stable and might converge faster, while the latter trains the
       weight directly, so might have a greater improvement. The default
-      value is “adaround”.
+      value is "adaround".
    -  OptimDevice: (String) The compute device for fast finetune.
-      Optional values are “cpu”, “hip:0” and “cuda:0”. The default value
-      is “cpu”.
+      Optional values are "cpu", "hip:0" and "cuda:0". The default value
+      is "cpu".
    -  BatchSize: (Int) Batch size for finetuning. The larger batch size,
       the better accuracy but the longer training time. The default
       value is 1.
@@ -222,10 +233,10 @@ example showing how to enable SQ using quark.onnx.
 
 .. code:: python
 
-   quark.onnx.quantize_static(
-       model_input,
-       model_output,
-       calibration_data_reader,
+   from quark.onnx import ModelQuantizer, PowerOfTwoMethod, QuantType
+   from quark.onnx.quantization.config.config import Config, QuantizationConfig
+
+   quant_config = QuantizationConfig(
        quant_format=QuantFormat.QDQ,
        calibrate_method=quark.onnx.PowerOfTwoMethod.MinMSE,
        activation_type=QuantType.QUInt8,
@@ -237,6 +248,10 @@ example showing how to enable SQ using quark.onnx.
            'SmoothAlpha':0.5,
            },
    )
+   config = Config(global_quant_config=quant_config)
+
+   quantizer = ModelQuantizer(config)
+   quantizer.quantize_model(input_model_path, output_model_path, calibration_data_reader=None)
 
 **Arguments**
 

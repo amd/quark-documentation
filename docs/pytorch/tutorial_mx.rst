@@ -54,7 +54,7 @@ is a gated model, meaning you will need to request access and generate a
 `Hugging Face
 token <https://huggingface.co/docs/hub/security-tokens>`__.
 
-You’ll need to replace all instances of ``<hf_token>`` with the token.
+You'll need to replace all instances of ``<hf_token>`` with the token.
 
 3. Set the quantization configuration:
 --------------------------------------
@@ -95,20 +95,20 @@ How is the tensor turned into blocks?
 Reshaping of the tensor into blocks is controlled by ``ch_axis`` and
 ``group_size``.
 
-Let’s use a tensor of shape (2,4) as an example:
+Let's use a tensor of shape (2,4) as an example:
 
-.. figure:: ../../_static/mx/tensor_base.png
+.. figure:: ../_static/mx/tensor_base.png
    :width: 180px
    :align: center
 
 The parameter ``ch_axis`` determines along which axis we will group
 elements into blocks:
 
-.. figure:: ../../_static/mx/tensor_axis_0.png
+.. figure:: ../_static/mx/tensor_axis_0.png
    :width: 180px
    :align: center
 
-.. figure:: ../../_static/mx/tensor_axis_1.png
+.. figure:: ../_static/mx/tensor_axis_1.png
    :width: 180px
    :align: center
 
@@ -118,7 +118,7 @@ together into a single block.
 If it is larger than the number of elements along the axis, the block is
 padded with zeros until it reaches the correct size:
 
-.. figure:: ../../_static/mx/tensor_axis_0_padded.png
+.. figure:: ../_static/mx/tensor_axis_0_padded.png
    :width: 180px
    :align: center
 
@@ -129,7 +129,7 @@ padded with zeros until it reaches the correct size:
 If the ``group_size`` is less than the number of elements, the axis is
 broken up into block tiles:
 
-.. figure:: ../../_static/mx/tensor_axis_1_tiled.png
+.. figure:: ../_static/mx/tensor_axis_1_tiled.png
    :width: 180px
    :align: center
 
@@ -171,7 +171,7 @@ How are the scales calculated?
 
 1. You calculate the maximum absolute value for every block:
 
-.. figure:: ../../_static/mx/tensor_abs_max.png
+.. figure:: ../_static/mx/tensor_abs_max.png
    :width: 250px
    :align: center
 
@@ -183,20 +183,20 @@ How are the scales calculated?
 
 -  Subtracting the maximum exponent value the chosen element datatype can represent.
 
-.. figure:: ../../_static/mx/shared_exponent.png
+.. figure:: ../_static/mx/shared_exponent.png
    :width: 250px
    :align: center
 
 3. Finally, you raise 2 to the power of the shared exponent and you have
    the scale:
 
-.. figure:: ../../_static/mx/scale_po2.png
+.. figure:: ../_static/mx/scale_po2.png
    :width: 250px
    :align: center
 
 How are the scales used?
 
-.. figure:: ../../_static/mx/quant_dequant.png
+.. figure:: ../_static/mx/quant_dequant.png
    :width: 250px
    :align: center
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -204,7 +204,7 @@ How are the scales used?
 Conclusion
 ----------
 
-Congratulations, if you’ve done all of the above, you should now have a
+Congratulations, if you've done all of the above, you should now have a
 model quantized with MX datatypes that you can perform inference with.
 
 You should also hopefully have a better understanding of what MX

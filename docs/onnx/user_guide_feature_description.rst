@@ -60,7 +60,7 @@ meet the requirements of various HW backends:
 The strategies share the same user API. Users simply need to set the
 strategy through the quantization configuration, as demonstrated in the
 example above. More details about setting quantization configuration are
-in the chapter “Configuring Quark for PyTorch”
+in the chapter "Configuring Quark for PyTorch"
 
 The Quant Schemes
 ~~~~~~~~~~~~~~~~~
@@ -118,7 +118,7 @@ Quark for PyTorch supports these types of calibration methods:
 
 -  **Entropy Calibration Method**: The Entropy calibration method refers
    to a method determines he quantization parameters by considering the
-   entropy algorithm of each tensor’s distribution.
+   entropy algorithm of each tensor's distribution.
 
 -  **NonOverflow Calibration Method**: The NonOverflow calibration
    method gets the power-of-two quantization parameters for each tensor

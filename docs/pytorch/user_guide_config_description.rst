@@ -8,27 +8,20 @@
 Quark for Pytorch - Configuring Quantization
 ============================================
 
-In this document, we provide steps about how to setting the quantization
-configuration in Quark for PyTorch.
+In this document, we provide steps about how to setting the quantization configuration in Quark for PyTorch.
 
-Configuration of quantization in ``Quark for Pytorch`` is set by python
-``dataclass`` because it is rigorous and can help users avoid typos. We
-provide a class ``Config`` in ``quark.torch.quantization.config.config``
-for configuration. There are several steps to set up the configuration.
+Configuration of quantization in ``Quark for Pytorch`` is set by python ``dataclass`` because it is rigorous and can help users avoid typos. 
+We provide a class ``Config`` in ``quark.torch.quantization.config.config`` for configuration. There are several steps to set up the configuration.
 
--  Step 1: Configure ``QuantizationSpec`` for torch.Tensors. Specify
-   attributes such as dtype, observer_cls, etc.
--  Step 2: Establish ``QuantizationConfig`` for nn.Module. Define the
-   QuantizationSpec of input_tensors, output_tensors, weight, and bias.
+-  Step 1: Configure ``QuantizationSpec`` for torch.Tensors. Specify attributes such as dtype, observer_cls, etc.
+-  Step 2: Establish ``QuantizationConfig`` for nn.Module. Define the QuantizationSpec of input_tensors, output_tensors, weight, and bias.
 -  Step 3: [Optional] Setting ``AlgoConfig`` for the model.
 -  Step 4: Set up the overall ``Config`` for the model. This includes:
 
 Step 1: Configuring ``QuantizationSpec`` for torch.Tensors.
 -----------------------------------------------------------
 
-``QuantizationSpec`` aims to describe the quantization specification for
-each tensor, including dtype, observer_cls, qscheme, is_dynamic,
-symmetric, etc. For example:
+``QuantizationSpec`` aims to describe the quantization specification for each tensor, including dtype, observer_cls, qscheme, is_dynamic, symmetric, etc. For example:
 
 .. code:: python
 
@@ -89,12 +82,9 @@ For parameter explanation:
 Step 2: Establishing ``QuantizationConfig`` for nn.Module.
 ----------------------------------------------------------
 
-``QuantizationConfig`` is used to describe the global, layer-type-wise,
-or layer-wise quantization information for each ``nn.Module``, such as
-``nn.Linear``. For example,
+``QuantizationConfig`` is used to describe the global, layer-type-wise, or layer-wise quantization information for each ``nn.Module``, such as ``nn.Linear``. For example,
 
 .. code:: python
-
 
    from quark.torch.quantization.config.config import QuantizationConfig
 
@@ -124,18 +114,14 @@ For parameter explanation:
 Step 3: [Optional] Setting ``AlgoConfig`` for the model.
 --------------------------------------------------------
 
-If users want to use Quark’s advanced algorithms such as AWQ, they
-should set up the configuration for them.
+If users want to use Quark's advanced algorithms such as AWQ, they should set up the configuration for them.
 
-Users should possess a thorough understanding of the methods and
-hyper-parameters associated with the algorithms prior to configuring
-them! Algorithms only support some ``QuantizationSpec``, please make
-sure before running.
+Users should possess a thorough understanding of the methods and hyper-parameters associated with the algorithms prior to configuring them! 
+Algorithms only support some ``QuantizationSpec``, please make sure before running.
 
 Here we use the algorithms configuration of Llama2-7b as the example:
 
 .. code:: python
-
 
    from quark.torch.algorithm.awq.awq import AwqProcessor
    from quark.torch.algorithm.awq.smooth import SmoothQuantProcessor
@@ -230,8 +216,7 @@ the ``GPU mode`` for now. parameter explanation:
 Step 4: Setting up the overall ``Config`` for the model.
 --------------------------------------------------------
 
-In ``Config``, users should set instances for all information of
-quantization (all instances are optional except global_quant_config).
+In ``Config``, users should set instances for all information of quantization (all instances are optional except global_quant_config).
 For example:
 
 .. code:: python

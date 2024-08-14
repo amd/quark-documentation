@@ -44,7 +44,7 @@ The structure of GGUF file is shown in Figure 1:
 
    <div style="text-align: center;">Figure 1</div>
 
-One may think of GGUF file as model config + Pytorch’s model state_dict.
+One may think of GGUF file as model config + Pytorch's model state_dict.
 The ``metadata`` key-value pairs correspond to model config while the
 ``tensors info`` key-value pairs + tensors data correspond to model
 state_dict. The quantization process actually converts tensors in fp32
@@ -60,7 +60,7 @@ and after normal operators, as shown in Figure 2. Quantizers are quite
 versatile as to support for a several datatypes and quantization
 schemes.
 
-.. figure:: ../../\_static/quant_workflow.png
+.. figure:: ../\_static/quant_workflow.png
    :align: center
 
 .. raw:: html
@@ -78,7 +78,7 @@ How to Use GGUF Export in Quark
 Step 1: Quantize Your Model
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-There’s a handy API named ``ModelQuantizer`` in Quark. After
+There's a handy API named ``ModelQuantizer`` in Quark. After
 Initializing quantization related configs, a simple method call
 ``quantizer.quantize_model`` can get work done.
 
@@ -121,7 +121,7 @@ Initializing quantization related configs, a simple method call
 Step 2: Export to GGUF
 ~~~~~~~~~~~~~~~~~~~~~~
 
-There’s another easy-to-use API named ``ModelExporter`` to export
+There's another easy-to-use API named ``ModelExporter`` to export
 quantized models. To export GGUF models, call
 ``exporter.export_gguf_model``
 
@@ -191,7 +191,7 @@ scheme of the quantized model in quark, exporting to GGUF model is
 feasible. Thankfully, Quark supports a whole bunch of quantization
 schemes which match majority of defined GGUF datatypes.
 
-Let’s take *asymmetric int4 per-group* quantization with *group size 32*
+Let's take *asymmetric int4 per-group* quantization with *group size 32*
 as an example, which is ``Q4_1`` in GGUF spec. Quantizer state for this
 quantization scheme are tensors for *weight*, *scale* and *zero_point*
 for each group. For example, for weight of shape *(N, 32)*, the shape of
@@ -214,7 +214,7 @@ of ``Q4_1`` in GGUF is as follows:
 
 Note that ``d`` is scale. ``m`` is minimum value of this block.
 According to this definition, we need to convert *weight* + *scale
-tensor* + *zero_point tensor* to ``Q4_1`` blocks. There’s one last
+tensor* + *zero_point tensor* to ``Q4_1`` blocks. There's one last
 question we are done. In quark, the storage is *weight* + *scale* +
 *zero_point*, however, in GGUF the storage is *weight* + *scale* +
 *min_val*. Are they equivalent to each other? The *quant* + *dequant*
@@ -233,9 +233,9 @@ value after quant and dequant.
 If we set :math:`min\_val` to the mininum value of the block, then
 Equation (1) and (2) are not equivalent, because Equation (1) could
 guarantee that 0 is still 0 after the transformation, but Equation (2)
-couldn’t. Equation (2) could guarantee that the mininum value of the
+couldn't. Equation (2) could guarantee that the mininum value of the
 block will keep the same after the transformation but Equation (1)
-couldn’t.
+couldn't.
 
 However, if we set :math:`min\_val` to :math:`-s \times z`, they are
 equivalent. For :math:`min\_val = -s \times z`, we get:
@@ -250,9 +250,9 @@ equivalent. For :math:`min\_val = -s \times z`, we get:
    \hat{x} &= [clamp(\lfloor \frac{x}{s} \rceil + z, 0, max\_quant) - z] \times s \tag{6} \\
    \end{align}
 
-It’s exactly the same as Equation (1).
+It's exactly the same as Equation (1).
 
-Note that the process mentioned above doesn’t involve any quantization
+Note that the process mentioned above doesn't involve any quantization
 algorithms. Quantization algorithms are agnostic to GGUF exporting,
 which means quantized model with ANY quantization algorithms can be
 exported to GGUF model. As long as the exported GGUF model matches the
@@ -264,7 +264,7 @@ Experiments
 The dataset we used for evaluation is ``wikitext2``. Download and
 extract the `wikitext-2-raw-v1.zip
 file <https://huggingface.co/datasets/ggml-org/ci/resolve/main/wikitext-2-raw-v1.zip>`__.
-All the experiments are based on ``llama.cpp``\ ’s commit
+All the experiments are based on ``llama.cpp``\ 's commit
 ``bdcb8f42221bc40c411150a009a3d3a30fa74722``.
 
 First, we use the script

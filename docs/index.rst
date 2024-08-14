@@ -11,12 +11,13 @@ Welcome to Quark's documentation!
    :maxdepth: 1
    
    What's New <whats_new.rst>
+   Quark Overview <quark_overview.rst>
    Installation <install.rst>
    Getting Started <getting_started.rst>
+   Highlight Features <highlight_features.rst>
    User Guide <user_guide.rst>
    APIs <apis.rst>
-   Examples <example_gen.rst>
-   Tutorial <tutorial.rst>
+   Examples <example.rst>
    Release Note <release_note.rst>
    FAQ <faq.rst>
 
