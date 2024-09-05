@@ -4,21 +4,24 @@ Examples
 Quark for Pytorch
 -----------------
 
-* `Language Model Quantization & Export <./quark_example_torch_llm_gen.html>`__
-* `Diffusion Model Quantization & Export <./quark_example_torch_diffusers_gen.html>`__
-* `Vision Model Quantization using Quark FX Graph Mode <./quark_example_torch_vision_gen.html>`__
-* `Extension for Pytorch-light (AMD internal project) <./quark_example_torch_pytorch_light_gen.html>`__
-* `Extension for Brevitas <./quark_example_torch_brevitas_gen.html>`__
+* `Language Model Quantization & Export <../../examples/torch/language_modeling/README.rst>`__
+* `Diffusion Model Quantization & Export <../../examples/torch/diffusers/README.rst>`__
+* `Vision Model Quantization using Quark FX Graph Mode <../../examples/torch/vision/README.rst>`__
+* `Extension for Pytorch-light (AMD internal project) <../../examples/torch/extensions/pytorch_light/README.rst>`__
+* `Extension for Brevitas <../../examples/torch/extensions/brevitas/README.rst>`__
 
 
 Quark for ONNX
 --------------
    
-* `Image Classification Quantization <./quark_example_onnx_image_classification_gen.html>`__
-* `Fast Finetune AdaRound <./quark_examples_onnx_adaround_gen.html>`__
-* `Fast Finetune AdaQuant <./quark_example_onnx_adaquant_gen.html>`__
-* `Mixed Precision <./quark_onnx_example_mixed_precision_gen.html>`__
-* `Cross-Layer Equalization <./quark_example_onnx_cle_gen.html>`__
+* `Image Classification Quantization <../../examples/onnx/image_classification/README.rst>`__
+* `Dynamic Quantization <../../examples/onnx/dynamic_quantization/README.rst>`__
+* `Fast Finetune AdaRound <../../examples/onnx/accuracy_improvement/adaround/README.rst>`__
+* `Fast Finetune AdaQuant <../../examples/onnx/accuracy_improvement/adaquant/README.rst>`__
+* `BFP Quantization <../../examples/onnx/accuracy_improvement/BFP/README.rst>`__
+* `Mixed Precision <../../examples/onnx/accuracy_improvement/mixed_precision/README.rst>`__
+* `Cross-Layer Equalization <../../examples/onnx/accuracy_improvement/cle/README.rst>`__
+* `GPTQ Quantization <../../examples/onnx/accuracy_improvement/gptq/README.rst>`__
 
 .. raw:: html
 

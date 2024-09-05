@@ -31,7 +31,7 @@ How to use MX in Quark
 1. Install Quark:
 -----------------
 
-Follow the steps in the `installation guide <../install.html>`__.
+Follow the steps in the `installation guide <../install.rst>`__.
 
 2. Set the model:
 -----------------

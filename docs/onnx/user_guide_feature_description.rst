@@ -16,7 +16,7 @@ Quark for ONNX provides the key features as below:
 |                    | `Bfloat16 <https://en.wikipe                    |
 |                    | dia.org/wiki/Bfloat16_floating-point_format>`__ |
 +--------------------+-------------------------------------------------+
-| Quant Strategy     | Static quant / Weight only quant                |
+| Quant Strategy     | Static quant / Weight only / Dynamic quant      |
 +--------------------+-------------------------------------------------+
 | Quant Scheme       | Per tensor / Per channel                        |
 +--------------------+-------------------------------------------------+
@@ -33,7 +33,7 @@ Quark for ONNX provides the key features as below:
 | Pre-Quant          | SmoothQuant (Single_GPU/CPU) / CLE / Bias       |
 | Optimization       | Correction                                      |
 +--------------------+-------------------------------------------------+
-| Quant Algorithm    | AdaQuant / AdaRound                             |
+| Quant Algorithm    | AdaQuant / AdaRound / GPTQ                            |
 +--------------------+-------------------------------------------------+
 | Operating Systems  | Linux(ROCm/CUDA) / Windows(CPU)                 |
 +--------------------+-------------------------------------------------+
@@ -43,7 +43,7 @@ We present detailed explanations of these features:
 Quant Strategy
 ~~~~~~~~~~~~~~
 
-Quark for ONNX offers two distinct quantization strategies tailored to
+Quark for ONNX offers three distinct quantization strategies tailored to
 meet the requirements of various HW backends:
 
 -  **Post Training Weight-Only Quantization**: The weights are quantized
@@ -57,10 +57,16 @@ meet the requirements of various HW backends:
    allows for precise determination of the optimal quantization
    parameters for activations.
 
+- **Post Training Dynamic Quantization**: Dynamic Quantization quantizes
+   the weights ahead of time, while the activations are quantized
+   dynamically at runtime. This method allows for a more flexible
+   approach, especially when the activation distribution is not
+   well-known or varies significantly during inference.
+
 The strategies share the same user API. Users simply need to set the
 strategy through the quantization configuration, as demonstrated in the
 example above. More details about setting quantization configuration are
-in the chapter "Configuring Quark for PyTorch"
+in the chapter "Configuring Quark for ONNX"
 
 The Quant Schemes
 ~~~~~~~~~~~~~~~~~
@@ -133,7 +139,7 @@ Equalization) and ``Bias Correction`` as the pre-quant optimization.
 Quant Algorithm
 ~~~~~~~~~~~~~~~
 
-Quark for ONNX supports ``AdaQuant`` and ``AdaRound`` as the quant
+Quark for ONNX supports ``AdaQuant``, ``AdaRound`` and ``GPTQ`` as the quant
 algorithms.
 
 .. raw:: html

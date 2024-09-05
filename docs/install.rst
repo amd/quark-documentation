@@ -6,7 +6,7 @@ Prerequisites
 
 1. Python 3.9+ is required.
 2. Install `PyTorch <https://pytorch.org/>`__ for the compute platform(CUDA, ROCM, CPU…). Version of torch >= 2.2.0.
-3. Install `ONNX <https://onnx.ai/>`__ of version >= 1.12.0, `ONNX Runtime <https://onnxruntime.ai/>`__ of version ~= 1.17.0,
+3. Install `ONNX <https://onnx.ai/>`__ of version >= 1.12.0, `ONNX Runtime <https://onnxruntime.ai/>`__ of version >= 1.17.0, <1.19.0,
    `onnxruntime-extensions <https://onnxruntime.ai/docs/extensions/>`__ of version >= 0.4.2
 
 Installation
@@ -16,16 +16,38 @@ Install from ZIP
 ~~~~~~~~~~~~~~~~
 
 1. Download the
-   `📥quark.zip <https://www.xilinx.com/bin/public/openDownload?filename=quark-0.2.0+6af1bac23.zip>`__.
-   Extract the downloaded zip file and there is a whl package in it. Or you can download whl package
-   `📥quark.whl <https://www.xilinx.com/bin/public/openDownload?filename=quark-0.2.0+6af1bac23-py3-none-any.whl>`__ directly.
-   
+   `📥quark.zip <https://xcoartifactory/ui/native/uai-pip-local/com/amd/quark/main/nightly/>`__. Extract the downloaded zip file and there is a whl package in it.
 
 2. Install quark whl package by
 
    .. code:: bash
 
       pip install [quark whl package].whl
+
+Install from source code (internal only)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Quark is an internal project and the source code is hosted on Xilinx Github Enterprise.
+To install Quark from source, follow the steps below:
+
+1. Download and open repository:
+
+   .. code:: bash
+
+      git clone https://gitenterprise.xilinx.com/AMDNeuralOpt/Quark.git
+      cd Quark
+
+2. Install other dependencies:
+
+   .. code:: bash
+
+      pip install -r requirements.txt
+
+3. Install the main component:
+
+   .. code:: bash
+
+      pip install -e .
 
 Installation Verification
 -------------------------

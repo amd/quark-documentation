@@ -81,7 +81,7 @@ How to enable AdaRound / AdaQuant in Quark?
 
 AdaRound and AdaQuant are provided as options of optimal algorithms for
 fast finetune. Please refer to this
-`link <./user_guide_accuracy_improvement.html#1.3-quantizing-using-fast-finetune>`__
+`link <./user_guide_accuracy_improvement.rst#1.3-quantizing-using-fast-finetune>`__
 for more details about how to set the configuration to enable AdaRound
 or AdaQuant.
 
@@ -90,11 +90,13 @@ AdaQuant configuration.
 
 .. code:: python
 
-   from quark.onnx.quantization.config.config import Config, QuantizationConfig
+   from quark.onnx.quantization.config.config import Config, QuantizationConfig, get_default_config
    # Config of default AdaRound
-   config = Config(global_quant_config=DEFAULT_S8S8_AAWS_ADAROUND_CONFIG)
+   quant_config = get_default_config("S8S8_AAWS_ADAROUND")
+   config = Config(global_quant_config=quant_config)
    # Config of default AdaQuant
-   config = Config(global_quant_config=DEFAULT_S8S8_AAWS_ADAQUANT_CONFIG)
+   quant_config = get_default_config("S8S8_AAWS_ADAQUANT")
+   config = Config(global_quant_config=quant_config)
 
 Examples
 --------

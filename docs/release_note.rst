@@ -13,11 +13,11 @@ New Features (Version 0.2.0)
 
    -  **Data Types**:
 
-      -  `OCP Microscaling (MX) is supported. Valid element data types include INT8, FP8_E4M3, FP4, FP6_E3M2, and FP6_E2M3. <./pytorch/tutorial_mx.html>`__
+      -  `OCP Microscaling (MX) is supported. Valid element data types include INT8, FP8_E4M3, FP4, FP6_E3M2, and FP6_E2M3. <./pytorch/tutorial_mx.rst>`__
 
    -  **Export Capabilities**:
 
-      -  `Quantized models can now be exported in GGUF format. The exported GGUF model is runnable with llama.cpp. Only Llama2 is supported for now. <./pytorch/tutorial_gguf.html>`__
+      -  `Quantized models can now be exported in GGUF format. The exported GGUF model is runnable with llama.cpp. Only Llama2 is supported for now. <./pytorch/tutorial_gguf.rst>`__
       -  Introduced Quark's native Json-Safetensors export format, which is identical to AutoFP8 and AutoAWQ when used for FP8 and AWQ quantization.
 
    -  **Model Support**:

@@ -18,76 +18,92 @@ The ``Config`` should be like:
 
 .. code:: python
 
-   from quark.onnx.quantization.config.config import Config
-   quant_config = Config(global_quant_config=...)
+   from quark.onnx.quantization.config.config import Config, get_default_config
+   config = Config(global_quant_config=...)
 
 We defined some default global configrations, including
-``DEFAULT_XINT8_CONFIG`` and ``DEFAULT_U8S8_AAWS_CONFIG``, which can be
+``XINT8`` and ``U8S8_AAWS``, which can be
 used like this:
 
 .. code:: python
-
-   quant_config = Config(global_quant_config=DEFAULT_U8S8_AAWS_CONFIG)
+   quant_config = get_default_config("U8S8_AAWS")
+   config = Config(global_quant_config=quant_config)
 
 More Quantization Default Configurations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Quark for ONNX provides user with the default configurations shown
-below.
+Quark for ONNX provides user with the default configurations to quickly start model quantization.
 
--  ``DEFAULT_XINT8_CONFIG``: Perform uint8 activation, int8 weight,
-   optimized for NPU quantization.
--  ``DEFAULT_XINT8_ADAROUND_CONFIG``: Perform uint8 activation, int8
+-  ``INT8_CNN_DEFAULT``: Perform 8-bits, optimized for CNN quantization.
+-  ``INT16_CNN_DEFAULT``: Perform 16-bits, optimized for CNN quantization.
+-  ``INT8_TRANSFORMER_DEFAULT``: Perform 8-bits, optimized for transformer quantization.
+-  ``INT16_TRANSFORMER_DEFAULT``: Perform 16-bits, optimized for transformer quantization.
+-  ``INT8_CNN_ACCURATE``: Perform 8-bits, optimized for CNN quantization. 
+   Some adavnced algorithms are applied to achieve higher accuracy, but will consume more time and memory space. 
+-  ``INT16_CNN_ACCURATE``: Perform 16-bits, optimized for CNN quantization. 
+   Some adavnced algorithms are applied to achieve higher accuracy, but will consume more time and memory space. 
+-  ``INT8_TRANSFORMER_ACCURATE``: Perform 8-bits, optimized for transformer quantization. 
+   Some adavnced algorithms are applied to achieve higher accuracy, but will consume more time and memory space. 
+-  ``INT16_TRANSFORMER_ACCURATE``: Perform 16-bits, optimized for transformer quantization. 
+   Some adavnced algorithms are applied to achieve higher accuracy, but will consume more time and memory space. 
+
+Quark for ONNX also provide more advanced default configurations to help users to quantize models with more options.
+
+-  ``UINT8_DYNAMIC_QUANT``: Perform dynamic activation, uint8 weight
+   quantization.
+-  ``XINT8``: Perform uint8 activation, int8 weight, optimized for NPU
+   quantization.
+-  ``XINT8_ADAROUND``: Perform uint8 activation, int8
    weight, optimized for NPU quantization. The adaround fast finetune
    will be applied to perserve quantized accuracy.
--  ``DEFAULT_XINT8_ADAQUANT_CONFIG``: Perform uint8 activation, int8
+-  ``XINT8_ADAQUANT``: Perform uint8 activation, int8
    weight, optimized for NPU quantization. The adaquant fast finetune
    will be applied to perserve quantized accuracy.
--  ``DEFAULT_S8S8_AAWS_CONFIG``: Perform int8 asymmetric activation,
+-  ``S8S8_AAWS``: Perform int8 asymmetric activation,
    int8 symmetric weight quantization.
--  ``DEFAULT_S8S8_AAWS_ADAROUND_CONFIG``: Perform int8 asymmetric
+-  ``S8S8_AAWS_ADAROUND``: Perform int8 asymmetric
    activation, int8 symmetric weight quantization. The adaround fast
    finetune will be applied to perserve quantized accuracy.
--  ``DEFAULT_S8S8_AAWS_ADAQUANT_CONFIG``: Perform int8 asymmetric
+-  ``S8S8_AAWS_ADAQUANT``: Perform int8 asymmetric
    activation, int8 symmetric weight quantization. The adaquant fast
    finetune will be applied to perserve quantized accuracy.
--  ``DEFAULT_U8S8_AAWS_CONFIG``: Perform uint8 asymmetric activation,
+-  ``U8S8_AAWS``: Perform uint8 asymmetric activation,
    int8 symmetric weight quantization.
--  ``DEFAULT_U8S8_AAWS_ADAROUND_CONFIG``:
+-  ``U8S8_AAWS_ADAROUND``:
    Perform uint8 asymmetric activation, int8 symmetric weight
    quantization. The adaround fast finetune will be applied to perserve
    quantized accuracy.
--  ``DEFAULT_U8S8_AAWS_ADAQUANT_CONFIG``:
+-  ``U8S8_AAWS_ADAQUANT``:
    Perform uint8 asymmetric activation, int8 symmetric weight
    quantization. The adaquant fast finetune will be applied to perserve
    quantized accuracy.
--  ``DEFAULT_S16S8_ASWS_CONFIG``:
+-  ``S16S8_ASWS``:
    Perform int16 symmetric activation, int8 symmetric weight
    quantization.
--  ``DEFAULT_S16S8_ASWS_ADAROUND_CONFIG``:
+-  ``S16S8_ASWS_ADAROUND``:
    Perform int16 symmetric activation, int8 symmetric weight
    quantization. The adaround fast finetune will be applied to perserve
    quantized accuracy.
--  ``DEFAULT_S16S8_ASWS_ADAQUANT_CONFIG``:
+-  ``S16S8_ASWS_ADAQUANT``:
    Perform int16 symmetric activation, int8 symmetric weight
    quantization. The adaquant fast finetune will be applied to perserve
    quantized accuracy.
--  ``DEFAULT_U16S8_AAWS_CONFIG``:
+-  ``U16S8_AAWS``:
    Perform uint16 asymmetric activation, int8 symmetric weight
    quantization.
--  ``DEFAULT_U16S8_AAWS_ADAROUND_CONFIG``:
+-  ``U16S8_AAWS_ADAROUND``:
    Perform uint16 asymmetric activation, int8 symmetric weight
    quantization. The adaround fast finetune will be applied to perserve
    quantized accuracy.
--  ``DEFAULT_U16S8_AAWS_ADAQUANT_CONFIG``:
+-  ``U16S8_AAWS_ADAQUANT``:
    Perform uint16 asymmetric activation, int8 symmetric weight
    quantization. The adaquant fast finetune will be applied to perserve
    quantized accuracy.
--  ``DEFAULT_BF16_CONFIG``:
+-  ``BF16``:
    Perform bfloat16 activation, bfloat16 weight quantization.
--  ``DEFAULT_BFP16_CONFIG``:
+-  ``BFP16``:
    Perform BFP16 activation, BFP16 weight quantization.
--  ``DEFAULT_S16S16_MIXED_S8S8_CONFIG``:
+-  ``S16S16_MIXED_S8S8``:
    Perform int16 activation, int16 weight mix-percision quantization.
 
 Customized Configurations
@@ -95,7 +111,7 @@ Customized Configurations
 
 Besides the default configurations in Quark ONNX, user can also
 customize the quantization configuration like the example below. Please
-refer to `Full List of Quantization Config Features <./appendix_full_quant_config_features.html>`__ for more details.
+refer to `Full List of Quantization Config Features <./appendix_full_quant_config_features.rst>`__ for more details.
 
 .. code:: python
 
@@ -116,6 +132,7 @@ refer to `Full List of Quantization Config Features <./appendix_full_quant_confi
        nodes_to_quantize=[],
        nodes_to_exclude=[],
        optimize_model=True,
+       use_dynamic_quant=False,
        use_external_data_format=False,
        execution_providers=['CPUExecutionProvider'],
        enable_npu_cnn=False,
