@@ -26,6 +26,8 @@ Functions
 
    quark.torch.load_params
    quark.torch.save_params
+   quark.torch.import_model_info
+
 
 
 

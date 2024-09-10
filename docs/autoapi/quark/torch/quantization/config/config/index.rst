@@ -39,7 +39,8 @@ Classes
    :param List[str] exclude: A list of layer names to be excluded from quantization, enabling selective quantization of the model. Default is an empty list.
    :param Optional[AlgoConfig] algo_config: Optional configuration for the quantization algorithm, such as GPTQ and AWQ. After this process, the datatype/fake_datatype of weights will be changed with quantization scales. Default is None.
    :param QuantizationMode quant_mode: The quantization mode to be used (eager_mode or fx_graph_mode). Default is eager_mode.
-   :param Optional[Union[PreQuantOptConfig, List[PreQuantOptConfig]]] pre_quant_opt_config: Optional pre-processing optimization, such as Equalization and SmoothQuant. After this process, the value of weights will be changed, but the dtype/fake_dtype will be the same. Default is None.
+   :param List[PreQuantOptConfig] pre_quant_opt_config: Optional pre-processing optimization, such as Equalization and SmoothQuant. After this process, the value of weights will be changed, but the dtype/fake_dtype will be the same. Default is an empty list.
+   :param Optional[int] log_severity_level: 0:DEBUG, 1:INFO, 2:WARNING. 3:ERROR, 4:CRITICAL/FATAL. Default is 1.
 
 
 .. py:class:: QuantizationConfig
@@ -83,7 +84,6 @@ Classes
    :param int alpha: The factor of adjustment in the quantization formula, influencing how aggressively weights are quantized. Default is 1.
    :param float scale_clamp_min: The minimum scaling factor to be used during quantization, preventing the scale from becoming too small. Default is 1e-3.
    :param Optional[List[Dict[str, str]]] scaling_layers: Specific settings for scaling layers, allowing customization of quantization parameters for different layers within the model. Default is None.
-   :param Optional[List[str]] embedding_layers: A list of embedding layer names that require special quantization handling to maintain their performance and accuracy. Default is None.
    :param Optional[str] model_decoder_layers: Specifies any particular decoder layers in the model that might have unique quantization requirements. Default is None.
    :param type[SmoothQuantProcessor] processor: The processor object that applies the algorithm.
 
@@ -111,7 +111,6 @@ Classes
    :param type[AwqProcessor] processor: The processor type that handles the AWQ algorithm logic.
    :param Optional[List[Dict[str, str]]] scaling_layers: Configuration details for scaling layers within the model, specifying custom scaling parameters per layer. Default is None.
    :param Optional[str] model_decoder_layers: Specifies the layers involved in model decoding that may require different quantization parameters. Default is None.
-   :param Optional[List[str]] embedding_layers: Lists the embedding layers within the model that need to be quantized separately. Default is None.
 
 
 .. py:class:: GPTQConfig
@@ -128,7 +127,6 @@ Classes
    :param bool true_sequential: Indicates whether the quantization should be applied in a truly sequential manner across the layers. Default is True.
    :param Optional[List[str]] inside_layer_modules: Lists the names of internal layer modules within the model that require specific quantization handling. Default is None.
    :param Optional[str] model_decoder_layers: Specifies custom settings for quantization on specific decoder layers of the model. Default is None.
-   :param Optional[List[str]] embedding_layers: Identifies which embedding layers within the model need to be quantized separately to preserve embedding quality. Default is None.
    :param type[GptqProcessor] processor: Processor of the algorithm.
 
 

@@ -61,6 +61,7 @@ Functions
    quark.onnx.quant_utils.get_clip_min_max
    quark.onnx.quant_utils.check_relu_like_node
    quark.onnx.quant_utils.print_quantize_info
+   quark.onnx.quant_utils.print_quantize_dynamic_info
    quark.onnx.quant_utils.find_int16_scale
 
 
@@ -69,50 +70,183 @@ Functions
 
    This function checks whether the current version of ONNX Runtime (ORT) is below a specified version.
 
-   :param target_version: The version to compare against the current ORT version.
-   :type target_version: str
+   Args:
+       target_version (str): The version to compare against the current ORT version.
 
-   :returns: True if the current ORT version is less than the target version, False otherwise.
-
-
-.. py:class:: Int16Method
+   Returns:
+       True if the current ORT version is less than the target version, False otherwise.
 
 
-
-
-   Generic enumeration.
-
-   Derive from this class to define new enumerations.
-
-
-.. py:class:: PowerOfTwoMethod
+.. py:class:: Int16Method(*args, **kwds)
 
 
 
 
-   Generic enumeration.
+   Create a collection of name/value pairs.
 
-   Derive from this class to define new enumerations.
+   Example enumeration:
+
+   >>> class Color(Enum):
+   ...     RED = 1
+   ...     BLUE = 2
+   ...     GREEN = 3
+
+   Access them by:
+
+   - attribute access:
+
+     >>> Color.RED
+     <Color.RED: 1>
+
+   - value lookup:
+
+     >>> Color(1)
+     <Color.RED: 1>
+
+   - name lookup:
+
+     >>> Color['RED']
+     <Color.RED: 1>
+
+   Enumerations can be iterated over, and know how many members they have:
+
+   >>> len(Color)
+   3
+
+   >>> list(Color)
+   [<Color.RED: 1>, <Color.BLUE: 2>, <Color.GREEN: 3>]
+
+   Methods can be added to enumerations, and members can have their own
+   attributes -- see the documentation for details.
 
 
-.. py:class:: VitisQuantType
+.. py:class:: PowerOfTwoMethod(*args, **kwds)
 
 
 
 
-   Generic enumeration.
+   Create a collection of name/value pairs.
 
-   Derive from this class to define new enumerations.
+   Example enumeration:
+
+   >>> class Color(Enum):
+   ...     RED = 1
+   ...     BLUE = 2
+   ...     GREEN = 3
+
+   Access them by:
+
+   - attribute access:
+
+     >>> Color.RED
+     <Color.RED: 1>
+
+   - value lookup:
+
+     >>> Color(1)
+     <Color.RED: 1>
+
+   - name lookup:
+
+     >>> Color['RED']
+     <Color.RED: 1>
+
+   Enumerations can be iterated over, and know how many members they have:
+
+   >>> len(Color)
+   3
+
+   >>> list(Color)
+   [<Color.RED: 1>, <Color.BLUE: 2>, <Color.GREEN: 3>]
+
+   Methods can be added to enumerations, and members can have their own
+   attributes -- see the documentation for details.
 
 
-.. py:class:: VitisQuantFormat
+.. py:class:: VitisQuantType(*args, **kwds)
 
 
 
 
-   Generic enumeration.
+   Create a collection of name/value pairs.
 
-   Derive from this class to define new enumerations.
+   Example enumeration:
+
+   >>> class Color(Enum):
+   ...     RED = 1
+   ...     BLUE = 2
+   ...     GREEN = 3
+
+   Access them by:
+
+   - attribute access:
+
+     >>> Color.RED
+     <Color.RED: 1>
+
+   - value lookup:
+
+     >>> Color(1)
+     <Color.RED: 1>
+
+   - name lookup:
+
+     >>> Color['RED']
+     <Color.RED: 1>
+
+   Enumerations can be iterated over, and know how many members they have:
+
+   >>> len(Color)
+   3
+
+   >>> list(Color)
+   [<Color.RED: 1>, <Color.BLUE: 2>, <Color.GREEN: 3>]
+
+   Methods can be added to enumerations, and members can have their own
+   attributes -- see the documentation for details.
+
+
+.. py:class:: VitisQuantFormat(*args, **kwds)
+
+
+
+
+   Create a collection of name/value pairs.
+
+   Example enumeration:
+
+   >>> class Color(Enum):
+   ...     RED = 1
+   ...     BLUE = 2
+   ...     GREEN = 3
+
+   Access them by:
+
+   - attribute access:
+
+     >>> Color.RED
+     <Color.RED: 1>
+
+   - value lookup:
+
+     >>> Color(1)
+     <Color.RED: 1>
+
+   - name lookup:
+
+     >>> Color['RED']
+     <Color.RED: 1>
+
+   Enumerations can be iterated over, and know how many members they have:
+
+   >>> len(Color)
+   3
+
+   >>> list(Color)
+   [<Color.RED: 1>, <Color.BLUE: 2>, <Color.GREEN: 3>]
+
+   Methods can be added to enumerations, and members can have their own
+   attributes -- see the documentation for details.
 
 
 .. py:function:: get_qmin_qmax_for_qType(qType: int, reduce_range: bool = False, symmetric: bool = False) -> Any
@@ -424,6 +558,11 @@ Functions
 
 
 .. py:function:: print_quantize_info(model_input: str, model_output: str, calibration_data_reader: str, calibration_data_path: Union[str, None], quant_format: Union[Any, VitisQuantFormat], input_nodes: Union[List[str], None], output_nodes: Union[List[str], None], op_types_to_quantize: Union[List[str], None], random_data_reader_input_shape: Union[List[int], Tuple[int], List[List[int]], Dict[str, List[int]], List[Any], None], per_channel: bool, reduce_range: bool, activation_type: Union[Any, VitisQuantType], weight_type: Union[Any, VitisQuantType], nodes_to_quantize: List[str], nodes_to_exclude: List[str], optimize_model: bool, use_external_data_format: bool, calibrate_method: Union[Any, PowerOfTwoMethod, Int16Method], execution_providers: Union[List[str], None], enable_npu_cnn: bool, enable_npu_transformer: bool, specific_tensor_precision: bool, debug_mode: bool, convert_fp16_to_fp32: bool, convert_nchw_to_nhwc: bool, include_cle: bool, include_sq: bool, include_fast_ft: bool, extra_options: Dict[str, Any]) -> None
+
+   print os_cpu, time, tool_version, quantized_configuration information.
+
+
+.. py:function:: print_quantize_dynamic_info(model_input: Union[str, pathlib.Path, onnx.ModelProto], model_output: Union[str, pathlib.Path], op_types_to_quantize: Union[List[str], None], per_channel: bool, reduce_range: bool, weight_type: Union[Any, VitisQuantType], nodes_to_quantize: List[str], nodes_to_exclude: List[str], use_external_data_format: bool, debug_mode: bool, extra_options: Dict[str, Any]) -> None
 
    print os_cpu, time, tool_version, quantized_configuration information.
 

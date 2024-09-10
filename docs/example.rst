@@ -15,8 +15,10 @@ Quark for ONNX
 --------------
    
 * `Image Classification Quantization <./quark_example_onnx_image_classification_gen.html>`__
+* `Dynamic Quantization <../../examples/onnx/dynamic_quantization/README.html>`__
 * `Fast Finetune AdaRound <./quark_examples_onnx_adaround_gen.html>`__
 * `Fast Finetune AdaQuant <./quark_example_onnx_adaquant_gen.html>`__
+* `BFP Quantization <./quark_example_onnx_BFP_gen.html>`__
 * `Mixed Precision <./quark_onnx_example_mixed_precision_gen.html>`__
 * `Cross-Layer Equalization <./quark_example_onnx_cle_gen.html>`__
 

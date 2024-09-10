@@ -9,21 +9,12 @@
 Module Contents
 ---------------
 
-Classes
-~~~~~~~
-
-.. autoapisummary::
-
-   quark.onnx.finetuning.create_torch.create_model_ops.Clip
-
-
 
 Functions
 ~~~~~~~~~
 
 .. autoapisummary::
 
-   quark.onnx.finetuning.create_torch.create_model_ops.extract_attr_values
    quark.onnx.finetuning.create_torch.create_model_ops.param_is_symmetric
    quark.onnx.finetuning.create_torch.create_model_ops.extract_padding_params
    quark.onnx.finetuning.create_torch.create_model_ops.extract_padding_params_for_conv
@@ -39,11 +30,6 @@ Functions
    quark.onnx.finetuning.create_torch.create_model_ops.set_modules_original_bias
    quark.onnx.finetuning.create_torch.create_model_ops.get_modules_optimized_bias
 
-
-
-.. py:function:: extract_attr_values(attr: onnx.AttributeProto) -> Any
-
-   Extract onnx attribute values.
 
 
 .. py:function:: param_is_symmetric(params: List[Any]) -> bool
@@ -103,43 +89,6 @@ Functions
     :return: Converted norm (Instance Norm) layer.
 
 
-.. py:class:: Clip(min: Optional[float] = None, max: Optional[float] = None)
-
-
-
-
-   Base class for all neural network modules.
-
-   Your models should also subclass this class.
-
-   Modules can also contain other Modules, allowing to nest them in
-   a tree structure. You can assign the submodules as regular attributes::
-
-       import torch.nn as nn
-       import torch.nn.functional as F
-
-       class Model(nn.Module):
-           def __init__(self):
-               super().__init__()
-               self.conv1 = nn.Conv2d(1, 20, 5)
-               self.conv2 = nn.Conv2d(20, 20, 5)
-
-           def forward(self, x):
-               x = F.relu(self.conv1(x))
-               return F.relu(self.conv2(x))
-
-   Submodules assigned in this way will be registered, and will have their
-   parameters converted too when you call :meth:`to`, etc.
-
-   .. note::
-       As per the example above, an ``__init__()`` call to the parent class
-       must be made before assignment on the child.
-
-   :ivar training: Boolean represents whether this module is in training or
-                   evaluation mode.
-   :vartype training: bool
-
-
 .. py:function:: convert_act(node: onnx.NodeProto) -> Union[torch.nn.Module, None]
 
    Use to convert Activation ONNX node to Torch module (or called layer).
@@ -147,28 +96,28 @@ Functions
    :return: Converted act layer.
 
 
-.. py:function:: convert_ops_to_modules(onnx_model: onnx.ModelProto) -> Tuple[Optional[torch.nn.Module], Optional[torch.nn.Module], Optional[torch.nn.Module], Optional[quark.onnx.finetuning.create_torch.quant_base_ops.QDQModule]]
+.. py:function:: convert_ops_to_modules(onnx_model: onnx.ModelProto) -> Tuple[Optional[torch.nn.Module], Optional[torch.nn.Module], Optional[torch.nn.Module], Optional[quark.onnx.finetuning.create_torch.quant_base_ops.QuantizationModule]]
 
    Convert ONNX operations to Torch modules.
 
 
 .. py:function:: set_modules_original_weight(module: torch.nn.Module, weight: numpy.typing.NDArray[Any]) -> None
 
-   For setting original float weight
+   For setting original float weight 
 
 
 .. py:function:: get_modules_optimized_weight(module: torch.nn.Module) -> Any
 
-   For getting optimized quantized weight
+   For getting optimized quantized weight 
 
 
 .. py:function:: set_modules_original_bias(module: torch.nn.Module, bias: numpy.typing.NDArray[Any]) -> None
 
-   For setting original float bias
+   For setting original float bias 
 
 
 .. py:function:: get_modules_optimized_bias(module: torch.nn.Module) -> Any
 
-   For getting optimized quantized bias
+   For getting optimized quantized bias 
 
 

@@ -20,23 +20,23 @@ Classes
 
 
 
-.. py:class:: ExportLinear(quant_linear: quark.torch.quantization.nn.modules.quantize_linear.QuantLinear, custom_mode: Optional[str] = None)
+.. py:class:: ExportLinear(quant_linear: quark.torch.quantization.nn.modules.quantize_linear.QuantLinear, reoder: bool = True, custom_mode: Optional[str] = None)
 
 
 
 
    Exporting version of nn.Linear
 
+       
 
 
-
-.. py:class:: ExportConv2d(quant_conv2d: quark.torch.quantization.nn.modules.quantize_conv.QuantConv2d, custom_mode: Optional[str] = None)
+.. py:class:: ExportConv2d(quant_conv2d: quark.torch.quantization.nn.modules.quantize_conv.QuantConv2d, reoder: bool = True, custom_mode: Optional[str] = None)
 
 
 
 
    Exporting version of nn.Conv2d
 
-
+       
 
 

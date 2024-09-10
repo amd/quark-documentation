@@ -168,7 +168,7 @@ Quark now supports the datatype microscaling which is abbreviated as MX. Use the
                              --num_calib_data 32 \
                              --group_size 32
 
-The command above is weight-only quantization. If uses want activations to be quantized as well, use the command below:
+The command above is weight-only quantization. If users want activations to be quantized as well, use the command below:
 
 ::
 
@@ -177,6 +177,46 @@ The command above is weight-only quantization. If uses want activations to be qu
                              --quant_scheme w_mx_fp8_a_mx_fp8 \
                              --num_calib_data 32 \
                              --group_size 32
+
+**Recipe 12: BFP16 Quantization**
+
+Quark now supports the datatype BFP16 which is short for block floating point 16 bits. Use the following command to quantize model to datatype BFP16:
+
+::
+
+   python3 quantize_quark.py --model_dir [llama2 checkpoint folder] \
+                             --output_dir output_dir \
+                             --quant_scheme w_bfp16 \
+                             --num_calib_data 16
+
+The command above is weight-only quantization. If users want activations to be quantized as well, use the command below:
+
+::
+
+   python3 quantize_quark.py --model_dir [llama2 checkpoint folder] \
+                             --output_dir output_dir \
+                             --quant_scheme w_bfp16_a_bfp16 \
+                             --num_calib_data 16
+
+AWQ Automatic Configuration
+==============
+
+We provide a script `awq_auto_config_helper.py` to simplify user operations by quickly identifying modules compatible with the "AWQ" and "SmoothQuant" algorithms within the model through torch.compile.
+
+Installation
+------------
+
+This script requires PyTorch version 2.4 or higher.
+
+Usage
+-----
+
+The `MODEL_DIR` variable should be set to the model name from Hugging Face, such as `facebook/opt-125m`, `Qwen/Qwen2-0.5B`, or `EleutherAI/gpt-j-6b`.
+
+To run the script, use the following command::
+
+    MODEL_DIR="your_model"
+    python awq_auto_config_helper.py --model_dir "${MODEL_DIR}"
 
 .. raw:: html
 

@@ -34,7 +34,7 @@ Convert a NCHW input model to a NHWC model
 
 Given that some models are designed with an input shape of NCHW instead
 of NHWC, it's recommended to convert an NCHW input model to NHWC before
-quantizing a float32 model.
+quantizing a float32 model. Please note that the convsersion steps will be executed even if the model is already NHWC. So please make sure the input model is in NCHW format.
 
 Use the convert_nchw_to_nhwc tool to convert a NCHW model to a NHWC
 model:

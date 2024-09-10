@@ -27,22 +27,23 @@ Classes
 
    Provides an API for quantizing deep learning models using PyTorch. This class handles the configuration and processing of the model for quantization based on user-defined parameters. It is essential to ensure that the 'config' provided has all necessary quantization parameters defined. This class assumes that the model is compatible with the quantization settings specified in 'config'.
 
-   :param config: Configuration object containing settings for quantization.
-   :type config: Config
+   Args:
+       config (Config): Configuration object containing settings for quantization.
+
 
    .. py:method:: quantize_model(model: torch.nn.Module, dataloader: Optional[Union[torch.utils.data.DataLoader[torch.Tensor], torch.utils.data.DataLoader[List[Dict[str, torch.Tensor]]], torch.utils.data.DataLoader[Dict[str, torch.Tensor]]]] = None) -> torch.nn.Module
 
       This function aims to quantize the given PyTorch model to optimize its performance and reduce its size. This function accepts a model and a torch dataloader. The dataloader is used to provide data necessary for calibration during the quantization process. Depending on the type of data provided (either tensors directly or structured as lists or dictionaries of tensors), the function will adapt the quantization approach accordingly.It's important that the model and dataloader are compatible in terms of the data they expect and produce. Misalignment in data handling between the model and the dataloader can lead to errors during the quantization process.
 
-      :param model: The PyTorch model to be quantized. This model should be already trained and ready for quantization.
-      :type model: nn.Module
-      :param dataloader: The DataLoader providing data that the quantization process will use for calibration. This can be a simple DataLoader returning
-                         tensors, or a more complex structure returning either a list of dictionaries or a dictionary of tensors.
-      :type dataloader: Union[DataLoader[torch.Tensor], DataLoader[List[Dict[str, torch.Tensor]]], DataLoader[Dict[str, torch.Tensor]]]
+      Parameters:
+          model (nn.Module): The PyTorch model to be quantized. This model should be already trained and ready for quantization.
+          dataloader (Union[DataLoader[torch.Tensor], DataLoader[List[Dict[str, torch.Tensor]]], DataLoader[Dict[str, torch.Tensor]]]):
+              The DataLoader providing data that the quantization process will use for calibration. This can be a simple DataLoader returning
+              tensors, or a more complex structure returning either a list of dictionaries or a dictionary of tensors.
 
-      :returns: The quantized version of the input model. This model is now optimized for inference with reduced size and potentially improved
-                performance on targeted devices.
-      :rtype: nn.Module
+      Returns:
+          nn.Module: The quantized version of the input model. This model is now optimized for inference with reduced size and potentially improved
+          performance on targeted devices.
 
       **Examples**:
 
@@ -84,11 +85,11 @@ Classes
       Freezes the quantized model by replacing FakeQuantize modules with FreezedFakeQuantize modules.
       If Users want to export quantized model to torch_compile, please freeze model first.
 
-      :param model: The neural network model containing quantized layers.
-      :type model: nn.Module
+      Args:
+          model (nn.Module): The neural network model containing quantized layers.
 
-      :returns: The modified model with FakeQuantize modules replaced by FreezedFakeQuantize modules.
-      :rtype: nn.Module
+      Returns:
+          nn.Module: The modified model with FakeQuantize modules replaced by FreezedFakeQuantize modules.
 
 
 

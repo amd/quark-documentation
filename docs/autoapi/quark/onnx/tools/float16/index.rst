@@ -82,12 +82,12 @@ Functions
    *But this function can be applied to all model sizes.
    :param model_path: ONNX Model path
    :return: converted ONNX ModelProto object
-   .. rubric:: Examples
-
-   #Convert to ONNX ModelProto object and save model binary file:
-   from onnxmltools.utils.float16_converter import convert_float_to_float16_model_path
-   new_onnx_model = convert_float_to_float16_model_path('model.onnx')
-   onnx.save(new_onnx_model, 'new_model.onnx')
+   Examples
+   ::
+       #Convert to ONNX ModelProto object and save model binary file:
+       from onnxmltools.utils.float16_converter import convert_float_to_float16_model_path
+       new_onnx_model = convert_float_to_float16_model_path('model.onnx')
+       onnx.save(new_onnx_model, 'new_model.onnx')
 
 
 .. py:function:: convert_np_to_float(np_array: numpy.typing.NDArray[numpy.float16], min_positive_val: float = 1e-07, max_finite_val: float = 10000.0) -> numpy.typing.NDArray[numpy.float32]

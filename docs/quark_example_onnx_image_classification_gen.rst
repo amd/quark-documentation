@@ -92,7 +92,7 @@ Finally, download the onnx float model from onnx/models repo.
 
 ::
 
-   mkdir models && wget https://github.com/onnx/models/blob/new-models/vision/classification/resnet/model/resnet50-v1-12.onnx
+   wget -P models https://github.com/onnx/models/raw/new-models/vision/classification/resnet/model/resnet50-v1-12.onnx
 
 Model Quantization
 ------------------

@@ -2,7 +2,7 @@ Getting Started with Quark for ONNX
 ===================================
 
 Here is an example of running quantization with
-``DEFAULT_U8S8_AAWS_CONFIG`` configurations. We also support
+``U8S8_AAWS_CONFIG`` configurations. We also support
 quantization without real calibration data for rapid validation of
 deployment or performance benchmarking. Detailed explanations for each
 step will be provided on other chapter of the User Guide.
@@ -24,7 +24,7 @@ step will be provided on other chapter of the User Guide.
    dr = None
 
    # 3. Set quantization configuration
-   quant_config = Config(global_quant_config=DEFAULT_U8S8_AAWS_CONFIG)
+   quant_config = get_default_config("U8S8_AAWS")
    config = Config(global_quant_config=quant_config)
    quantizer = ModelQuantizer(config)
 

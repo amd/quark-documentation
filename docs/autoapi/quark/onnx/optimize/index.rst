@@ -34,25 +34,23 @@ Functions
 
    A class for optimizations to be applied to onnx model before quantization.
 
-   :param model: The ONNX model to be optimized.
-   :type model: onnx.ModelProto
-   :param op_types_to_quantize: A list of operation types to be quantized.
-   :type op_types_to_quantize: list
-   :param nodes_to_quantize: A list of node names to be quantized.
-   :type nodes_to_quantize: list
-   :param nodes_to_exclude: A list of node names to be excluded from quantization.
-   :type nodes_to_exclude: list
+   Args:
+       model (onnx.ModelProto): The ONNX model to be optimized.
+       op_types_to_quantize (list): A list of operation types to be quantized.
+       nodes_to_quantize (list): A list of node names to be quantized.
+       nodes_to_exclude (list): A list of node names to be excluded from quantization.
+
 
    .. py:method:: convert_bn_to_conv() -> None
 
       Convert BatchNormalization to Conv.
-
+              
 
 
    .. py:method:: convert_reduce_mean_to_global_avg_pool() -> None
 
       Convert ReduceMean to GlobalAveragePool.
-
+              
 
 
    .. py:method:: split_large_kernel_pool() -> None
@@ -64,7 +62,7 @@ Functions
    .. py:method:: convert_split_to_slice() -> None
 
       Convert Split to Slice.
-
+              
 
 
    .. py:method:: fuse_instance_norm() -> None
@@ -98,7 +96,7 @@ Functions
 
 
 
-.. py:function:: optimize(model: onnx.ModelProto, op_types_to_quantize: List[str], nodes_to_quantize: Optional[List[str]], nodes_to_exclude: Optional[List[str]], convert_bn_to_conv: bool = True, convert_reduce_mean_to_global_avg_pool: bool = True, split_large_kernel_pool: bool = True, convert_split_to_slice: bool = True, fuse_instance_norm: bool = True, fuse_l2_norm: bool = True, fuse_layer_norm: bool = True, fold_batch_norm: bool = True, convert_clip_to_relu: bool = True, fold_batch_norm_after_concat: bool = True) -> onnx.ModelProto
+.. py:function:: optimize(model: onnx.ModelProto, op_types_to_quantize: List[str], nodes_to_quantize: Optional[List[str]], nodes_to_exclude: Optional[List[str]], convert_bn_to_conv: bool = True, convert_reduce_mean_to_global_avg_pool: bool = True, split_large_kernel_pool: bool = True, convert_split_to_slice: bool = True, fuse_instance_norm: bool = True, fuse_l2_norm: bool = True, fuse_layer_norm: bool = True, fold_batch_norm: bool = True, convert_clip_to_relu: bool = True, fold_batch_norm_after_concat: bool = True, dedicate_dq_node: bool = False) -> onnx.ModelProto
 
    Optimize an ONNX model to meet specific constraints and requirements for deployment on an CPU/NPU.
 
@@ -136,9 +134,8 @@ Functions
    :return: The optimized ONNX model.
    :rtype: ModelProto
 
-   .. rubric:: Notes
-
-   - The `Optimize` class is used to apply the optimizations based on the provided flags.
-   - The function returns the optimized model with the applied transformations.
+   Notes:
+       - The `Optimize` class is used to apply the optimizations based on the provided flags.
+       - The function returns the optimized model with the applied transformations.
 
 

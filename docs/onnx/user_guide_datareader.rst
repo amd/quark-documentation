@@ -50,6 +50,67 @@ example showing how to define the class of calibration data loader.
    calib_datareader = ImageDataReader(calibration_image_folder, input_name,
     input_shape[2], input_shape[3])
 
+Calibration Data Path to Quark quantizer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Quark for ONNX supports specifying the path to calibration datasets, making it easy to load them for quantization.
+Currently, this feature only supports data in `.npy` format. Note that no preprocessing will be applied to the calibration datasets after loading.  Please ensure that the calibration data is stored in the following format:
+
+For Single-Input Models:
++++++++++++++++++++++++
+Place the calibration data files in a directory as follows:
+
+.. code-block:: plaintext
+
+   calib_data/
+     calib1.npy
+     calib2.npy
+     calib3.npy
+     calib4.npy
+     calib5.npy
+     ...
+
+For Multi-Input Models:
++++++++++++++++++++++++
+Organize the calibration data in subdirectories named after the input models:
+
+.. code-block:: plaintext
+
+   calib_data/
+     model_input1_name/
+       calib1.npy
+       calib2.npy
+       calib3.npy
+       calib4.npy
+       calib5.npy
+       ...
+     model_input2_name/
+       calib1.npy
+       calib2.npy
+       calib3.npy
+       calib4.npy
+       calib5.npy
+       ...
+     ...
+
+Example Code:
++++++++++++++++++++++++
+.. code-block:: python
+
+   import onnxruntime
+   from quark.onnx import ModelQuantizer
+   from quark.onnx.quantization.config.config import (Config, get_default_config)
+
+   input_model_path = "path/to/your/resnet50.onnx"
+   output_model_path = "path/to/your/resnet50_quantized.onnx"
+   calib_data_path= "path/to/your/calib/data/folder"
+
+   quant_config = get_default_config("U8S8_AAWS")
+   config = Config(global_quant_config=quant_config)
+
+   quantizer = ModelQuantizer(config)
+   quantizer.quantize_model(input_model_path, output_model_path, calibration_data_reader=None, calibration_data_path=calib_data_path)
+
 .. raw:: html
 
    <!--

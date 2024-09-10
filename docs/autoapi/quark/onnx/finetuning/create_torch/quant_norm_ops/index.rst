@@ -26,7 +26,7 @@ Classes
 
 
 
-   A wrapper for torch layer's input/weight/bias quantization
+   A wrapper for torch layer's input/weight/bias quantization 
 
 
 .. py:class:: QInstanceNorm2d(**kwargs: Any)
@@ -34,7 +34,7 @@ Classes
 
 
 
-   A wrapper for torch layer's input/weight/bias quantization
+   A wrapper for torch layer's input/weight/bias quantization 
 
 
 .. py:class:: QInstanceNorm3d(**kwargs: Any)
@@ -42,6 +42,6 @@ Classes
 
 
 
-   A wrapper for torch layer's input/weight/bias quantization
+   A wrapper for torch layer's input/weight/bias quantization 
 
 

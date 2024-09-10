@@ -16,6 +16,7 @@ Functions
 .. autoapisummary::
 
    quark.torch.quantization.utils.set_op_by_name
+   quark.torch.quantization.utils.t_exponent
 
 
 
@@ -31,5 +32,17 @@ Functions
    - layer: The top-level module containing the submodule.
    - name: name of the submodule, split by dots.
    - new_module: The new module to replace the existing one, for example the quantized module.
+
+
+.. py:function:: t_exponent(t: torch.Tensor) -> torch.Tensor
+
+   Get element exponents
+
+   Args:
+       t (torch.Tensor): Input tensor
+
+   Returns:
+       torch.Tensor: Exponents for each elements. NaN and Inf are treated as zeros.
+
 
 

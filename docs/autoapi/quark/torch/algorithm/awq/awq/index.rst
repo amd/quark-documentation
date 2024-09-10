@@ -19,7 +19,7 @@ Classes
 
 
 
-.. py:class:: AwqProcessor(model: transformers.PreTrainedModel, quant_algo_config: Any, data_loader: torch.utils.data.DataLoader[List[Dict[str, torch.Tensor]]])
+.. py:class:: AwqProcessor(model: torch.nn.Module, quant_algo_config: Any, data_loader: torch.utils.data.DataLoader[List[Dict[str, torch.Tensor]]])
 
 
 

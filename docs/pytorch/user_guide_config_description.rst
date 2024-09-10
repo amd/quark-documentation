@@ -56,27 +56,27 @@ Step 1: Configuring ``QuantizationSpec`` for torch.Tensors.
 
 For parameter explanation:
 
-+----------------+---------------------------------------------------------------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
-| Name           | Description                                                               | Class Type               | Option                                                                                                                                                                                                                              | Default |
-+----------------+---------------------------------------------------------------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
-| ``dtype``      | The data type for quantization.                                           | ``Dtype``                | ``Dtype.int8``, ``Dtype.uint8``, ``Dtype.int4``, ``Dtype.uint4``, ``Dtype.int2``, ``Dtype.bfloat16``, ``Dtype.float16``, ``Dtype.fp8_e5m2``, ``Dtype.fp8_e4m3``, ``Dtype.fp6_e3m2``, ``Dtype.fp6_e2m3``, ``Dtype.fp4``, ``Dtype.mx``|         |
-+----------------+---------------------------------------------------------------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
-|``observer_cls``| The class of observer to be used for determining quantization parameters. |``Optional[ObserverBase]``| ``PlaceholderObserver``, ``PerTensorMinMaxObserver``, ``PerChannelMinMaxObserver``, ``PerGroupMinMaxObserver``, ``PerBlockMXObserver``, ``PerTensorPercentileObserver``, ``PerTensorMSEObserver``                                   | None    |
-+----------------+---------------------------------------------------------------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
-| ``symmetric``  | Specifies whether dynamic or static quantization should be used.          | ``Optional[bool]``       | True, False, None                                                                                                                                                                                                                   | None    |
-+----------------+---------------------------------------------------------------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
-| ``scale_type`` | The scale type to be used for quantization                                | ``Optional[ScaleType]``  | ``ScaleType.float``, ``ScaleType.pof2``                                                                                                                                                                                             | None    |
-+----------------+---------------------------------------------------------------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
-|``round_method``| The rounding method during quantization.                                  | ``Optional[RoundType]``  | ``RoundType.round``, ``RoundType.floor``, ``RoundType.half_even``                                                                                                                                                                   | None    |
-+----------------+---------------------------------------------------------------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
-| ``qscheme``    | The quantization scheme to use.                                           | ``Optional[QSchemeType]``| ``QSchemeType.per_tensor``, ``QSchemeType.per_channel``, ``QSchemeType.per_group``                                                                                                                                                  | None    |
-+----------------+---------------------------------------------------------------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
-| ``ch_axis``    | The channel axis for per-channel quantization.                            | ``Optional[int]``        | int, None                                                                                                                                                                                                                           | None    |
-+----------------+---------------------------------------------------------------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
-| ``is_dynamic`` | Specifies whether dynamic or static quantization should be used.          | ``Optional[bool]``       | True, False, None                                                                                                                                                                                                                   | None    |
-+----------------+---------------------------------------------------------------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
-| ``group_size`` | The size of the group for per-group quantization.                         | ``Optional[int]``        | int, None                                                                                                                                                                                                                           | None    |
-+----------------+---------------------------------------------------------------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
++----------------+---------------------------------------------------------------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+| Name           | Description                                                               | Class Type               | Option                                                                                                                                                                                                                                                            | Default |
++----------------+---------------------------------------------------------------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+| ``dtype``      | The data type for quantization.                                           | ``Dtype``                | ``Dtype.int8``, ``Dtype.uint8``, ``Dtype.int4``, ``Dtype.uint4``, ``Dtype.int2``, ``Dtype.bfloat16``, ``Dtype.float16``, ``Dtype.fp8_e5m2``, ``Dtype.fp8_e4m3``, ``Dtype.fp6_e3m2``, ``Dtype.fp6_e2m3``, ``Dtype.fp4``, ``Dtype.mx``, ``Dtype.mx6``, ``Dtype.mx9``|         |
++----------------+---------------------------------------------------------------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+|``observer_cls``| The class of observer to be used for determining quantization parameters. |``Optional[ObserverBase]``| ``PlaceholderObserver``, ``PerTensorMinMaxObserver``, ``PerChannelMinMaxObserver``, ``PerGroupMinMaxObserver``, ``PerBlockMXObserver``, ``PerTensorPercentileObserver``, ``PerTensorMSEObserver``                                                                 | None    |
++----------------+---------------------------------------------------------------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+| ``symmetric``  | Specifies whether dynamic or static quantization should be used.          | ``Optional[bool]``       | True, False, None                                                                                                                                                                                                                                                 | None    |
++----------------+---------------------------------------------------------------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+| ``scale_type`` | The scale type to be used for quantization                                | ``Optional[ScaleType]``  | ``ScaleType.float``, ``ScaleType.pof2``                                                                                                                                                                                                                           | None    |
++----------------+---------------------------------------------------------------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+|``round_method``| The rounding method during quantization.                                  | ``Optional[RoundType]``  | ``RoundType.round``, ``RoundType.floor``, ``RoundType.half_even``                                                                                                                                                                                                 | None    |
++----------------+---------------------------------------------------------------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+| ``qscheme``    | The quantization scheme to use.                                           | ``Optional[QSchemeType]``| ``QSchemeType.per_tensor``, ``QSchemeType.per_channel``, ``QSchemeType.per_group``                                                                                                                                                                                | None    |
++----------------+---------------------------------------------------------------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+| ``ch_axis``    | The channel axis for per-channel quantization.                            | ``Optional[int]``        | int, None                                                                                                                                                                                                                                                         | None    |
++----------------+---------------------------------------------------------------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+| ``is_dynamic`` | Specifies whether dynamic or static quantization should be used.          | ``Optional[bool]``       | True, False, None                                                                                                                                                                                                                                                 | None    |
++----------------+---------------------------------------------------------------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+| ``group_size`` | The size of the group for per-group quantization.                         | ``Optional[int]``        | int, None                                                                                                                                                                                                                                                         | None    |
++----------------+---------------------------------------------------------------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
 
 
 Step 2: Establishing ``QuantizationConfig`` for nn.Module.
@@ -130,22 +130,20 @@ Here we use the algorithms configuration of Llama2-7b as the example:
 
    ALGORITHM_CONFIG=AWQConfig(
      scaling_layers=[
-       {'prev_op': 'input_layernorm', 'layers': ['self_attn.q_proj', 'self_attn.k_proj', 'self_attn.v_proj'], 'inp': 'self_attn.q_proj', 'module2inspect': 'self_attn', 'has_kwargs': True, 'help': 'attention input'}, 
-       {'prev_op': 'self_attn.v_proj', 'layers': ['self_attn.o_proj'], 'inp': 'self_attn.o_proj', 'module2inspect': None, 'has_kwargs': False, 'condition': 'module.self_attn.v_proj.weight.shape == module.self_attn.o_proj.weight.shape'}, 
-       {'prev_op': 'post_attention_layernorm', 'layers': ['mlp.gate_proj', 'mlp.up_proj'], 'inp': 'mlp.gate_proj', 'module2inspect': 'mlp', 'has_kwargs': False, 'help': 'linear 1'}, 
-       {'prev_op': 'mlp.up_proj', 'layers': ['mlp.down_proj'], 'inp': 'mlp.down_proj', 'module2inspect': None, 'has_kwargs': False, 'help': 'linear 2'}], 
-     model_decoder_layers='model.layers', 
-     embedding_layers=['model.embed_tokens'])
+       {'prev_op': 'input_layernorm', 'layers': ['self_attn.q_proj', 'self_attn.k_proj', 'self_attn.v_proj'], 'inp': 'self_attn.q_proj', 'module2inspect': 'self_attn'}, 
+       {'prev_op': 'self_attn.v_proj', 'layers': ['self_attn.o_proj'], 'inp': 'self_attn.o_proj',  'condition': 'module.self_attn.v_proj.weight.shape == module.self_attn.o_proj.weight.shape'}, 
+       {'prev_op': 'post_attention_layernorm', 'layers': ['mlp.gate_proj', 'mlp.up_proj'], 'inp': 'mlp.gate_proj', 'module2inspect': 'mlp', 'help': 'linear 1'}, 
+       {'prev_op': 'mlp.up_proj', 'layers': ['mlp.down_proj'], 'inp': 'mlp.down_proj',  'help': 'linear 2'}], 
+     model_decoder_layers='model.layers')
 
    ALGORITHM_CONFIG=SmoothQuantConfig(
      alpha=0.5, 
      scale_clamp_min=0.001, 
      scaling_layers=[
-       {'prev_op': 'input_layernorm', 'layers': ['self_attn.q_proj', 'self_attn.k_proj', 'self_attn.v_proj'], 'inp': 'self_attn.q_proj', 'module2inspect': 'self_attn', 'has_kwargs': True, 'help': 'attention input'}, 
-       {'prev_op': 'self_attn.v_proj', 'layers': ['self_attn.o_proj'], 'inp': 'self_attn.o_proj', 'module2inspect': None, 'has_kwargs': False, 'condition': 'module.self_attn.v_proj.weight.shape == module.self_attn.o_proj.weight.shape'}, 
-       {'prev_op': 'post_attention_layernorm', 'layers': ['mlp.gate_proj', 'mlp.up_proj'], 'inp': 'mlp.gate_proj', 'module2inspect': 'mlp', 'has_kwargs': False, 'help': 'linear 1'}, 
-       {'prev_op': 'mlp.up_proj', 'layers': ['mlp.down_proj'], 'inp': 'mlp.down_proj', 'module2inspect': None, 'has_kwargs': False, 'help': 'linear 2'}], 
-     embedding_layers=['model.embed_tokens'], 
+       {'prev_op': 'input_layernorm', 'layers': ['self_attn.q_proj', 'self_attn.k_proj', 'self_attn.v_proj'], 'inp': 'self_attn.q_proj', 'module2inspect': 'self_attn'}, 
+       {'prev_op': 'self_attn.v_proj', 'layers': ['self_attn.o_proj'], 'inp': 'self_attn.o_proj',  'condition': 'module.self_attn.v_proj.weight.shape == module.self_attn.o_proj.weight.shape'}, 
+       {'prev_op': 'post_attention_layernorm', 'layers': ['mlp.gate_proj', 'mlp.up_proj'], 'inp': 'mlp.gate_proj', 'module2inspect': 'mlp', 'help': 'linear 1'}, 
+       {'prev_op': 'mlp.up_proj', 'layers': ['mlp.down_proj'], 'inp': 'mlp.down_proj',   'help': 'linear 2'}], 
      model_decoder_layers='model.layers')
 
 
@@ -155,8 +153,7 @@ Here we use the algorithms configuration of Llama2-7b as the example:
      static_groups=True, 
      true_sequential=True, 
      inside_layer_modules=['self_attn.k_proj', 'self_attn.v_proj', 'self_attn.q_proj', 'self_attn.o_proj', 'mlp.up_proj', 'mlp.gate_proj', 'mlp.down_proj'], 
-     model_decoder_layers='model.layers', 
-     embedding_layers=['model.embed_tokens'])
+     model_decoder_layers='model.layers')
 
 For AWQ, Quark for PyTorch only supports ``AWQ`` with quantization data
 type as ``uint4/int4`` and ``per group``, running on ``Linux`` with the
@@ -168,8 +165,6 @@ type as ``uint4/int4`` and ``per group``, running on ``Linux`` with the
 | ``scaling_layers``     |``Optional[List[Dict[str, str]]]``| None    |
 +------------------------+----------------------------------+---------+
 |``model_decoder_layers``| ``Optional[str]``                | None    |
-+------------------------+----------------------------------+---------+
-| ``embedding_layers``   | ``Optional[List[str]]``          | None    |
 +------------------------+----------------------------------+---------+
 
 
@@ -185,8 +180,6 @@ For SmoothQuant parameter explanation:
 | ``scaling_layers``     |``Optional[List[Dict[str, str]]]``| None    |
 +------------------------+----------------------------------+---------+
 |``model_decoder_layers``| ``Optional[str]``                | None    |
-+------------------------+----------------------------------+---------+
-| ``embedding_layers``   | ``Optional[List[str]]``          | None    |
 +------------------------+----------------------------------+---------+
 
 
@@ -208,8 +201,6 @@ the ``GPU mode`` for now. parameter explanation:
 |``inside_layer_modules``| ``Optional[List[str]]``          | None    |
 +------------------------+----------------------------------+---------+
 |``model_decoder_layers``| ``Optional[str]``                | None    |
-+------------------------+----------------------------------+---------+
-| ``embedding_layers``   | ``Optional[List[str]]``          | None    |
 +------------------------+----------------------------------+---------+
 
 
