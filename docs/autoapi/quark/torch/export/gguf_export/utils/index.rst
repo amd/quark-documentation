@@ -36,7 +36,9 @@ Classes
                ...
 
    Such classes are primarily used with static type checkers that recognize
-   structural subtyping (static duck-typing), for example::
+   structural subtyping (static duck-typing).
+
+   For example::
 
        class C:
            def meth(self) -> int:
@@ -71,7 +73,9 @@ Classes
                ...
 
    Such classes are primarily used with static type checkers that recognize
-   structural subtyping (static duck-typing), for example::
+   structural subtyping (static duck-typing).
+
+   For example::
 
        class C:
            def meth(self) -> int:
@@ -106,7 +110,9 @@ Classes
                ...
 
    Such classes are primarily used with static type checkers that recognize
-   structural subtyping (static duck-typing), for example::
+   structural subtyping (static duck-typing).
+
+   For example::
 
        class C:
            def meth(self) -> int:
@@ -141,7 +147,9 @@ Classes
                ...
 
    Such classes are primarily used with static type checkers that recognize
-   structural subtyping (static duck-typing), for example::
+   structural subtyping (static duck-typing).
+
+   For example::
 
        class C:
            def meth(self) -> int:
