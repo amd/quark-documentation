@@ -53,8 +53,11 @@ Classes
               # default exporting:
               export_path = "./output_dir"
               from quark.torch import ModelExporter
-              from quark.torch.export.config.custom_config import DEFAULT_EXPORTER_CONFIG
-              exporter = ModelExporter(config=DEFAULT_EXPORTER_CONFIG, export_dir=export_path)
+              from quark.torch.export.config.config import ExporterConfig, JsonExporterConfig, OnnxExporterConfig
+              NO_MERGE_REALQ_CONFIG = JsonExporterConfig(weight_format="real_quantized",
+                                                         pack_method="reorder")
+              export_config = ExporterConfig(json_export_config=NO_MERGE_REALQ_CONFIG, onnx_export_config=OnnxExporterConfig())
+              exporter = ModelExporter(config=export_config, export_dir=export_path)
               exporter.export_model_info(model, quant_config=quant_config)
 
           .. code-block:: python
@@ -62,8 +65,11 @@ Classes
               # vllm adopted exporting:
               export_path = "./output_dir"
               from quark.torch import ModelExporter
-              from quark.torch.export.config.custom_config import DEFAULT_EXPORTER_CONFIG
-              exporter = ModelExporter(config=DEFAULT_EXPORTER_CONFIG, export_dir=export_path)
+              from quark.torch.export.config.config import ExporterConfig, JsonExporterConfig, OnnxExporterConfig
+              NO_MERGE_REALQ_CONFIG = JsonExporterConfig(weight_format="real_quantized",
+                                                         pack_method="reorder")
+              export_config = ExporterConfig(json_export_config=NO_MERGE_REALQ_CONFIG, onnx_export_config=OnnxExporterConfig())
+              exporter = ModelExporter(config=export_config, export_dir=export_path)
               exporter.export_model_info(model, model_type=model_type, model_dtype=model_dtype, export_type="vllm-adopt")
 
       Note:
@@ -97,8 +103,9 @@ Classes
           .. code-block:: python
 
               from quark.torch import ModelExporter
-              from quark.torch.export.config.custom_config import DEFAULT_EXPORTER_CONFIG
-              exporter = ModelExporter(config=DEFAULT_EXPORTER_CONFIG, export_dir=export_path)
+              from quark.torch.export.config.config import ExporterConfig, JsonExporterConfig
+              export_config = ExporterConfig(json_export_config=JsonExporterConfig())
+              exporter = ModelExporter(config=export_config, export_dir=export_path)
               exporter.export_onnx_model(model, input_args)
 
       Note:
@@ -124,8 +131,9 @@ Classes
           .. code-block:: python
 
               from quark.torch import ModelExporter
-              from quark.torch.export.config.custom_config import DEFAULT_EXPORTER_CONFIG
-              exporter = ModelExporter(config=DEFAULT_EXPORTER_CONFIG, export_dir=export_path)
+              from quark.torch.export.config.config import ExporterConfig, JsonExporterConfig
+              export_config = ExporterConfig(json_export_config=JsonExporterConfig())
+              exporter = ModelExporter(config=export_config, export_dir=export_path)
               exporter.export_gguf_model(model, tokenizer_path, model_type)
 
       Note:

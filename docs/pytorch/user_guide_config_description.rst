@@ -223,11 +223,11 @@ For example:
    # Example 3: W_FP8_A_FP8_PER_TENSOR with KV_CACHE_FP8
    quant_config = Config(global_quant_config=W_FP8_A_FP8_PER_TENSOR_CONFIG)
    KV_CACHE_CFG = {
-               "*.v_proj":
+               "*v_proj":
                QuantizationConfig(input_tensors=quant_config.global_quant_config.input_tensors,
                                   weight=quant_config.global_quant_config.weight,
                                   output_tensors=FP8_PER_TENSOR_SPEC),
-               "*.k_proj":
+               "*k_proj":
                QuantizationConfig(input_tensors=quant_config.global_quant_config.input_tensors,
                                   weight=quant_config.global_quant_config.weight,
                                   output_tensors=FP8_PER_TENSOR_SPEC),

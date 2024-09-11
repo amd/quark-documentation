@@ -137,8 +137,8 @@ LSQ and TQT are optimized methods for QAT which can improve accuracy theoretical
 
    # ==============export to ONNX ==================
    from quark.torch import ModelExporter
-   from quark.torch.export.config.custom_config import DEFAULT_EXPORTER_CONFIG
-   config = DEFAULT_EXPORTER_CONFIG
+   from quark.torch.export.config.config import ExporterConfig, JsonExporterConfig
+   config = ExporterConfig(json_export_config=JsonExporterConfig())
    exporter = ModelExporter(config=config, export_dir=args.export_dir)
    example_inputs = (torch.rand(batch_size, 3, 224, 224).to(device),)
    exporter.export_onnx_model(freezed_model, example_inputs[0])

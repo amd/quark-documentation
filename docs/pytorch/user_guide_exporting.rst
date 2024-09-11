@@ -31,8 +31,9 @@ Example of Onnx Exporting
        uint4_int4_flag = False
 
    from quark.torch import ModelExporter
-   from quark.torch.export.config.custom_config import DEFAULT_EXPORTER_CONFIG
-   exporter = ModelExporter(config=DEFAULT_EXPORTER_CONFIG, export_dir=export_path)
+   from quark.torch.export.config.config import ExporterConfig, JsonExporterConfig
+   export_config = ExporterConfig(json_export_config=JsonExporterConfig())
+   exporter = ModelExporter(config=export_config, export_dir=export_path)
    exporter.export_onnx_model(model, input_args, uint4_int4_flag=uint4_int4_flag)
 
 Json-Safetensors Exporting
@@ -75,8 +76,11 @@ Example of Json-Safetensors Exporting
 
    export_path = "./output_dir"
    from quark.torch import ModelExporter
-   from quark.torch.export.config.custom_config import DEFAULT_EXPORTER_CONFIG
-   exporter = ModelExporter(config=DEFAULT_EXPORTER_CONFIG, export_dir=export_path)
+   from quark.torch.export.config.config import ExporterConfig, JsonExporterConfig, OnnxExporterConfig
+   NO_MERGE_REALQ_CONFIG = JsonExporterConfig(weight_format="real_quantized",
+                                              pack_method="reorder")
+   export_config = ExporterConfig(json_export_config=NO_MERGE_REALQ_CONFIG, onnx_export_config=OnnxExporterConfig())
+   exporter = ModelExporter(config=export_config, export_dir=export_path)
    exporter.export_model_info(model, quant_config=quant_config)
 
 GGUF Exporting
@@ -93,8 +97,9 @@ Example of GGUF Exporting
 
    export_path = "./output_dir"
    from quark.torch import ModelExporter
-   from quark.torch.export.config.custom_config import DEFAULT_EXPORTER_CONFIG
-   exporter = ModelExporter(config=DEFAULT_EXPORTER_CONFIG, export_dir=export_path)
+   from quark.torch.export.config.config import ExporterConfig, JsonExporterConfig
+   export_config = ExporterConfig(json_export_config=JsonExporterConfig())
+   exporter = ModelExporter(config=export_config, export_dir=export_path)
    exporter.export_gguf_model(model, tokenizer_path, model_type)
 
 After running the code above successfully, there will be a ``.gguf``
