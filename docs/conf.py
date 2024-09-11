@@ -26,7 +26,7 @@ sys.path.insert(0, os.path.abspath('_ext'))
 sys.path.insert(0, os.path.abspath('docs'))
 
 def get_version_from_file():
-    with open('../_docs/version.txt', 'r') as f:
+    with open('version.txt', 'r') as f:
         return f.read().strip()
 # -- Project information -----------------------------------------------------
 
