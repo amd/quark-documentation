@@ -1,5 +1,5 @@
 Quark for PyTorch
-==========
+=================
 
 There are several steps to quantize a floating-point model with
 ``Quark for PyTorch``:
@@ -12,10 +12,10 @@ There are several steps to quantize a floating-point model with
 
 More details:
    
-* `Configuring Quark for PyTorch <./pytorch/user_guide_config_description.html>`__
-* `Adding Calibration Datasets <./pytorch/user_guide_dataloader.html>`__
-* `Exporting for ONNX & Json-Safetensors & GGUF <./pytorch/user_guide_exporting.html>`__
-* `Feature Description <./pytorch/user_guide_feature_description.html>`__
+* `Configuring Quark for PyTorch <./user_guide_config_description.html>`__
+* `Adding Calibration Datasets <./user_guide_dataloader.html>`__
+* `Exporting for ONNX & Json-Safetensors & GGUF <./user_guide_exporting.html>`__
+* `Feature Description <./user_guide_feature_description.html>`__
 
 
 .. raw:: html

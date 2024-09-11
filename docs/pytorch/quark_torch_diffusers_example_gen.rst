@@ -40,6 +40,7 @@ Run with SDXL Without Quantization
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -  Run original SDXL: 
+
 --------------------------------------
 
 .. code::
@@ -51,6 +52,7 @@ Calibration and Export SafeTensor
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    
 -  Run Calibration:
+
 --------------------------------------
 
 .. code::
@@ -61,6 +63,7 @@ Load SafeTensor and Test
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 -  Load and Test:
+
 --------------------------------------
 
 .. code::
@@ -68,9 +71,10 @@ Load SafeTensor and Test
    python quantize_sdxl.py --input_scheme {'per-tensor'} --weight_scheme {'per-tensor', 'per-channel'}  --test_data_tsv_file_path {your calibration dataset file path} --load --test
 
 Load SafeTensor and Run with a prompt
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -  Load and Run:
+
 --------------------------------------
 
 .. code::

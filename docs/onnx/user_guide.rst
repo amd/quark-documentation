@@ -11,13 +11,13 @@ There are several steps to quantize a floating-point model with
 
 More details:
 
-* `Configuring Quark for ONNX <./onnx/user_guide_config_description.html>`__
-* `Adding Calibration Datasets <./onnx/user_guide_datareader.html>`__
-* `Feature Description <./onnx/user_guide_feature_description.html>`__
-* `Supported Datatype and OpType <./onnx/user_guide_supported_optype_datatype.html>`__
-* `Accuracy Improvement <./onnx/user_guide_accuracy_improvement.html>`__
-* `Optional Utilities <./onnx/user_guide_optional_utilities.html>`__
-* `Tools <./onnx/user_guide_tools.html>`__
+* `Configuring Quark for ONNX <./user_guide_config_description.html>`__
+* `Adding Calibration Datasets <./user_guide_datareader.html>`__
+* `Feature Description <./user_guide_feature_description.html>`__
+* `Supported Datatype and OpType <./user_guide_supported_optype_datatype.html>`__
+* `Accuracy Improvement <./user_guide_accuracy_improvement.html>`__
+* `Optional Utilities <./user_guide_optional_utilities.html>`__
+* `Tools <./user_guide_tools.html>`__
 
 .. raw:: html
 
