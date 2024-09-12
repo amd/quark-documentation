@@ -9,16 +9,33 @@ Welcome to Quark's documentation!
 
 .. toctree::
    :maxdepth: 1
-   
-   What's New <whats_new.rst>
-   Quark Overview <quark_overview.rst>
+   :caption: Release Notes
+
+   Release V0.2.0 <release_note.rst>
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Getting Started
+
    Installation <install.rst>
-   Getting Started <getting_started.rst>
-   Highlight Features <highlight_features.rst>
-   User Guide <user_guide.rst>
-   APIs <apis.rst>
-   Examples <example.rst>
-   Release Note <release_note.rst>
+   Quark Overview <quark_overview.rst>
+
+.. toctree::
+   :maxdepth: 1
+   :caption: PyTorch
+
+   Quark with PyTorch <pytorch_overview.rst>
+
+.. toctree::
+   :maxdepth: 1
+   :caption: ONNX
+   
+   Quark with ONNX <onnx_overview.rst>
+
+.. toctree::
+   :maxdepth: 1
+   :caption: FAQ
+
    FAQ <faq.rst>
 
 ..
