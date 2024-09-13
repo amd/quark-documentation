@@ -3,7 +3,7 @@
    <!-- omit in toc -->
 
 Quark ONNX Quantization Example for BFP
-===============================
+=======================================
 
 This folder contains an example of quantizing a
 mobilenetv2_050.lamb_in1k model using the ONNX quantizer of Quark with BFP16.
@@ -105,7 +105,7 @@ as follows:
       -  ILSVRC2012_val_00001079.JPEG
 
 BFP16 Quantization
------------------------------
+------------------
 
 The quantizer takes the float model and produce a BFP16 quantized model.
 
@@ -122,13 +122,18 @@ This command will generate a BFP16 quantized model under the **models**
 folder, which was quantized by BFP16 configuration.
 
 BFP16 Quantization with ADAQUANT
---------------------------
+--------------------------------
 
 The quantizer takes the float model and produce a BFP16 quantized model with
 ADAQUANT.
 
+Note: If the model has dynamic shapes, you need to convert the model to fixed shapes before performing ADAQUANT.
+
 ::
+
    python -m  quark.onnx.tools.convert_dynamic_to_fixed  --fix_shapes 'input:[1,3,224,224]' models/mobilenetv2_050.lamb_in1k.onnx  models/mobilenetv2_050.lamb_in1k_fix.onnx
+
+::
 
    python quantize_model.py --model_name mobilenetv2_050.lamb_in1k \
                             --input_model_path models/mobilenetv2_050.lamb_in1k_fix.onnx \

@@ -59,10 +59,11 @@ New Features (Version 0.2.0)
 
    -  **Custom operations**:
 
-      -  "BFPFixNeuron" which supports block floating-point data type.
+      -  "BFPFixNeuron" which supports block floating-point data type. It can run on the CPU on Windows, and on both the CPU and GPU on Linux.
       -  "VitisQuantizeLinear" and "VitisDequantizeLinear" which support INT32/UINT32, Float16, Bfloat16, INT16/UINT16 quantization.
       -  "VitisInstanceNormalization" and "VitisLSTM" which have customized Bfloat16 kernels.
-      -  All custom operations only support running on CPU.
+      -  All custom operations support running on the CPU on both Linux and Windows.
+
 
    -  **Advanced Quantization Algorithms**:
 

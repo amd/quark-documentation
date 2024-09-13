@@ -16,6 +16,8 @@ Quark for ONNX
 
 -  `AdaRound and AdaQuant <./onnx/tutorial_adaround_adaquant.html>`__
 -  `Mixed Precision <./onnx/tutorial_mix_precision.html>`__
+-  `BFP16 Quantization <./onnx/tutorial_bfp16_quantization.html>`__
+
 .. raw:: html
 
    <!-- 
