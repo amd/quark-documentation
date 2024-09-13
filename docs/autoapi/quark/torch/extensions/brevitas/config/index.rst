@@ -27,7 +27,7 @@ Classes
 
 
 
-.. py:class:: Backend(*args, **kwds)
+.. py:class:: Backend
 
 
 
@@ -58,7 +58,7 @@ Classes
    - `bias`: The quantization parameters (if any) to apply to the model biases.
 
 
-.. py:class:: QuantType(*args, **kwds)
+.. py:class:: QuantType
 
 
 
@@ -70,7 +70,7 @@ Classes
 
 
 
-.. py:class:: ParamType(*args, **kwds)
+.. py:class:: ParamType
 
 
 
