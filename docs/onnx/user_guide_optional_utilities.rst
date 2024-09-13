@@ -142,12 +142,13 @@ onnxruntime.quantization.shape_inference, function quant_pre_process().
 -  **external_data_size_threshold**: (Integer) This parameter specifies
    the size threshold for external data. The default value is 1024.
 
-2. Evaluating the Quantized Model
+3. Evaluating the Quantized Model
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If you have scripts to evaluate float models, like the models in Xilinx
-Model Zoo, you can replace the float model file with the quantized model
-for evaluation. Note that if customized Q/DQ is used in the quantized
+If you have scripts to evaluate float models, you can replace the float model file with the quantized model
+for evaluation. 
+
+Note that if BFP/BF16/FP16/int32 data types are used in the quantized
 model, it is necessary to register the custom operations library to
 onnxruntime inference session before evaluation. For example:
 
@@ -159,7 +160,7 @@ onnxruntime inference session before evaluation. For example:
    so.register_custom_ops_library(quark.onnx.get_library_path())
    sess = ort.InferenceSession(quantized_model, so)
 
-3. Dumping the Simulation Results
+4. Dumping the Simulation Results
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Sometimes after deploying the quantized model, it is necessary to

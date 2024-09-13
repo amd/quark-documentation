@@ -77,176 +77,44 @@ Functions
        True if the current ORT version is less than the target version, False otherwise.
 
 
-.. py:class:: Int16Method(*args, **kwds)
+.. py:class:: Int16Method
 
 
 
 
-   Create a collection of name/value pairs.
+   Generic enumeration.
 
-   Example enumeration:
+   Derive from this class to define new enumerations.
 
-   >>> class Color(Enum):
-   ...     RED = 1
-   ...     BLUE = 2
-   ...     GREEN = 3
 
-   Access them by:
+.. py:class:: PowerOfTwoMethod
 
-   - attribute access:
 
-     >>> Color.RED
-     <Color.RED: 1>
 
-   - value lookup:
 
-     >>> Color(1)
-     <Color.RED: 1>
+   Generic enumeration.
 
-   - name lookup:
+   Derive from this class to define new enumerations.
 
-     >>> Color['RED']
-     <Color.RED: 1>
 
-   Enumerations can be iterated over, and know how many members they have:
+.. py:class:: VitisQuantType
 
-   >>> len(Color)
-   3
 
-   >>> list(Color)
-   [<Color.RED: 1>, <Color.BLUE: 2>, <Color.GREEN: 3>]
 
-   Methods can be added to enumerations, and members can have their own
-   attributes -- see the documentation for details.
 
+   Generic enumeration.
 
-.. py:class:: PowerOfTwoMethod(*args, **kwds)
+   Derive from this class to define new enumerations.
 
 
+.. py:class:: VitisQuantFormat
 
 
-   Create a collection of name/value pairs.
 
-   Example enumeration:
 
-   >>> class Color(Enum):
-   ...     RED = 1
-   ...     BLUE = 2
-   ...     GREEN = 3
+   Generic enumeration.
 
-   Access them by:
-
-   - attribute access:
-
-     >>> Color.RED
-     <Color.RED: 1>
-
-   - value lookup:
-
-     >>> Color(1)
-     <Color.RED: 1>
-
-   - name lookup:
-
-     >>> Color['RED']
-     <Color.RED: 1>
-
-   Enumerations can be iterated over, and know how many members they have:
-
-   >>> len(Color)
-   3
-
-   >>> list(Color)
-   [<Color.RED: 1>, <Color.BLUE: 2>, <Color.GREEN: 3>]
-
-   Methods can be added to enumerations, and members can have their own
-   attributes -- see the documentation for details.
-
-
-.. py:class:: VitisQuantType(*args, **kwds)
-
-
-
-
-   Create a collection of name/value pairs.
-
-   Example enumeration:
-
-   >>> class Color(Enum):
-   ...     RED = 1
-   ...     BLUE = 2
-   ...     GREEN = 3
-
-   Access them by:
-
-   - attribute access:
-
-     >>> Color.RED
-     <Color.RED: 1>
-
-   - value lookup:
-
-     >>> Color(1)
-     <Color.RED: 1>
-
-   - name lookup:
-
-     >>> Color['RED']
-     <Color.RED: 1>
-
-   Enumerations can be iterated over, and know how many members they have:
-
-   >>> len(Color)
-   3
-
-   >>> list(Color)
-   [<Color.RED: 1>, <Color.BLUE: 2>, <Color.GREEN: 3>]
-
-   Methods can be added to enumerations, and members can have their own
-   attributes -- see the documentation for details.
-
-
-.. py:class:: VitisQuantFormat(*args, **kwds)
-
-
-
-
-   Create a collection of name/value pairs.
-
-   Example enumeration:
-
-   >>> class Color(Enum):
-   ...     RED = 1
-   ...     BLUE = 2
-   ...     GREEN = 3
-
-   Access them by:
-
-   - attribute access:
-
-     >>> Color.RED
-     <Color.RED: 1>
-
-   - value lookup:
-
-     >>> Color(1)
-     <Color.RED: 1>
-
-   - name lookup:
-
-     >>> Color['RED']
-     <Color.RED: 1>
-
-   Enumerations can be iterated over, and know how many members they have:
-
-   >>> len(Color)
-   3
-
-   >>> list(Color)
-   [<Color.RED: 1>, <Color.BLUE: 2>, <Color.GREEN: 3>]
-
-   Methods can be added to enumerations, and members can have their own
-   attributes -- see the documentation for details.
+   Derive from this class to define new enumerations.
 
 
 .. py:function:: get_qmin_qmax_for_qType(qType: int, reduce_range: bool = False, symmetric: bool = False) -> Any

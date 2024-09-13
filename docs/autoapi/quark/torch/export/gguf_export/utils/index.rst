@@ -36,9 +36,7 @@ Classes
                ...
 
    Such classes are primarily used with static type checkers that recognize
-   structural subtyping (static duck-typing).
-
-   For example::
+   structural subtyping (static duck-typing), for example::
 
        class C:
            def meth(self) -> int:
@@ -54,7 +52,7 @@ Classes
    only the presence of given attributes, ignoring their type signatures.
    Protocol classes can be generic, they are defined as::
 
-       class GenProto[T](Protocol):
+       class GenProto(Protocol[T]):
            def meth(self) -> T:
                ...
 
@@ -73,9 +71,7 @@ Classes
                ...
 
    Such classes are primarily used with static type checkers that recognize
-   structural subtyping (static duck-typing).
-
-   For example::
+   structural subtyping (static duck-typing), for example::
 
        class C:
            def meth(self) -> int:
@@ -91,7 +87,7 @@ Classes
    only the presence of given attributes, ignoring their type signatures.
    Protocol classes can be generic, they are defined as::
 
-       class GenProto[T](Protocol):
+       class GenProto(Protocol[T]):
            def meth(self) -> T:
                ...
 
@@ -110,9 +106,7 @@ Classes
                ...
 
    Such classes are primarily used with static type checkers that recognize
-   structural subtyping (static duck-typing).
-
-   For example::
+   structural subtyping (static duck-typing), for example::
 
        class C:
            def meth(self) -> int:
@@ -128,7 +122,7 @@ Classes
    only the presence of given attributes, ignoring their type signatures.
    Protocol classes can be generic, they are defined as::
 
-       class GenProto[T](Protocol):
+       class GenProto(Protocol[T]):
            def meth(self) -> T:
                ...
 
@@ -147,9 +141,7 @@ Classes
                ...
 
    Such classes are primarily used with static type checkers that recognize
-   structural subtyping (static duck-typing).
-
-   For example::
+   structural subtyping (static duck-typing), for example::
 
        class C:
            def meth(self) -> int:
@@ -165,7 +157,7 @@ Classes
    only the presence of given attributes, ignoring their type signatures.
    Protocol classes can be generic, they are defined as::
 
-       class GenProto[T](Protocol):
+       class GenProto(Protocol[T]):
            def meth(self) -> T:
                ...
 
