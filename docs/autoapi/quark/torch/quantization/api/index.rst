@@ -127,7 +127,7 @@ Functions
 
            # fx_graph mode:
            from quark.torch.quantization.api import load_params
-           loaded_quantized_model = load_params(pth_path=model_file_path, quant_mode=QuantizationMode.fx_graph_mode)
+           model = load_params(pth_path=model_file_path, quant_mode=QuantizationMode.fx_graph_mode)
 
    Note:
        This function does not support dynamic quantization for now.

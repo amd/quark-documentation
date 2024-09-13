@@ -1,8 +1,16 @@
-Quark for Pytorch - Exporting
-=============================
+
+Quark for Pytorch - Output
+==========================
+
+Quark torch not only supports exporting in popular formats requested by 
+downstream tools, including ONNX, Json-safetensors, and GGUF, but also 
+supports saving and loading in the torch environment.
+
+Exporting
+---------
 
 Onnx Exporting
---------------
+~~~~~~~~~~~~~~
 
 PyTorch provides a function to export the ONNX graph at this
 `link <https://pytorch.org/docs/stable/onnx_torchscript.html#torch.onnx.export>`__.
@@ -15,9 +23,10 @@ are the cast_cast pair. Mix quantization of int4/uint4 and int8/uint8 is
 not supported currently. In other words, if the model contains both
 quantized nodes of uint4/int4 and uint8/int8, this function cannot be
 used to export the ONNX graph.m
+Only support weight-only and static quantization for now.
 
 Example of Onnx Exporting
-~~~~~~~~~~~~~~~~~~~~~~~~~
+*************************
 
 .. code:: python
 
@@ -37,7 +46,7 @@ Example of Onnx Exporting
    exporter.export_onnx_model(model, input_args, uint4_int4_flag=uint4_int4_flag)
 
 Json-Safetensors Exporting
---------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Json-safetensors exporting format is the default exporting format for
 Quark, and the file list of this exporting format is the same as the
@@ -70,7 +79,7 @@ exporting format is the same as the exporting format of AutoAWQ when the
 version is 'gemm'.
 
 Example of Json-Safetensors Exporting
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*************************************
 
 .. code:: python
 
@@ -83,15 +92,35 @@ Example of Json-Safetensors Exporting
    exporter = ModelExporter(config=export_config, export_dir=export_path)
    exporter.export_model_info(model, quant_config=quant_config)
 
+Json-Safetensors Importing
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Quark provides the importing function for Json-safetensors export files.
+In other words, these files can be reloaded into Quark. After reloading, 
+the weights of the quantized operators in the model are stored in the real_quantized format.
+
+Currently, this importing function supports weight-only, static, and dynamic quantization for 
+FP8 and AWQ. For other quantization methods, only weight-only and static 
+quantization are supported.
+
+Example of Json-Safetensors Importing 
+*************************************
+
+.. code:: python
+
+   from quark.torch import import_model_info
+   safetensors_model_dir = "./output_dir/json-safetensors"
+   model = import_model_info(model, model_info_dir=safetensors_model_dir)
+
 GGUF Exporting
---------------
+~~~~~~~~~~~~~~
 
 Currently, only support asymetric int4 per_group weight-only
 quantization, and the group_size must be 32.The models supported include
 Llama2-7b, Llama2-13b, Llama2-70b, and Llama3-8b.
 
 Example of GGUF Exporting
-~~~~~~~~~~~~~~~~~~~~~~~~~
+*************************
 
 .. code:: python
 
@@ -104,6 +133,67 @@ Example of GGUF Exporting
 
 After running the code above successfully, there will be a ``.gguf``
 file under export_path, ``./output_dir/llama.gguf`` for example.
+
+Saving & Loading
+----------------
+
+Saving
+~~~~~~
+
+Save the network architecture or configurations and parameters of the quantized model.
+
+Support both eager and fx-graph model quantization.
+
+For eager mode quantization, the model's configurations are stored in json file, 
+and parameters including weight, bias, scale, and zero_point are stored in safetensors file.
+
+For fx_graph mode quantization, the model's network architecture and parameters are stored in pth file.
+
+Example of Saving in Eager Mode
+*******************************
+
+.. code:: python
+
+   from quark.torch import save_params
+   save_params(model, model_type=model_type, export_dir="./save_dir")
+
+Example of Saving in Fx-graph Mode
+**********************************
+
+.. code:: python
+
+   from quark.torch.export.api import save_params
+   save_params(model,
+               model_type=model_type,
+               args=example_inputs,
+               export_dir="./save_dir",
+               quant_mode=QuantizationMode.fx_graph_mode)
+
+Loading
+~~~~~~~
+
+Instantiate a quantized model from saved model files, which is generated 
+using the above saving function. 
+
+Support both eager and fx-graph model quantization.
+
+Only support weight-only and static quantization for now.
+
+Example of Loading in Eager Mode
+********************************
+
+.. code:: python
+
+   from quark.torch import load_params
+   model = load_params(model, json_path=json_path, safetensors_path=safetensors_path)
+
+Example of Loading in Fx-graph Mode
+***********************************
+
+.. code:: python
+
+   from quark.torch.quantization.api import load_params
+   model = load_params(pth_path=model_file_path, quant_mode=QuantizationMode.fx_graph_mode)
 
 .. raw:: html
 
