@@ -21,6 +21,14 @@ Classes
 
 
 
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   quark.torch.quantization.api.load_params
+
+
 
 .. py:class:: ModelQuantizer(config: quark.torch.quantization.config.config.Config)
 
@@ -91,5 +99,37 @@ Classes
       Returns:
           nn.Module: The modified model with FakeQuantize modules replaced by FreezedFakeQuantize modules.
 
+
+
+.. py:function:: load_params(model: Optional[torch.nn.Module] = None, json_path: str = '', safetensors_path: str = '', pth_path: str = '', quant_mode: quark.torch.quantization.config.type.QuantizationMode = QuantizationMode.eager_mode) -> torch.nn.Module
+
+   Instantiate a quantized model from saved model files, which is generated from "save_params" function.
+
+   Parameters:
+       model (torch.nn.Module): The original Pytorch model.
+       json_path (str): The path of the saved json file. Only available for eager mode quantization.
+       safetensors_path (str): The path of the saved safetensors file. Only available for eager mode quantization.
+       pth_path (str): The path of the saved pth file. Only available for fx_graph mode quantization.
+       quant_mode (QuantizationMode): The quantization mode. The choice includes "QuantizationMode.eager_mode" and "QuantizationMode.fx_graph_mode". Default is "QuantizationMode.eager_mode".
+
+   Returns:
+       nn.Module: The reloaded quantized version of the input model.
+
+   **Examples**:
+
+       .. code-block:: python
+
+           # eager mode:
+           from quark.torch import load_params
+           model = load_params(model, json_path=json_path, safetensors_path=safetensors_path)
+
+       .. code-block:: python
+
+           # fx_graph mode:
+           from quark.torch.quantization.api import load_params
+           loaded_quantized_model = load_params(pth_path=model_file_path, quant_mode=QuantizationMode.fx_graph_mode)
+
+   Note:
+       This function does not support dynamic quantization for now.
 
 

@@ -21,6 +21,15 @@ Classes
 
 
 
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   quark.torch.export.api.save_params
+   quark.torch.export.api.import_model_info
+
+
 
 .. py:class:: ModelExporter(config: quark.torch.export.config.config.ExporterConfig, export_dir: Union[pathlib.Path, str] = tempfile.gettempdir())
 
@@ -140,5 +149,66 @@ Classes
           Currently, only support asymetric int4 per_group weight-only quantization, and the group_size must be 32.
           Supported models include Llama2-7b, Llama2-13b, Llama2-70b, and Llama3-8b.
 
+
+
+.. py:function:: save_params(model: torch.nn.Module, model_type: str, args: Optional[Tuple[Any, Ellipsis]] = None, kwargs: Optional[Dict[str, Any]] = None, export_dir: Union[pathlib.Path, str] = tempfile.gettempdir(), quant_mode: quark.torch.quantization.config.type.QuantizationMode = QuantizationMode.eager_mode) -> None
+
+   Save the network architecture or configurations and parameters of the quantized model
+   For eager mode quantization, the model's configurations are stored in json file, and parameters including weight, bias, scale, and zero_point are stored in safetensors file.
+   For fx_graph mode quantization, the model's network architecture and parameters are stored in pth file.
+
+   Parameters:
+       model (torch.nn.Module): The quantized model to be saved.
+       model_type (str): The type of the model, e.g. gpt2, gptj, llama or gptnext.
+       args (Optional[Tuple[Any, ...]]): Example tuple inputs for this quantized model. Only available for fx_graph mode quantization. Default is None.
+       kwargs (Optional[Dict[str, Any]]): Example dict inputs for this quantized model. Only available for fx_graph mode quantization. Default is None.
+       export_dir (Union[Path, str]): The target export directory. This could be a string or a pathlib.Path(string) object.
+       quant_mode (QuantizationMode): The quantization mode. The choice includes "QuantizationMode.eager_mode" and "QuantizationMode.fx_graph_mode". Default is "QuantizationMode.eager_mode".
+
+   Returns:
+       None
+
+   **Examples**:
+
+       .. code-block:: python
+
+           # eager mode:
+           from quark.torch import save_params
+           save_params(model, model_type=model_type, export_dir="./save_dir")
+
+       .. code-block:: python
+
+           # fx_graph mode:
+           from quark.torch.export.api import save_params
+           example_inputs = (next(iter(val_loader))[0].to(device), )
+           save_params(model,
+                       model_type=model_type,
+                       args=example_inputs,
+                       export_dir="./save_dir",
+                       quant_mode=QuantizationMode.fx_graph_mode)
+
+
+.. py:function:: import_model_info(model: torch.nn.Module, model_info_dir: Union[pathlib.Path, str]) -> torch.nn.Module
+
+   Instantiate a quantized large language model(LLM) from quark's json-safetensors exporting files.
+   The json-safetensors files are exported using "export_model_info" API of ModelExporter class.
+
+   Parameters:
+       model (torch.nn.Module): The original HuggingFace large language model.
+       model_info_dir (Union[Path, str]): The directory in which the quantized model files are stored.
+
+   Returns:
+       nn.Module: The reloaded quantized version of the input model. In this model, the weights of the quantized operators are stored in the real_quantized format.
+
+   **Examples**:
+
+       .. code-block:: python
+
+           from quark.torch import import_model_info
+           safetensors_model_dir = "./output_dir/json-safetensors"
+           model = import_model_info(model, model_info_dir=safetensors_model_dir)
+
+   Note:
+       This function only supports large language models(LLM) in HuggingFace, and does not support dynamic quantization for now.
 
 
