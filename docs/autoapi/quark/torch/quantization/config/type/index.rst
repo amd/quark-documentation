@@ -25,7 +25,7 @@ Classes
 
 
 
-.. py:class:: QSchemeType(*args, **kwds)
+.. py:class:: QSchemeType
 
 
 
@@ -38,7 +38,7 @@ Classes
 
 
 
-.. py:class:: Dtype(*args, **kwds)
+.. py:class:: Dtype
 
 
 
@@ -58,7 +58,7 @@ Classes
 
 
 
-.. py:class:: ScaleType(*args, **kwds)
+.. py:class:: ScaleType
 
 
 
@@ -70,7 +70,7 @@ Classes
 
 
 
-.. py:class:: RoundType(*args, **kwds)
+.. py:class:: RoundType
 
 
 
@@ -83,7 +83,7 @@ Classes
 
 
 
-.. py:class:: DeviceType(*args, **kwds)
+.. py:class:: DeviceType
 
 
 
@@ -94,7 +94,7 @@ Classes
    - `IPU`: IPU.
 
 
-.. py:class:: QuantizationMode(*args, **kwds)
+.. py:class:: QuantizationMode
 
 
 
@@ -105,7 +105,7 @@ Classes
    - `fx_graph_mode`: The graph mode based on torch.fx.
 
 
-.. py:class:: TQTThresholdInitMeth(*args, **kwds)
+.. py:class:: TQTThresholdInitMeth
 
 
 

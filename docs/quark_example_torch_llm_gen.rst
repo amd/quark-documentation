@@ -1,11 +1,7 @@
 Language Model Quantization Using Quark
 =======================================
 
-This document provides examples of quantizing and exporting the language models(OPT, Llama…) using Quark.
-
-
-Table of Contents
-=================
+This document provides examples of quantizing and exporting the language models (OPT, Llama…) using Quark.
 
 .. contents::
   :local:
@@ -65,7 +61,7 @@ Supported Models
 
 .. note::
    - ① FP8 means ``OCP fp8_e4m3`` data type quantization.
-   - ② INT includes INT8, UINT8, INT4, UINT4 data type quantization
+   - ② INT includes INT8, UINT8, INT4, UINT4 data type quantization.
    - ③ MX includes OCP data type MXINT8, MXFP8E4M3, MXFP8E5M2, MXFP4, MXFP6E3M2, MXFP6E2M3.
    - ④ GPTQ only supports QuantScheme as 'PerGroup' and 'PerChannel'.
    - ⑤ ``*`` represents different model sizes, such as ``7b``.
@@ -73,31 +69,50 @@ Supported Models
 Preparation
 -----------
 
-For Llama2 models, download the HF Llama2 checkpoint. The Llama2 models checkpoint can be accessed by submitting a permission request to Meta.
-For additional details, see the `Llama2 page on Huggingface <https://huggingface.co/docs/transformers/main/en/model_doc/llama2>`__. Upon obtaining permission, download the checkpoint to the ``[llama2_checkpoint_folder]``.
+**Getting example code (For users reading from documentation)**
+
+Users can get the example code after downloading and unzipping quark.zip (referring to `Installation Guide <https://quark.docs.amd.com/latest/install.html>`__). The example folder is in quark.zip.
+
+   Directory Structure:
+
+   ::
+
+      + quark.zip
+         + example/torch/language_modeling
+            + quantize_quark.py          # Main function for this example.
+            + data_preparation.py        # Prepares the calibration dataset.
+            + configuration_preparation.py # Prepares quantization and export configurations.
+
+**Downloading the pre-trained floating-point model checkpoint (Optional)**
+
+Some models cannot be accessed directly. For Llama models, download the HF Llama checkpoint. The Llama models checkpoint can be accessed by submitting a permission request to Meta. For additional details, see the `Llama page on Huggingface <https://huggingface.co/docs/transformers/main/en/model_doc/llama2>`__. Upon obtaining permission, download the checkpoint to the ``[llama2_checkpoint_folder_path]``.
+
+**Environment Preparation**
+
+If you are running in an environment that already has a transformers version below 4.44.0, please update it to version 4.44.0 or higher.
 
 Quantization & Export Scripts
 -----------------------------
-
-You can run the following python scripts in the ``examples/torch/language_modeling`` path. Here we use Llama2-7b as an example.
 
 Note:
 
 1. To avoid memory limitations, GPU users can add the ``--multi_gpu`` argument when running the model on multiple GPUs.
 2. CPU users should add the ``--device cpu`` argument.
+3. For models in the supported list, users could add the ``--pre_quantization_optimization smoothquant`` argument for optimizing the accuracy of the quantized model in some cases.
+4. For Llama models, users could also add the ``--pre_quantization_optimization rotation`` argument for optimizing the accuracy of the quantized model in some cases.
 
-**Recipe 1: Evaluation of Llama2 float16 model without quantization**
+**Recipe 1: Evaluation of pre-trained float16 model without quantization**
 
 ::
 
-   python3 quantize_quark.py --model_dir [llama2 checkpoint folder] \
+   python3 quantize_quark.py --model_dir [model name or checkpoint folder path] \
                              --skip_quantization
 
-**Recipe 2: FP8(OCP fp8_e4m3) Quantization & Json_SafeTensors_Export with KV cache**
+**Recipe 2: FP8(OCP fp8_e4m3) Quantization & JSON_SafeTensors_Export with KV cache**
 
 ::
 
-   python3 quantize_quark.py --model_dir [llama2 checkpoint folder] \
+   python3 quantize_quark.py --model_dir [model name or checkpoint folder path] \
                              --output_dir output_dir \
                              --quant_scheme w_fp8_a_fp8 \
                              --kv_cache_dtype fp8 \
@@ -105,11 +120,11 @@ Note:
                              --model_export quark_safetensors
 
 
-**Recipe 3: INT Wight Only Quantization & Json_SafeTensors_Export of Llama2 with AWQ**
+**Recipe 3: INT Weight Only Quantization & JSON_SafeTensors_Exportwith AWQ**
 
 ::
 
-   python3 quantize_quark.py --model_dir [llama2 checkpoint folder] \
+   python3 quantize_quark.py --model_dir [model name or checkpoint folder path] \
                              --output_dir output_dir \
                              --quant_scheme w_int4_per_group_sym \
                              --num_calib_data 128 \
@@ -119,15 +134,14 @@ Note:
                              --model_export quark_safetensors
 
 
-**Recipe 4: INT Static Quantization & Json_SafeTensors_Export of Llama2 with AWQ (on CPU)**
+**Recipe 4: INT Static Quantization & JSON_SafeTensors_Export**
 
 ::
 
-   python3 quantize_quark.py --model_dir [llama2 checkpoint folder] \
+   python3 quantize_quark.py --model_dir [model name or checkpoint folder path] \
                              --output_dir output_dir \
                              --quant_scheme w_int8_a_int8_per_tensor_sym \
                              --num_calib_data 128 \
-                             --device cpu \
                              --model_export quark_safetensors
 
 
@@ -135,7 +149,7 @@ Note:
 
 ::
 
-   python3 quantize_quark.py --model_dir [llama2 checkpoint folder] \
+   python3 quantize_quark.py --model_dir [model name or checkpoint folder path] \
                              --output_dir output_dir \
                              --quant_scheme w_uint4_per_group_asym \
                              --quant_algo awq \
@@ -152,7 +166,7 @@ Quark now supports the datatype microscaling which is abbreviated as MX. Use the
 
 ::
 
-   python3 quantize_quark.py --model_dir [llama2 checkpoint folder] \
+   python3 quantize_quark.py --model_dir [model name or checkpoint folder path] \
                              --output_dir output_dir \
                              --quant_scheme w_mx_fp8 \
                              --num_calib_data 32 \
@@ -162,7 +176,7 @@ The command above is weight-only quantization. If users want activations to be q
 
 ::
 
-   python3 quantize_quark.py --model_dir [llama2 checkpoint folder] \
+   python3 quantize_quark.py --model_dir [model name or checkpoint folder path] \
                              --output_dir output_dir \
                              --quant_scheme w_mx_fp8_a_mx_fp8 \
                              --num_calib_data 32 \
@@ -175,7 +189,7 @@ Quark now supports the datatype BFP16 which is short for block floating point 16
 
 ::
 
-   python3 quantize_quark.py --model_dir [llama2 checkpoint folder] \
+   python3 quantize_quark.py --model_dir [model name or checkpoint folder path] \
                              --output_dir output_dir \
                              --quant_scheme w_bfp16 \
                              --num_calib_data 16
@@ -184,7 +198,7 @@ The command above is weight-only quantization. If users want activations to be q
 
 ::
 
-   python3 quantize_quark.py --model_dir [llama2 checkpoint folder] \
+   python3 quantize_quark.py --model_dir [model name or checkpoint folder path] \
                              --output_dir output_dir \
                              --quant_scheme w_bfp16_a_bfp16 \
                              --num_calib_data 16
