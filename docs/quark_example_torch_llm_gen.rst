@@ -117,6 +117,7 @@ Note:
                              --quant_scheme w_fp8_a_fp8 \
                              --kv_cache_dtype fp8 \
                              --num_calib_data 128 \
+                             --no_weight_matrix_merge \
                              --model_export quark_safetensors
 
 
@@ -142,6 +143,7 @@ Note:
                              --output_dir output_dir \
                              --quant_scheme w_int8_a_int8_per_tensor_sym \
                              --num_calib_data 128 \
+                             --no_weight_matrix_merge \
                              --model_export quark_safetensors
 
 
