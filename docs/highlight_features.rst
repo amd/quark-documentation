@@ -10,6 +10,7 @@ Quark for PyTorch
 
 -  `Bridge from Quark to llama.cpp <./pytorch/tutorial_gguf.html>`__
 -  `Using MX (Microscaling) with Quark <./pytorch/tutorial_mx.html>`__
+-  `Using BFP16 (Block floating point) with Quark <./pytorch/tutorial_bfp16.html>`__
 
 Quark for ONNX
 --------------

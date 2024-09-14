@@ -8,12 +8,12 @@ Prerequisites
 2. Install `PyTorch <https://pytorch.org/>`__ for the compute platform(CUDA, ROCM, CPU…). Version of torch >= 2.2.0.
 3. Install `ONNX <https://onnx.ai/>`__ of version >= 1.12.0, `ONNX Runtime <https://onnxruntime.ai/>`__ of version >= 1.17.0, <1.19.0,
    `onnxruntime-extensions <https://onnxruntime.ai/docs/extensions/>`__ of version >= 0.4.2
+4. If you are running in an environment that already has a transformers version below 4.44.0, please update it to version 4.44.0 or higher.
 
 **Note**: When installing on Windows, Visual Studio is required. The minimum version of Visual Studio is Visual Studio 2022. During the compilation process,There are two ways to use it:
 
 1. Use the Developer Command Prompt for Visual Studio, When installing Visual Studio, ensure that Developer Command Prompt for Visual Studio is installed as well. Execute programs in the CMD window of Developer Command Prompt for Visual Studio.
 2. Manually Add Paths to Environment Variables, Visual Studio's cl.exe, MSBuild.exe and link.exe will be used. Please ensure that the paths are added to the PATH environment variable. Those programs are located in the Visual Studio installation directory. In the Edit Environment Variables window, click New, then paste the path to the folder containing cl.exe, link.exe and MSBuild.exe. Click OK on all the windows to apply the changes.
-3. If you are running in an environment that already has a transformers version below 4.44.0, please update it to version 4.44.0 or higher.
 
 Installation
 ------------
