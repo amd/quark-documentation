@@ -1,8 +1,6 @@
 Quark
 =====
 
-.. image:: https://img.shields.io/badge/release-0.2.0-blue
-   :target: quark/version.txt
 .. image:: https://img.shields.io/badge/license-MIT-blue
    :target: LICENSE
 .. image:: https://img.shields.io/badge/python-3.9%2B-green
