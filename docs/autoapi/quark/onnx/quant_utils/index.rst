@@ -93,20 +93,20 @@ Functions
 
    Access them by:
 
-   - attribute access:
+   - attribute access::
 
-     >>> Color.RED
-     <Color.RED: 1>
+   >>> Color.RED
+   <Color.RED: 1>
 
    - value lookup:
 
-     >>> Color(1)
-     <Color.RED: 1>
+   >>> Color(1)
+   <Color.RED: 1>
 
    - name lookup:
 
-     >>> Color['RED']
-     <Color.RED: 1>
+   >>> Color['RED']
+   <Color.RED: 1>
 
    Enumerations can be iterated over, and know how many members they have:
 
@@ -136,20 +136,20 @@ Functions
 
    Access them by:
 
-   - attribute access:
+   - attribute access::
 
-     >>> Color.RED
-     <Color.RED: 1>
+   >>> Color.RED
+   <Color.RED: 1>
 
    - value lookup:
 
-     >>> Color(1)
-     <Color.RED: 1>
+   >>> Color(1)
+   <Color.RED: 1>
 
    - name lookup:
 
-     >>> Color['RED']
-     <Color.RED: 1>
+   >>> Color['RED']
+   <Color.RED: 1>
 
    Enumerations can be iterated over, and know how many members they have:
 
@@ -179,20 +179,20 @@ Functions
 
    Access them by:
 
-   - attribute access:
+   - attribute access::
 
-     >>> Color.RED
-     <Color.RED: 1>
+   >>> Color.RED
+   <Color.RED: 1>
 
    - value lookup:
 
-     >>> Color(1)
-     <Color.RED: 1>
+   >>> Color(1)
+   <Color.RED: 1>
 
    - name lookup:
 
-     >>> Color['RED']
-     <Color.RED: 1>
+   >>> Color['RED']
+   <Color.RED: 1>
 
    Enumerations can be iterated over, and know how many members they have:
 
@@ -222,20 +222,20 @@ Functions
 
    Access them by:
 
-   - attribute access:
+   - attribute access::
 
-     >>> Color.RED
-     <Color.RED: 1>
+   >>> Color.RED
+   <Color.RED: 1>
 
    - value lookup:
 
-     >>> Color(1)
-     <Color.RED: 1>
+   >>> Color(1)
+   <Color.RED: 1>
 
    - name lookup:
 
-     >>> Color['RED']
-     <Color.RED: 1>
+   >>> Color['RED']
+   <Color.RED: 1>
 
    Enumerations can be iterated over, and know how many members they have:
 
