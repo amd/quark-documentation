@@ -54,7 +54,7 @@ Classes
    only the presence of given attributes, ignoring their type signatures.
    Protocol classes can be generic, they are defined as::
 
-       class GenProto(Protocol[T]):
+       class GenProto[T](Protocol):
            def meth(self) -> T:
                ...
 
@@ -91,7 +91,7 @@ Classes
    only the presence of given attributes, ignoring their type signatures.
    Protocol classes can be generic, they are defined as::
 
-       class GenProto(Protocol[T]):
+       class GenProto[T](Protocol):
            def meth(self) -> T:
                ...
 
@@ -128,7 +128,7 @@ Classes
    only the presence of given attributes, ignoring their type signatures.
    Protocol classes can be generic, they are defined as::
 
-       class GenProto(Protocol[T]):
+       class GenProto[T](Protocol):
            def meth(self) -> T:
                ...
 
@@ -165,7 +165,7 @@ Classes
    only the presence of given attributes, ignoring their type signatures.
    Protocol classes can be generic, they are defined as::
 
-       class GenProto(Protocol[T]):
+       class GenProto[T](Protocol):
            def meth(self) -> T:
                ...
 
