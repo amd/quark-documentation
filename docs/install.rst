@@ -99,6 +99,8 @@ Installation Verification
 Old version zip
 ---------------
 
+-  `quark_0.5.0.zip <https://www.xilinx.com/bin/public/openDownload?filename=quark-0.5.0+fae64a406.zip>`__
+-  `quark_0.5.0.whl <https://www.xilinx.com/bin/public/openDownload?filename=quark-0.5.0+fae64a406-py3-none-any.whl>`__
 -  `quark_0.2.0.zip <https://www.xilinx.com/bin/public/openDownload?filename=quark-0.2.0+6af1bac23.zip>`__
 -  `quark_0.2.0.whl <https://www.xilinx.com/bin/public/openDownload?filename=quark-0.2.0+6af1bac23-py3-none-any.whl>`__
 -  `quark_0.1.0.zip <https://www.xilinx.com/bin/public/openDownload?filename=quark-0.1.0+a9827f5.zip>`__
