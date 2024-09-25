@@ -20,6 +20,13 @@ Summary Table
 +--------------------+
 | BFloat16           |
 +--------------------+
+| BFP16              |
++--------------------+
+
+**Note**: When installing on Windows, Visual Studio is required. The minimum version of Visual Studio is Visual Studio 2022. During the compilation process,There are two ways to use it:
+
+1. Use the Developer Command Prompt for Visual Studio, When installing Visual Studio, ensure that Developer Command Prompt for Visual Studio is installed as well. Execute programs in the CMD window of Developer Command Prompt for Visual Studio.
+2. Manually Add Paths to Environment Variables, Visual Studio's cl.exe, MSBuild.exe and link.exe will be used. Please ensure that the paths are added to the PATH environment variable. Those programs are located in the Visual Studio installation directory. In the Edit Environment Variables window, click New, then paste the path to the folder containing cl.exe, link.exe and MSBuild.exe. Click OK on all the windows to apply the changes.
 
 1. Quantizing to Other Precisions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -34,10 +41,7 @@ quantization to support UInt16, Int16, UInt32, Int32, Float16 and
 BFloat16. This customized Q/DQ was implemented by a custom operations
 library in quark.onnx using onnxruntime's custom operation C API.
 
-The custom operations library was developed based on Linux and does not
-currently support compilation on Windows. If you want to run the
-quantized model that has the custom Q/DQ on Windows, it is recommended
-to switch to WSL as a workaround.
+The custom operations library was developed based on Linux and Windows.
 
 To use this feature, the "quant_format" should be set to
 VitisQuantFormat.QDQ. You may have noticed that in both the recommended
@@ -86,12 +90,12 @@ VitisQuantType.QBFloat16.
        weight_type=quark.onnx.VitisQuantType.QFloat16,
    )
 
-1.3 Quantizing Float32 Models to BFP
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1.3 Quantizing Float32 Models to BFP16
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The quantizer also supports quantizing float32 models to BFP data
+The quantizer also supports quantizing float32 models to BFP16 data
 formats. The block size can be modified by changing the 'block_size'
-parameter in the 'extra_options'. Currently, BFP only supports symmetric
+parameter in the 'extra_options'. Currently, BFP16 only supports symmetric
 activation. The following is the configuration for BFP16 with a block
 size of 8.
 
@@ -113,6 +117,24 @@ size of 8.
            }
        },
    )
+
+*Note* : When inference with ONNX Runtime, we need to register the custom op's so(Linux) or dll(Windows) file in the ORT session options.
+
+.. code:: python
+
+    import onnxruntime
+    from quark.onnx import get_library_path as vai_lib_path
+
+    # Also We can use the GPU configuration: 
+    # device='cuda:0'
+    # providers = ['CUDAExecutionProvider']
+
+    device = 'cpu'
+    providers = ['CPUExecutionProvider']
+
+    sess_options = onnxruntime.SessionOptions()
+    sess_options.register_custom_ops_library(vai_lib_path(device))
+    session = onnxruntime.InferenceSession(onnx_model_path, sess_options, providers=providers)
 
 1.4 Quantizing Float32 Models to Mixed Data Formats
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

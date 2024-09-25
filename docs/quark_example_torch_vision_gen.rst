@@ -8,8 +8,7 @@ quantization process, after annotation and insertion quantizers, this
 modified ``fx.GraphModule`` can be used to perform PTQ (Post Training
 Quantization), or/and QAT (Quantization Aware Training). We supply a
 demonstration code and show how users assign ``quant config``, more
-information can be found in `User
-Guide <./../../../docs/source/md_sources/user_guide.html>`__.
+information can be found in User Guide.
 
 PTQ
 ~~~
@@ -29,6 +28,18 @@ both ``observer`` and ``fake_quant`` are effective, ``observer`` is used
 for recording the tensor's distribution such as min and max value to
 calculate quantization parameters, and the tensor will be quantized by
 ``fake_quant``.
+
+TQT
+~~~
+
+A method for uniform symmetric quantizers using standard backpropagation
+and gradient descent. Different with QAT, TQT add scale-factors gradient.
+And different with LSQ that trains the scale-factors directly, which leads
+to stability issues, TQT constrains scale-factors to power-of-2 and uses a
+gradient formulation to train log-thresholds instead. So theoretically TQT is
+better than LSQ and LSQ is better than QAT. For efficient fixed-point implementations,
+TQT constrains quantization scheme to use: Symmetric、Per-tensor scaling、Power-of-2 scaling.
+Currently, only signed data are supported for tqt. More experimental results are on the way.
 
 Quick Start
 -----------
@@ -55,6 +66,8 @@ to be modified for higher accuracy.
                        --model_export onnx
                        --export_dir [dir to save exported model] \
                        --qat True
+
+LSQ and TQT are optimized methods for QAT which can improve accuracy theoretically. The params ``--tqt True`` ``--lsq True`` are provided for users to try. Model export is not supported now.
 
 **Fine-Grained User Guide**
 ---------------------------
@@ -124,8 +137,8 @@ to be modified for higher accuracy.
 
    # ==============export to ONNX ==================
    from quark.torch import ModelExporter
-   from quark.torch.export.config.custom_config import DEFAULT_EXPORTER_CONFIG
-   config = DEFAULT_EXPORTER_CONFIG
+   from quark.torch.export.config.config import ExporterConfig, JsonExporterConfig
+   config = ExporterConfig(json_export_config=JsonExporterConfig())
    exporter = ModelExporter(config=config, export_dir=args.export_dir)
    example_inputs = (torch.rand(batch_size, 3, 224, 224).to(device),)
    exporter.export_onnx_model(freezed_model, example_inputs[0])

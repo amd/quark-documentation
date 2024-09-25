@@ -16,6 +16,7 @@
 import os
 import sys
 import urllib.parse
+from datetime import datetime
 # import recommonmark
 # from recommonmark.transform import AutoStructify
 # from recommonmark.parser import CommonMarkParser
@@ -24,6 +25,9 @@ import urllib.parse
 sys.path.insert(0, os.path.abspath('_ext'))
 sys.path.insert(0, os.path.abspath('docs'))
 
+def get_version_from_file():
+    with open('version.txt', 'r') as f:
+        return f.read().strip()
 # -- Project information -----------------------------------------------------
 
 project = 'Quark'
@@ -31,11 +35,10 @@ copyright = '2024, Advanced Micro Devices, Inc'
 author = 'Advanced Micro Devices, Inc'
 
 # The short X.Y version
-version = '0.2.0'
+version = '.'.join(get_version_from_file().split('.')[:2])
 # The full version, including alpha/beta/rc tags
-release = '0.2.0'
-html_last_updated_fmt = 'Aug 14, 2024'
-
+release = get_version_from_file()
+html_last_updated_fmt = datetime.now().strftime('%b %d, %Y')
 
 # -- General configuration ---------------------------------------------------
 

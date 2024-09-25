@@ -26,6 +26,6 @@ Classes
 
    Quantized version of nn.Conv2d
 
-
+       
 
 

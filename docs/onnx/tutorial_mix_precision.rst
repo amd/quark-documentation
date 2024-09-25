@@ -88,6 +88,23 @@ Quark for ONNX.
 Auto Mixed Precision
 ~~~~~~~~~~~~~~~~~~~~
 
+Quark for ONNX supports Auto Mixed Precision, which will follow the steps below.
+
+1. Quantize the model in wide quantization bits, like 16-bits activation and 8-bits weight. Then run evaluation and get the baseline accuracy.
+2. Layers in the model will be sorted ascendingly by the loss sensitivity.
+3. Define the quantization target. There are two ways for user to set the accuracy target of Auto Mixed Precision.
+
+   -  Provide the ``Top1AccTarget`` and ``EvaluateFunction``.
+
+      -  ``Top1AccTarget``: The Top1 accuracy loss will be no larger than the Top1AccTarget.
+      -  ``EvaluateFunction``: The user defined function to calculating the Top1 accuracy of this model.
+      
+   -  Provide target of L2 distance ``L2Target``.
+
+      -  ``L2Target``: The L2 output of the quantized model will be no larger than this target. 
+
+4. Switch to the narrow quantization bits (like 8-bits) on each layer in the ascendingly order of loss sensitivity, until the user-defined accuracy target is about to be broken.
+
 Here is a simple example of how to enable auto mixed precision in Quark
 for ONNX.
 

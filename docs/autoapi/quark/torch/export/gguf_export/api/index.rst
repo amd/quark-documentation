@@ -23,17 +23,13 @@ Functions
 
    This function is used to convert quark exported model to gguf model.
 
-   :param model_name: name of this model which will be written to gguf field `general.name`
-   :type model_name: str
-   :param json_path: Quark exported model consists of a `.json` file and a `.safetensors` file.
-                     This arguments indicates the path of `.json` file
-   :type json_path: Union[str, Path]
-   :param safetensor_path: Path of `.safetensors` file.
-   :type safetensor_path: Union[str, Path]
-   :param tokenizer_dir: Tokenizer needs to be encoded into gguf model.
-                         This argument specifies the directory path of tokenizer which contains tokenizer.json, tokenizer_config.json and/or tokenizer.model
-   :type tokenizer_dir: Union[str, Path]
-   :param output_file_path: The path of generated gguf model.
-   :type output_file_path: str
+   Args:
+       model_name (str): name of this model which will be written to gguf field `general.name`
+       json_path (Union[str, Path]): Quark exported model consists of a `.json` file and a `.safetensors` file.
+           This arguments indicates the path of `.json` file
+       safetensor_path (Union[str, Path]): Path of `.safetensors` file.
+       tokenizer_dir (Union[str, Path]): Tokenizer needs to be encoded into gguf model.
+           This argument specifies the directory path of tokenizer which contains tokenizer.json, tokenizer_config.json and/or tokenizer.model
+       output_file_path (str): The path of generated gguf model.
 
 

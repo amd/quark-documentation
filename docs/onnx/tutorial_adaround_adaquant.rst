@@ -90,11 +90,13 @@ AdaQuant configuration.
 
 .. code:: python
 
-   from quark.onnx.quantization.config.config import Config, QuantizationConfig
+   from quark.onnx.quantization.config.config import Config, QuantizationConfig, get_default_config
    # Config of default AdaRound
-   config = Config(global_quant_config=DEFAULT_S8S8_AAWS_ADAROUND_CONFIG)
+   quant_config = get_default_config("S8S8_AAWS_ADAROUND")
+   config = Config(global_quant_config=quant_config)
    # Config of default AdaQuant
-   config = Config(global_quant_config=DEFAULT_S8S8_AAWS_ADAQUANT_CONFIG)
+   quant_config = get_default_config("S8S8_AAWS_ADAQUANT")
+   config = Config(global_quant_config=quant_config)
 
 Examples
 --------

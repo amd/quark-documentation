@@ -132,8 +132,8 @@ quantized models. To export GGUF models, call
    export_path = "./output_dir"
    model_dir = "<HuggingFace model directory>"
    from quark.torch import ModelExporter
-   from quark.torch.export.config.custom_config import DEFAULT_EXPORTER_CONFIG, EMPTY_EXPORTER_CONFIG
-   config = DEFAULT_EXPORTER_CONFIG
+   from quark.torch.export.config.config import ExporterConfig, JsonExporterConfig
+   config = ExporterConfig(json_export_config=JsonExporterConfig())
    exporter = ModelExporter(config=config, export_dir=export_path)
    exporter.export_gguf_model(model, model_dir, model_type)
 

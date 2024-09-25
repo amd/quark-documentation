@@ -46,7 +46,7 @@ Functions
 
        Similar to :class:`torch.nn.Conv2d`, with FakeQuantizer modules initialized
        to default.
-   #
+   #     
 
 
 

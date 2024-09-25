@@ -21,6 +21,7 @@ Quantization Configuration
        nodes_to_quantize=[],
        nodes_to_exclude=[],
        optimize_model=True,
+       use_dynamic_quant=False,
        use_external_data_format=False,
        execution_providers=['CPUExecutionProvider'],
        enable_npu_cnn=False,
@@ -117,6 +118,9 @@ Quantization Configuration
    Conv/ConvTranspose/Gemm operator followed by BatchNormalization can
    be fused into one during the optimization, which can be quantized
    very efficiently. The default value is True.
+-  **use_dynamic_quant**: (Boolean) This flag determines whether to apply
+   dynamic quantization to the model. If True, dynamic quantization is used;
+   if False, static quantization is applied. The default is False.
 -  **use_external_data_format**: (Boolean) This option is used for large
    size (>2GB) model. The model proto and data will be stored in
    separate files. The default is False.
@@ -156,9 +160,7 @@ Quantization Configuration
 -  **convert_nchw_to_nhwc**: (Boolean) This parameter controls whether
    to convert the input NCHW model to input NHWC model before
    quantization. For input NCHW models, it is recommended to set this
-   parameter to True. If you provide a custom calibration_data_reader,
-   its shape needs to be nhwc instead of nchw when this parameter is set
-   to True. The default value is False.
+   parameter to True. The default value is False.
 -  **include_cle**: (Boolean) This parameter is a flag that determines
    whether to optimize the models using CrossLayerEqualization; it can
    improve the accuracy of some models. The default is False.
@@ -168,9 +170,15 @@ Quantization Configuration
 -  **include_sq**: (Boolean) This parameter is a flag that determines
    whether to optimize the models using SmoothQuant; it can improve the
    accuracy of some models. The default is False.
+-  **include_auto_mp**: (Boolean) If Ture, the auto mixed precision will be turned on. 
+   The default is False.
 -  **specific_tensor_precision**: (Boolean) This parameter is a flag
    that determines whether to use tensor-level mixed precision, this is
    an experimental feature. The default is False.
+-  **log_severity_level**: (Int) This parameter is used to select the
+   severity level of screen printing logs. Its value ranges from 0 to 4: 0 for DEBUG,
+   1 for INFO, 2 for WARNING, 3 for ERROR and 4 for CRITICAL or FATAL. Default value is 1,
+   which means printing all messages including INFO, WARNING, ERROR and etc by default.
 -  **extra_options**: (Dictionary or None) Contains key-value pairs for
    various options in different cases. Current used:
 
@@ -203,7 +211,8 @@ Quantization Configuration
       quantized. The default behavior can be overridden for specific
       nodes using nodes_to_exclude.
    -  **MatMulConstBOnly**: (Boolean) If True, only MatMul operations
-      with a constant 'B' will be quantized. The default is False.
+      with a constant 'B' will be quantized. The default is False for 
+      static mode and True for dynmaic mode.
    -  **AddQDQPairToWeight**: (Boolean) If True, both QuantizeLinear and
       DeQuantizeLinear nodes are inserted for weight, maintaining its
       floating-point format. The default is False, which quantizes
@@ -437,6 +446,35 @@ Quantization Configuration
       Example:"MixedPrecisionTensor":{quark.onnx.VitisQuantType.QBFloat16:['/stem/stem.2/Relu_output_0',
       'onnx::Conv_664', 'onnx::Conv_665']} **Note**:If there is a tensor
       with bias, 'Int32Bias' needs set to False.
+   -  **AutoMixprecision**: (Dictionary) A parameter used to specify the
+      settings for auto mixed precision.
+
+      -  **DataSize**: (Int) Specifies the size of the data used for mix-precision. The entire datareader will be used by default.
+      -  **TargetOpType**: (Set) The user defined op type set for mix-precision. The default value is ('Conv', 'ConvTranspose', 'Gemm').
+      -  **TargetQuantType**: (QuantType) Activation data type to be mixed in the model if 'ActTargetQuantType' is not given. Error will be raised if TargetQuantType is not specified.
+      -  **ActTargetQuantType**: (QuantType) Activation data type to be mixed in the model. 
+         If both ActTargetQuantType and WeightTargetQuantType are not specified, the ActTargetQuantType will be same as TargetQuantType.
+         If only ActTargetQuantType is not specified, the ActTargetQuantType will be the original activation_type.
+      -  **WeightTargetQuantType**: (QuantType) Weight data type to be mixed in the model. 
+         If both ActTargetQuantType and WeightTargetQuantType are not specified, the ActTargetQuantType will be same as TargetQuantType.
+         If only WeightTargetQuantType is not specified, the WeightTargetQuantType will be the original weight_type.
+      -  **BiasTargetQuantType**: (QuantType) Bias data type to be mixed in the model.
+         If BiasTargetQuantType is not specified and Int32Bias is True, the BiasTargetQuantType will be int32.
+         If BiasTargetQuantType is not specified and Int32Bias is False, the BiasTargetQuantType will be same as WeightTargetQuantType.
+      -  **OutputIndex**: (Int) The index of model output to be calculated for loss.
+      -  **L2Target**: (Float) The L2 loss will be no larger than the L2Target. 
+         If L2Target is not specified, the model will be quantized to the target quant type.
+      -  **Top1AccTarget**: (Float) The Top1 accuracy loss will be no larger than the Top1AccTarget. 
+         If Top1AccTarget is not specified, the model will be quantized to the target quant type.
+      -  **EvaluateFunction**: (Function) The function to measure top1 accuracy loss. Input of the function is model output(numpy tensor), 
+         output of the function is top1 accuracy(between 0~1). If EvaluateFunction is not specfied while Top1AccTarget is given, error will be raised. 
+      -  **NumTarget**: (Int) Specified the number of nodes for mix-precision to minimize the loss. The default value of NumTarget is 0.
+      -  **TargetTensors**: (List) Specified the names of nodes to mix into the target quant type. It's a experimental option and will be deprecated in the future. The default value is [].
+      -  **TargetIndices**: (List) Specified the indices (based on sensitivity analysis results) of the nodes to mix into the target quant type. The default value is [].
+      -  **ExcludeIndices**: (List) Specified the indices (based on sensitivity analysis results) of the nodes not to mix into the target quant type. The default value is [].
+      -  **NoInputQDQShared**: (Bool) If True, will skip the nodes who shared the input Q/DQ pair with other nodes. The default value is True.
+      -  **AutoMixUseFastFT**: (Bool) If True, will perform fast finetune to improve accuracy after mixed a layer. The default value is False.
+      
    -  **FoldRelu**: (Boolean) If True, the Relu will be fold to Conv
       when use VitisQuantFormat. The default is False.
    -  **CalibDataSize**: (Int) This parameter controls how many data are

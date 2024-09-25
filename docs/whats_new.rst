@@ -1,73 +1,59 @@
 What's New
 ==========
 
-New Features (Version 0.2.0)
+New Features (Version 0.5.0)
 ----------------------------
 
 -  **Quark for PyTorch**
 
-   -  **PyTorch Quantizer Enhancements**:
+   -  Model Support:
 
-      -  Post Training Quantization (PTQ) and Quantization-Aware Training (QAT) are now supported in FX graph mode.
-      -  Introduced quantization support of the following modules: torch.nn.Conv2d.
+      -  Provided more examples of LLM models quantization:
 
-   -  **Data Types**:
+         -  INT/OCP_FP8E4M3: Llama-3.1, gpt-j-6b, Qwen1.5-MoE-A2.7B, phi-2, Phi-3-mini, Phi-3.5-mini-instruct, Mistral-7B-v0.1
+         -  OCP_FP8E4M3: mistralai/Mixtral-8x7B-v0.1, hpcai-tech/grok-1, CohereForAI/c4ai-command-r-plus-08-2024, CohereForAI/c4ai-command-r-08-2024, CohereForAI/c4ai-command-r-plus, CohereForAI/c4ai-command-r-v01, databricks/dbrx-instruct, deepseek-ai/deepseek-moe-16b-chat
 
-      -  `OCP Microscaling (MX) is supported. Valid element data types include INT8, FP8_E4M3, FP4, FP6_E3M2, and FP6_E2M3. <./pytorch/tutorial_mx.html>`__
+      -  Provided more examples of diffusion model quantization: 
 
-   -  **Export Capabilities**:
+         -  Supported models: SDXL, SDXL-Turbo, SD1.5, Controlnet-Canny-SDXL, Controlnet-Depth-SDXL, Controlnet-Canny-SD1.5
+         -  Supported schemes: FP8, W8, W8A8 with and without SmoothQuant
 
-      -  `Quantized models can now be exported in GGUF format. The exported GGUF model is runnable with llama.cpp. Only Llama2 is supported for now. <./pytorch/tutorial_gguf.html>`__
-      -  Introduced Quark's native Json-Safetensors export format, which is identical to AutoFP8 and AutoAWQ when used for FP8 and AWQ quantization.
+   -  PyTorch Quantizer Enhancements:
 
-   -  **Model Support**:
+      -  Supported more CNN models for graph mode quantization.
 
-      -  Added support for SDXL model quantization in eager mode, including fp8 per-channel and per-tensor quantization.
-      -  Added support for PTQ and QAT of CNN models in graph mode, including architectures like ResNet.
+   -  Data Types:
 
-   -  **Integration with other toolkits**:
+      -  Supported BFP16, MXFP8_E5M2.
+      -  Supported MX6 and MX9. (experimental)
 
-      -  Provided the integrated example with APL(AMD Pytorch-light,internal project name), supporting the invocation of APL's INT-K, BFP16, and BRECQ.
-      -  Introduced the experimental Quark extension interface, enabling seamless integration of Brevitas for Stable Diffusion and Imagenet classification model quantization.
+   -  Advanced Quantization Algorithms:
+
+      -  Supported Rotation for Llama models.
+      -  Supported SmoothQuant and AWQ for models with GQA and MQA (e.g., LLaMA-3-8B, QWen2-7B).
+      -  Provided scripts for generating AWQ configuration automatically.(experimental)
+      -  Supported trained quantization thresholds (TQT) and learned step size quantization (LSQ) for better QAT results. (experimental)
+
+   -  Export Capabilities:
+
+      -  Supported reloading function of Json-Safetensors export format.
+      -  Enhanced quantization configuration in Json-Safetensors export format.
 
 -  **Quark for ONNX**
 
-   -  **ONNX Quantizer Enhancements**:
+   -  ONNX Quantizer Enhancements:
 
-      -  Multiple optimization and refinement strategies for different deployment backends.
-      -  Supported automatic mixing precision to balance accuracy and performance.
+      -  Supported compatibility with onnxruntime version 1.18.
+      -  Enhanced quantization support for LLM models.
 
-   -  **Quantization Strategy**:
+   -  Quantization Strategy:
 
-      -  Supported symmetric and asymmetric quantization.
-      -  Supported float scale, INT16 scale and power-of-two scale.
-      -  Supported static quantization and weight-only quantization.
+      -  Supported dynamic quantization.
 
-   -  **Quantization Granularity**:
+   -  Custom operations:
 
-      -  Supported for per-tensor and per-channel granularity.
+      -  Optimized "BFPFixNeuron" to support running on GPU.
 
-   -  **Data Types**:
+   -  Advanced Quantization Algorithms:
 
-      -  Multiple data types are supported, including INT32/UINT32, Float16, Bfloat16, INT16/UINT16, INT8/UINT8 and BFP.
-
-   -  **Calibration Methods**:
-
-      -  MinMax, Entropy and Percentile for float scale.
-      -  MinMax for INT16 scale.
-      -  NonOverflow and MinMSE for power-of-two scale.
-
-   -  **Custom operations**:
-
-      -  "BFPFixNeuron" which supports block floating-point data type.
-      -  "VitisQuantizeLinear" and "VitisDequantizeLinear" which support INT32/UINT32, Float16, Bfloat16, INT16/UINT16 quantization.
-      -  "VitisInstanceNormalization" and "VitisLSTM" which have customized Bfloat16 kernels.
-      -  All custom operations only support running on CPU.
-
-   -  **Advanced Quantization Algorithms**:
-
-      -  Supported CLE, BiasCorrection, AdaQuant, AdaRound and SmoothQuant.
-
-   -  **Operating System Support**:
-
-      -  Linux and Windows.
+      -  Improved AdaQuant to support BFP data types.

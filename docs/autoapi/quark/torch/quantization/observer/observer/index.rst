@@ -20,6 +20,7 @@ Classes
    quark.torch.quantization.observer.observer.PerTensorMinMaxObserver
    quark.torch.quantization.observer.observer.PerChannelMinMaxObserver
    quark.torch.quantization.observer.observer.PerBlockMXObserver
+   quark.torch.quantization.observer.observer.PerBlockBFPObserver
    quark.torch.quantization.observer.observer.PerGroupMinMaxObserver
    quark.torch.quantization.observer.observer.PerTensorHistogramObserver
    quark.torch.quantization.observer.observer.PerTensorPercentileObserver
@@ -49,15 +50,6 @@ Classes
    Only can be used for quantization to float16 and bfloat16 which doesn't require determining
    ranges.
 
-   .. py:method:: extra_repr() -> str
-
-      Set the extra representation of the module.
-
-      To print customized extra information, you should re-implement
-      this method in your own modules. Both single-line and multi-line
-      strings are acceptable.
-
-
 
 .. py:class:: UniformScalingObserver(qspec: quark.torch.quantization.config.config.QuantizationSpec, device: Optional[torch.device] = None, eps: float = torch.finfo(torch.float32).eps)
 
@@ -70,15 +62,6 @@ Classes
    .. py:method:: calculate_qparams(min_val: torch.Tensor, max_val: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]
 
       Calculates the quantization parameters.
-
-
-   .. py:method:: extra_repr() -> str
-
-      Set the extra representation of the module.
-
-      To print customized extra information, you should re-implement
-      this method in your own modules. Both single-line and multi-line
-      strings are acceptable.
 
 
    .. py:method:: reset_min_max_vals() -> None
@@ -111,6 +94,15 @@ Classes
 
 
 .. py:class:: PerBlockMXObserver(qspec: quark.torch.quantization.config.config.QuantizationSpec, device: Optional[torch.device] = None, eps: float = torch.finfo(torch.float32).eps)
+
+
+
+
+   Helper class that provides a standard way to create an ABC using
+   inheritance.
+
+
+.. py:class:: PerBlockBFPObserver(qspec: quark.torch.quantization.config.config.QuantizationSpec, device: Optional[torch.device] = None, eps: float = torch.finfo(torch.float32).eps)
 
 
 

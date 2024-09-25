@@ -1,12 +1,15 @@
 Frequently Asked Questions (FAQ)
 ================================
 
-How to give feedback
+How to give feedback(only for internal users)
 --------------------
+1. Access: If AMD internal users cannot access the `internal JIRA
+system <https://jira.xilinx.com/secure/CreateIssue!default.jspa>`__, they should first request access permissions following the instructions provided in  
+`How to Request Access to JIRA <https://confluence.amd.com/pages/viewpage.action?spaceKey=WTS&title=How+to+Request+Access+to+JIRA>`_.
 
-If AMD internal users need to report an issue or make a request, they should file a JIRA ticket under the project named "quark" in the
-`internal JIRA
-system <https://jira.xilinx.com/secure/CreateIssue!default.jspa>`__.
+2. Reporting: Once access is granted, users should file a JIRA ticket under the project named "quark" in the `internal JIRA
+system <https://jira.xilinx.com/secure/CreateIssue!default.jspa>`__. to report an issue or make a request. 
+
 
 Quark for Pytorch
 -----------------
