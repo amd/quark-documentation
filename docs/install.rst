@@ -6,7 +6,8 @@ Prerequisites
 
 1. Python 3.9+ is required.
 2. Install `PyTorch <https://pytorch.org/>`__ for the compute platform(CUDA, ROCM, CPU…). Version of torch >= 2.2.0.
-3. Install `ONNX <https://onnx.ai/>`__ of version >= 1.12.0, `ONNX Runtime <https://onnxruntime.ai/>`__ of version >= 1.17.0, <1.19.0,
+3. Install `ONNX <https://onnx.ai/>`__ of version >= 1.16.0, `ONNX Runtime <https://onnxruntime.ai/>`__ of version >= 1.17.0, <1.20.0
+.0,
    `onnxruntime-extensions <https://onnxruntime.ai/docs/extensions/>`__ of version >= 0.4.2
 4. If you are running in an environment that already has a transformers version below 4.44.0, please update it to version 4.44.0 or higher.
 

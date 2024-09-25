@@ -90,8 +90,8 @@ If you are installing from source, you will need:
 
    * Python 3.9 or later
    * Install PyTorch >= 2.2.0
-   * Install ONNX >= 1.12.0
-   * Install ONNX Runtime >= 1.17.0, <1.19.0
+   * Install ONNX >= 1.16.0
+   * Install ONNX Runtime >= 1.17.0, <1.20.0
    * Install ONNX Runtime Extensions >= 0.4.2
 
 We highly recommend installing an `Anaconda <https://docs.anaconda.com/anaconda/install/>`__  environment.
