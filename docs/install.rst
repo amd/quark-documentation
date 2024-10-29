@@ -21,9 +21,9 @@ Install from ZIP
 
 **Step 1**: Download and unzip 📥*quark-\*.zip* which has a wheel package in it. You can download wheel package 📥*quark-\*.whl* directly.
 
-   `📥quark.zip release_version (recommend) <https://www.xilinx.com/bin/public/openDownload?filename=quark-0.5.1+88e60b456.zip>`__
+   `📥quark.zip release_version (recommend) <https://www.xilinx.com/bin/public/openDownload?filename=quark-0.6.0.zip>`__
 
-   `📥quark.whl release_version <https://www.xilinx.com/bin/public/openDownload?filename=quark-0.5.1+88e60b456-py3-none-any.whl>`__
+   `📥quark.whl release_version <https://www.xilinx.com/bin/public/openDownload?filename=quark-0.6.0-py3-none-any.whl>`__
 
    Directory Structure of zip file:
 
@@ -69,8 +69,9 @@ Installation Verification
 Old version zip
 ---------------
 
+-  `quark_0.5.1.zip <https://www.xilinx.com/bin/public/openDownload?filename=quark-0.5.1+88e60b456.zip>`__  
+-  `quark_0.5.0.zip <https://www.xilinx.com/bin/public/openDownload?filename=quark-0.5.0+fae64a406.zip>`__
 -  `quark_0.2.0.zip <https://www.xilinx.com/bin/public/openDownload?filename=quark-0.2.0+6af1bac23.zip>`__
--  `quark_0.2.0.whl <https://www.xilinx.com/bin/public/openDownload?filename=quark-0.2.0+6af1bac23-py3-none-any.whl>`__
 -  `quark_0.1.0.zip <https://www.xilinx.com/bin/public/openDownload?filename=quark-0.1.0+a9827f5.zip>`__
 
 .. raw:: html
