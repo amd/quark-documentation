@@ -19,7 +19,7 @@ Classes
 
 
 
-.. py:class:: SmoothQuantProcessor(model: transformers.PreTrainedModel, quant_algo_config: quark.torch.quantization.config.config.SmoothQuantConfig, data_loader: List[Dict[str, torch.Tensor]])
+.. py:class:: SmoothQuantProcessor(model: torch.nn.Module, quant_algo_config: quark.torch.quantization.config.config.SmoothQuantConfig, data_loader: List[Dict[str, torch.Tensor]])
 
 
 

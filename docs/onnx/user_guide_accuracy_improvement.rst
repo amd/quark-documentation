@@ -59,6 +59,8 @@ to enable CLE using quark.onnx.
    -  CLEScaleAppendBias: (Boolean) Whether the bias be included when
       calculating the scale of the weights, The default value is True.
 
+.. _quark-onnx-quantizing-using-mix-precision:
+
 1.2 Quantizing Using Mix Precision
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -141,15 +143,17 @@ to mix A16W8 and A8W8 as follows:
    -  WeightTargetQuantType: (Class) The quant type corresponding to
       weight in mixed precision has lower or equal precision. No default
       value; user needs to specify.
-   -  OutputIndex: (Integer) The index of output to caculate loss
-      betweenf float model and quantized model. The default value is 0.
+   -  OutputIndex: (Integer) The index of output to calculate loss
+      between float model and quantized model. The default value is 0.
    -  Top1AccTarget: (Float) Top1 accuracy loss that user could accept
       between float model and quantized model. No default value; user
       needs to specify.
-   -  EvaluateFunction: (Function) The function to caculate accuracy for
+   -  EvaluateFunction: (Function) The function to calculate accuracy for
       the model. Input of the function is model outputs(Tensor), output
       of the function is top1 accuracy(Float). No default function; user
       needs to provide.
+
+.. _quark-onnx-quantizing-using-fast-finetune:
 
 1.3 Quantizing Using Fast Finetune
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -207,9 +211,9 @@ package.
       stable and might converge faster, while the latter trains the
       weight directly, so might have a greater improvement. The default
       value is "adaround".
-   -  OptimDevice: (String) The compute device for fast finetune.
-      Optional values are "cpu", "hip:0" and "cuda:0". The default value
-      is "cpu".
+   -  OptimDevice: (String) Specifies the compute device used for PyTorch
+      model training during fast finetuning. Optional values are "cpu",
+      and "cuda:0". The default value is "cpu".
    -  BatchSize: (Int) Batch size for finetuning. The larger batch size,
       the better accuracy but the longer training time. The default
       value is 1.
@@ -225,7 +229,7 @@ package.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 SmoothQuant(SQ) is another technique used to improve PTQ accuracy. It
-smoothes the outliers of the activation so that it loses as little
+smooths the outliers of the activation so that it loses as little
 precision as possible during quantization. Experiments show that using
 SQ technique can improve the PTQ accuracy of some models, especially for
 models with a large number of outliers in the activation. Here is an

@@ -23,15 +23,11 @@ Classes
 
 
    A class for model smooth
-   :param onnx_model_path: The ONNX model path to be smoothed.
-   :type onnx_model_path: str
-   :param input_model: The ONNX model to be smoothed.
-   :type input_model: onnx.ModelProto
-   :param dataloader: The dataloader used for calibrate.
-   :type dataloader: torch.utils.data.DataLoader
-   :param alpha: The extent to which the difficulty of quantification is shifted from activation to weighting.
-   :type alpha: float
-   :param is_large: True if the model size is larger than 2GB.
-   :type is_large: bool
+   Args:
+       onnx_model_path (str): The ONNX model path to be smoothed.
+       input_model (onnx.ModelProto): The ONNX model to be smoothed.
+       dataloader (torch.utils.data.DataLoader): The dataloader used for calibrate.
+       alpha (float): The extent to which the difficulty of quantification is shifted from activation to weighting.
+       is_large (bool): True if the model size is larger than 2GB.
 
 

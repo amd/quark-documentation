@@ -34,7 +34,7 @@ Convert a NCHW input model to a NHWC model
 
 Given that some models are designed with an input shape of NCHW instead
 of NHWC, it's recommended to convert an NCHW input model to NHWC before
-quantizing a float32 model.
+quantizing a float32 model. Please note that the conversion steps will be executed even if the model is already NHWC. So please make sure the input model is in NCHW format.
 
 Use the convert_nchw_to_nhwc tool to convert a NCHW model to a NHWC
 model:
@@ -74,11 +74,24 @@ Print names and quantity of A16W8 and A8W8 Conv for mix-precision models
 Given that some models are mixed precision such as A18W8 and A8W8 mixed.
 
 Use the print_a16w8_a8w8_nodes tool to print names and quantity of A16W8
-and A8W8 Conv, ConvTranspose and Gemm:
+and A8W8 Conv, ConvTranspose, Gemm and MatMul. The MatMul node must have
+one and only one set of weights.
 
 ::
 
    python -m quark.onnx.tools.print_a16w8_a8w8_nodes --input [INPUT_PATH]
+
+Convert a U16U8 quantized model to a U8U8 model
+--------------------------------------------
+
+Convert a U16U8 (activations are quantized by UINT16 and weights by UINT8)
+to a U8U8 model without calibration.
+
+Use the convert_u16u8_to_u8u8 tool to do the conversion:
+
+::
+
+   python -m quark.onnx.tools.convert_u16u8_to_u8u8 --input [INPUT_PATH] --output [OUTPUT_PATH]
 
 .. raw:: html
 

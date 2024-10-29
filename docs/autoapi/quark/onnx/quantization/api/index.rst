@@ -28,28 +28,27 @@ Classes
    Provides an API for quantizing deep learning models using ONNX. This class handles the
    configuration and processing of the model for quantization based on user-defined parameters.
 
-   :param config: Configuration object containing settings for quantization.
-   :type config: Config
+   Args:
+       config (Config): Configuration object containing settings for quantization.
 
-   .. note::
+   Note:
+       It is essential to ensure that the 'config' provided has all necessary quantization parameters defined.
+       This class assumes that the model is compatible with the quantization settings specified in 'config'.
 
-      It is essential to ensure that the 'config' provided has all necessary quantization parameters defined.
-      This class assumes that the model is compatible with the quantization settings specified in 'config'.
-
-   .. py:method:: quantize_model(model_input: str, model_output: str, calibration_data_reader: Union[onnxruntime.quantization.calibrate.CalibrationDataReader, None] = None) -> None
+   .. py:method:: quantize_model(model_input: str, model_output: str, calibration_data_reader: Union[onnxruntime.quantization.calibrate.CalibrationDataReader, None] = None, calibration_data_path: Optional[str] = None) -> None
 
       Quantizes the given ONNX model and saves the output to the specified path.
 
-      :param model_input: Path to the input ONNX model file.
-      :type model_input: str
-      :param model_output: Path where the quantized ONNX model will be saved.
-      :type model_output: str
-      :param calibration_data_reader: Data reader for model calibration. Defaults to None.
-      :type calibration_data_reader: Union[CalibrationDataReader, None], optional
+      Args:
+          model_input (str): Path to the input ONNX model file.
+          model_output (str): Path where the quantized ONNX model will be saved.
+          calibration_data_reader (Union[CalibrationDataReader, None], optional): Data reader for model calibration. Defaults to None.
 
-      :returns: None
+      Returns:
+          None
 
-      :raises ValueError: If the input model path is invalid or the file does not exist.
+      Raises:
+          ValueError: If the input model path is invalid or the file does not exist.
 
 
 

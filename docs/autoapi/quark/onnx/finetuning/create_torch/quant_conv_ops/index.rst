@@ -29,7 +29,7 @@ Classes
 
 
 
-   A wrapper for torch layer's input/weight/bias quantization
+   A wrapper for torch layer's input/weight/bias quantization 
 
 
 .. py:class:: QConv2d(**kwargs: Any)
@@ -37,7 +37,7 @@ Classes
 
 
 
-   A wrapper for torch layer's input/weight/bias quantization
+   A wrapper for torch layer's input/weight/bias quantization 
 
 
 .. py:class:: QConv3d(**kwargs: Any)
@@ -45,7 +45,7 @@ Classes
 
 
 
-   A wrapper for torch layer's input/weight/bias quantization
+   A wrapper for torch layer's input/weight/bias quantization 
 
 
 .. py:class:: QConvTranspose1d(**kwargs: Any)
@@ -53,7 +53,7 @@ Classes
 
 
 
-   A wrapper for torch layer's input/weight/bias quantization
+   A wrapper for torch layer's input/weight/bias quantization 
 
 
 .. py:class:: QConvTranspose2d(**kwargs: Any)
@@ -61,7 +61,7 @@ Classes
 
 
 
-   A wrapper for torch layer's input/weight/bias quantization
+   A wrapper for torch layer's input/weight/bias quantization 
 
 
 .. py:class:: QConvTranspose3d(**kwargs: Any)
@@ -69,6 +69,6 @@ Classes
 
 
 
-   A wrapper for torch layer's input/weight/bias quantization
+   A wrapper for torch layer's input/weight/bias quantization 
 
 

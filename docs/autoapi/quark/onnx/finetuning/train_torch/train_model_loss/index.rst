@@ -39,9 +39,9 @@ Classes
    .. py:method:: calc_round_loss(alpha: torch.Tensor, params: quark.onnx.finetuning.train_torch.train_model_param.TrainParameters, cur_iter: int) -> Any
       :classmethod:
 
-      Calculate Rounding Loss (This is for Adaround optimization to learn weight rounding)
+      Calculate Rounding Loss (This is for AdaRound optimization to learn weight rounding)
       :param alpha: Parameter 'alpha' to be optimized
-      :param params: Optimization parameters for Adaround
+      :param params: Optimization parameters for AdaRound
       :param cur_iter: Current iteration
       :return: Rounding loss
 

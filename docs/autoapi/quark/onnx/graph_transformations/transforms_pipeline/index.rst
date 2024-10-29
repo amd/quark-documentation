@@ -34,9 +34,10 @@ Classes
 
       Get the configurations.
 
-      :param None:
-
-      :returns: Dict of configurations
+      Args:
+          None
+      Returns:
+          Dict of configurations
 
 
    .. py:method:: apply(model: onnx.ModelProto, candidate_layers: Any, layer_metadata: Any) -> Any
@@ -44,9 +45,10 @@ Classes
 
       Apply list of transforms to onnx model.
 
-      :param model: onnx model to be quantized.
-
-      :returns: New onnx model based on `model` which has been transformed.
+      Args:
+          model: onnx model to be quantized.
+      Returns:
+          New onnx model based on `model` which has been transformed.
 
 
 

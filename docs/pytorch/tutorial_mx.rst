@@ -11,16 +11,16 @@ Tutorial: Using MX (Microscaling) with Quark
 Introduction
 ============
 
-In this tutorial, we will learn how to use MX datatypes with Quark.
+In this tutorial, we will learn how to use MX data types with Quark.
 
-MX is a new family of quantization datatypes defined by this
+MX is a new family of quantization data types defined by this
 `specification <https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf>`__
 and explored thoroughly in `Microscaling Data Formats for Deep
 Learning <https://arxiv.org/abs/2310.10537>`__
 
 The key feature of MX is that it subdivides tensors into arbitrary
 blocks of elements that share a scale, instead of using a single per
-tensor scale like many other datatypes.
+tensor scale like many other data types.
 
 This allows for better accuracy with more fine-grained scaling while
 still reducing storage and computational requirements.
@@ -31,7 +31,7 @@ How to use MX in Quark
 1. Install Quark:
 -----------------
 
-Follow the steps in the `installation guide <../install.html>`__.
+Follow the steps in the :doc:`installation guide <../install>`.
 
 2. Set the model:
 -----------------
@@ -80,8 +80,12 @@ For MX quantization you need to not only set the ``dtype`` (Dtype.mx)
 but you also need to set the ``mx_element_dtype`` to determine what
 quantization is used by each tensor element.
 
-The supported element types are: - FP8 (E4M3) - FP6 (E3M2 and E2M3) -
-FP4 (E2M1) - INT8
+The supported element types are: 
+
+- FP8 (E4M3) 
+- FP6 (E3M2 and E2M3) 
+- FP4 (E2M1) 
+- INT8
 
 In terms of what element type to choose, according to `Microscaling Data
 Formats for Deep Learning <https://arxiv.org/abs/2310.10537>`__, INT8
@@ -163,7 +167,7 @@ the model!
    quant_model = quantizer.quantize_model(model, calib_dataloader)
 
 This step will calculate the block scales, apply them to the element
-values and perform quantization to whatever element datatype you have
+values and perform quantization to whatever element data type you have
 selected.
 
 How are the scales calculated?
@@ -181,7 +185,7 @@ How are the scales calculated?
 
 -  Rounding it down to the nearest integer power and
 
--  Subtracting the maximum exponent value the chosen element datatype can represent.
+-  Subtracting the maximum exponent value the chosen element data type can represent.
 
 .. figure:: ../_static/mx/shared_exponent.png
    :width: 250px
@@ -205,7 +209,7 @@ Conclusion
 ----------
 
 Congratulations, if you've done all of the above, you should now have a
-model quantized with MX datatypes that you can perform inference with.
+model quantized with MX data types that you can perform inference with.
 
 You should also hopefully have a better understanding of what MX
 actually means and why you might want to use it.

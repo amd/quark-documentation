@@ -20,6 +20,8 @@ Functions
 
    quark.torch.algorithm.api.apply_pre_quantization_optimization
    quark.torch.algorithm.api.apply_advanced_quant_algo
+   quark.torch.algorithm.api.apply_advanced_pruning_algo
+
 
 
 

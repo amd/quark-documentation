@@ -13,7 +13,7 @@ Quantization Configuration
        input_nodes=[],
        output_nodes=[],
        op_types_to_quantize=[],
-       random_data_reader_input_shape=[],
+       extra_op_types_to_quantize=[],
        per_channel=False,
        reduce_range=False,
        activation_type=quark.onnx.QuantType.QInt8,
@@ -21,6 +21,7 @@ Quantization Configuration
        nodes_to_quantize=[],
        nodes_to_exclude=[],
        optimize_model=True,
+       use_dynamic_quant=False,
        use_external_data_format=False,
        execution_providers=['CPUExecutionProvider'],
        enable_npu_cnn=False,
@@ -75,21 +76,12 @@ Quantization Configuration
    only operators of the given types will be quantized (e.g., ['Conv']
    to only quantize Convolutional layers). By default, all supported
    operators will be quantized.
-*  **random_data_reader_input_shape**: (List or Tuple of Int) If dynamic
-   axes of inputs require specific value, users should provide its
-   shapes when using internal random data reader (That is, set
-   calibration_data_reader to None). The basic format of shape for
-   single input is list (Int) or tuple (Int) and all dimensions should
-   have concrete values (batch dimensions can be set to 1). For example,
-   random_data_reader_input_shape=[1, 3, 224, 224] or
-   random_data_reader_input_shape=(1, 3, 224, 224) for single input. If
-   the model has multiple inputs, it can be fed in list (shape) format,
-   where the list order is the same as the onnxruntime got inputs. For
-   example, random_data_reader_input_shape=[[1, 1, 224, 224], [1, 2,
-   224, 224]] for 2 inputs. Moreover, it is possible to use dict {name :
-   shape} to specify a certain input, for example,
-   random_data_reader_input_shape={“image” : [1, 3, 224, 224]} for the
-   input named “image”. The default value is an empty list ([]).
+*  **extra_op_types_to_quantize**: (List of Strings or None) If specified,
+   the given operator types will be included as additional targets for
+   quantization, expanding the set of operators to be quantized without
+   replacing the existing configuration (e.g., ['Gemm'] to include Gemm
+   layers in addition to the currently specified types). By default, no
+   extra operator types will be added for quantization.
 -  **per_channel**: (Boolean) Determines whether weights should be
    quantized per channel. The default value is False. For DPU/NPU
    devices, this must be set to False as they currently do not support
@@ -117,6 +109,9 @@ Quantization Configuration
    Conv/ConvTranspose/Gemm operator followed by BatchNormalization can
    be fused into one during the optimization, which can be quantized
    very efficiently. The default value is True.
+-  **use_dynamic_quant**: (Boolean) This flag determines whether to apply
+   dynamic quantization to the model. If True, dynamic quantization is used;
+   if False, static quantization is applied. The default is False.
 -  **use_external_data_format**: (Boolean) This option is used for large
    size (>2GB) model. The model proto and data will be stored in
    separate files. The default is False.
@@ -156,9 +151,7 @@ Quantization Configuration
 -  **convert_nchw_to_nhwc**: (Boolean) This parameter controls whether
    to convert the input NCHW model to input NHWC model before
    quantization. For input NCHW models, it is recommended to set this
-   parameter to True. If you provide a custom calibration_data_reader,
-   its shape needs to be nhwc instead of nchw when this parameter is set
-   to True. The default value is False.
+   parameter to True. The default value is False.
 -  **include_cle**: (Boolean) This parameter is a flag that determines
    whether to optimize the models using CrossLayerEqualization; it can
    improve the accuracy of some models. The default is False.
@@ -168,9 +161,15 @@ Quantization Configuration
 -  **include_sq**: (Boolean) This parameter is a flag that determines
    whether to optimize the models using SmoothQuant; it can improve the
    accuracy of some models. The default is False.
+-  **include_auto_mp**: (Boolean) If True, the auto mixed precision will be turned on. 
+   The default is False.
 -  **specific_tensor_precision**: (Boolean) This parameter is a flag
    that determines whether to use tensor-level mixed precision, this is
    an experimental feature. The default is False.
+-  **log_severity_level**: (Int) This parameter is used to select the
+   severity level of screen printing logs. Its value ranges from 0 to 4: 0 for DEBUG,
+   1 for INFO, 2 for WARNING, 3 for ERROR and 4 for CRITICAL or FATAL. Default value is 1,
+   which means printing all messages including INFO, WARNING, ERROR and etc by default.
 -  **extra_options**: (Dictionary or None) Contains key-value pairs for
    various options in different cases. Current used:
 
@@ -178,6 +177,8 @@ Quantization Configuration
       data for activations. The default is False.
    -  **WeightSymmetric**: (Boolean) If True, symmetrize calibration
       data for weights. The default is True.
+   -  **QuantizeFP16**: (Boolean) If True, the data type of the input model should be float16. It only takes effect when onnxruntime version is 1.18 or above. The default is False.
+   -  **UseFP32Scale**: (Boolean) If True, the scale of the quantized model is converted from float16 to float32 when the quantization is done. It only takes effect only if QuantizeFP16 is True. It must be False when UseMatMulNBits is True. The default is True.
    -  **UseUnsignedReLU**: (Boolean) If True, the output tensor of ReLU
       and Clip, whose min is 0, will be forced to be asymmetric. The
       default is False.
@@ -185,7 +186,7 @@ Quantization Configuration
       weights. The default is True. For DPU/NPU devices, this must be
       set to True.
    -  **Int32Bias**: (Boolean) If True, bias will be quantized in int32
-      datatype; if false, it will have the same datatype as weight. The
+      data type; if false, it will have the same data type as weight. The
       default is False when enable_npu_cnn is True. Otherwise the
       default is True.
    -  **RemoveInputInit**: (Boolean) If True, initializer in graph
@@ -203,7 +204,8 @@ Quantization Configuration
       quantized. The default behavior can be overridden for specific
       nodes using nodes_to_exclude.
    -  **MatMulConstBOnly**: (Boolean) If True, only MatMul operations
-      with a constant 'B' will be quantized. The default is False.
+      with a constant 'B' will be quantized. The default is False for 
+      static mode and True for dynmaic mode.
    -  **AddQDQPairToWeight**: (Boolean) If True, both QuantizeLinear and
       DeQuantizeLinear nodes are inserted for weight, maintaining its
       floating-point format. The default is False, which quantizes
@@ -246,6 +248,12 @@ Quantization Configuration
    -  **Percentile**: (Float) If the calibration method is set to
       'quark.onnx.CalibrationMethod.Percentile,' then this parameter can
       be set to the percentage for percentile. The default is 99.999.
+   -  **UseRandomData**: (Boolean) Required to be true when the 
+      RandomDataReader is needed. The default value is false.
+   -  **RandomDataReaderInputShape**: (Dict) It is required to use 
+      dict {name : shape} to specify a certain input. For example,
+      RandomDataReaderInputShape={"image" : [1, 3, 224, 224]} for the
+      input named "image". The default value is an empty dict {}.
    -  **RandomDataReaderInputDataRange**: (Dict or None) Specifies the
       data range for each inputs if used random data reader
       (calibration_data_reader is None). Currently, if set to None then
@@ -309,9 +317,12 @@ Quantization Configuration
    -  **ConvertSoftmaxToDPUVersion**: (Boolean) If True, the Softmax
       operation will be converted to DPU version when SimulateDPU is
       True. The default is False.
-   -  **NPULimitationCheck**: (Boolean) If True, the quantization scale
+   -  **NPULimitationCheck**: (Boolean) If True, the quantization position
       will be adjust due to the limitation of DPU/NPU. The default is
       True.
+   -  **MaxLoopNum**: (Int) The quantizer adjusts or aligns the quantization
+      position through loops, this option is used to set the maximum number of loops.
+      The default value is 5.
    -  **AdjustShiftCut**: (Boolean) If True, adjust the shift cut of
       nodes when NPULimitationCheck is True. The default is True.
    -  **AdjustShiftBias**: (Boolean) If True, adjust the shift bias of
@@ -320,19 +331,59 @@ Quantization Configuration
       nodes when NPULimitationCheck is True. The default is True.
    -  **AdjustShiftWrite**: (Boolean) If True, adjust the shift write of
       nodes when NPULimitationCheck is True. The default is True.
-   -  **AdjustHardSigmoid**: (Boolean) If True, adjust the pos of hard
+   -  **AdjustHardSigmoid**: (Boolean) If True, adjust the position of hard
       sigmoid nodes when NPULimitationCheck is True. The default is
       True.
    -  **AdjustShiftSwish**: (Boolean) If True, adjust the shift swish
       when NPULimitationCheck is True. The default is True.
-   -  **AlignConcat**: (Boolean) If True, adjust the quantization pos of
-      concat when NPULimitationCheck is True. The default is True.
-   -  **AlignPool**: (Boolean) If True, adjust the quantization pos of
-      pooling when NPULimitationCheck is True. The default is True.
-   -  **AlignPad**: (Boolean) If True, adjust the quantization pos of
-      pad when NPULimitationCheck is True. The default is True.
-   -  **AlignSlice**: (Boolean) If True, adjust the quantization pos of
-      slice when NPULimitationCheck is True. The default is True.
+   -  **AlignConcat**: (Boolean) If True, adjust the quantization position of
+      concat when NPULimitationCheck is True. The default is True,
+      when the power-of-two scale is used, otherwise it's False.
+   -  **AlignPool**: (Boolean) If True, adjust the quantization position of
+      pooling when NPULimitationCheck is True. The default is True,
+      when the power-of-two scale is used, otherwise it's False.
+   -  **AlignPad**: (Boolean) If True, adjust the quantization position of
+      pad when NPULimitationCheck is True. The default is True,
+      when the power-of-two scale is used, otherwise it's False.
+   -  **AlignSlice**: (Boolean) If True, adjust the quantization position of
+      slice when NPULimitationCheck is True. The default is True,
+      when the power-of-two scale is used, otherwise it's False.
+   -  **AlignTranspose**: (Boolean) If True, adjust the quantization position of
+      transpose when NPULimitationCheck is True. The default is False.
+   -  **AlignReshape**: (Boolean) If True, adjust the quantization position of
+      reshape when NPULimitationCheck is True. The default is False.
+   -  **BFPAttributes**: (Dictionary) A parameter used to specify the
+      attributes for BFPFixNeuron.
+
+      -  **bfp_method**: (String) BFP method. The options are "to_bfp“ and "to_bfp_prime",
+         corresponding to classic BFP and BFP with micro exponents, respectively.
+         The default is 'to_bfp'.
+      -  **axis**: (Int) The axis for splitting the input tensor into blocks. The default is 1
+         but can be modified by the quantizer according to the tensor's shape.
+      -  **bit_width**: (Int) Bits for the block floating point. For BFP16,
+         this parameter should be 16, which consists of three parts: 8 bits shared exponent,
+         1 bit sign and 7 bits mantissa. The default is 16.
+      -  **block_size**: (Int) Size of block. The default is 8.
+      -  **sub_block_size**: (Int) Size of sub-block, only effective when bfp_method is "to_bfp_prime”.
+         The default is 2.
+      -  **sub_block_shift_bits**: (Int) Bits for the micro exponents of a sub block, only effective
+         when bfp_method is "to_bfp_prime”. The default is 1.
+      -  **rounding_mode**: (Int) Rounding mode, 0 for rounding half away from zero, 1 for rounding half
+         upward and 2 for rounding half to even. The default is 0.
+      -  **convert_to_bfloat_before_bfp**: (Int) If set to 1, convert the input tensor to BFloat16
+         before converting to BFP. The default is 0.
+      -  **use_compiler_version_cpu_kernel**: (Int) If set to 1, use a customized cpu kernel.
+         The default is 0.
+   -  **MXAttributes**: (Dictionary) A parameter used to specify the
+      attributes for MXFixNeuron.
+
+      -  **element_dtype**: (String) Element data type. The options are "fp8_e5m2", "fp8_e4m3",
+         "fp6_e3m2", "fp6_e2m3", "fp4_e2m1" and "int8". The default is "int8".
+      -  **axis**: (Int) The axis for splitting the input tensor into blocks. The default is 1
+         but can be modified by the quantizer according to the tensor's shape.
+      -  **block_size**: (Int) Size of block. The default is 8.
+      -  **rounding_mode**: (Int) Rounding mode, 0 for rounding half away from zero, 1 for rounding half
+         upward and 2 for rounding half to even. The default is 0.
    -  **ReplaceClip6Relu**: (Boolean) If True, Replace Clip(0,6) with
       Relu in the model. The default is False.
    -  **CLESteps**: (Int) Specifies the steps for CrossLayerEqualization
@@ -348,15 +399,18 @@ Quantization Configuration
    -  **FastFinetune**: (Dictionary) A parameter used to specify the
       settings for fast finetune.
       
-      -  **OptimAlgorithm**: (String) The specified algorithm for fast finetune. Optional values are “adaround” and “adaquant”. The
-         “adaround” adjusts the weights rounding function, which is
-         relatively stable and might converge faster. The “adaquant” trains
+      -  **OptimAlgorithm**: (String) The specified algorithm for fast finetune. Optional values are "adaround" and "adaquant". The
+         "adaround" adjusts the weights rounding function, which is
+         relatively stable and might converge faster. The "adaquant" trains
          the weight (and bias optional) directly, so might have a greater
          improvement if the parameters, especially the learning rate and
-         batch size, are optimal. The default value is “adaround”.
-      -  **OptimDevice**: (String) The compute device for fast finetune.
-         Optional values are “cpu”, “hip:0” and “cuda:0”. The default value
-         is “cpu”.
+         batch size, are optimal. The default value is "adaround".
+      -  **OptimDevice**: (String) Specifies the compute device used for
+         PyTorch model training during fast finetuning. Optional values
+         are "cpu", and "cuda:0". The default value is "cpu".
+      -  **InferDevice**: (String) Specifies the compute device used for
+         ONNX model inference during fast finetuning. Optional values are
+         "cpu" and "cuda:0". The default value is "cpu".
       -  **FixedSeed**: (Int) Seed for random data generator, that makes
          the fast finetuned results could be reproduced.
       -  **DataSize**: (Int) Specifies the size of the data used for
@@ -388,8 +442,9 @@ Quantization Configuration
          learning rate. For example, setting as (1.0, 0.2) means using a
          new learning rate 0.2 for the layer whose MSE is bigger than 1.0.
       -  **TargetOpType**: (List) The target operation types to finetune.
-         The default value is [Conv, ConvTranspose, Gemm,
-         InstanceNormalization].
+         The default value is [Conv, ConvTranspose, Gemm, MatMul,
+         InstanceNormalization]. The MatMul node must have one and only one
+         set of weights. 
       -  **SelectiveUpdate**: (Bool) If the end-to-end accuracy does not
          improve after finetuned a certain layer, discard the optimized
          weight (and bias) of the layer. The default value is False.
@@ -417,6 +472,12 @@ Quantization Configuration
    -  **RemoveQDQConvPRelu**: (Boolean) If True, the QDQ between
       Conv/Add/Gemm and PRelu will be removed for DPU. The default is
       True.
+   -  **RemoveQDQMulAdd**: (Boolean) If True, the QDQ between
+      Mul and Add will be removed for NPU. The default is False.
+   -  **RemoveQDQBetweenOps**: (List of tuples (Strings, Strings) or None)
+      This parameter accepts a list of tuples representing operation type
+      pairs (e.g., Conv and Relu). If set, the QDQ between the specified
+      pairs of operations will be removed for NPU. The default is None.
    -  **RemoveQDQInstanceNorm**: (Boolean) If True, the QDQ between
       InstanceNorm and Relu/LeakyRelu/PRelu will be removed for DPU. The
       default is False.
@@ -437,6 +498,35 @@ Quantization Configuration
       Example:"MixedPrecisionTensor":{quark.onnx.VitisQuantType.QBFloat16:['/stem/stem.2/Relu_output_0',
       'onnx::Conv_664', 'onnx::Conv_665']} **Note**:If there is a tensor
       with bias, 'Int32Bias' needs set to False.
+   -  **AutoMixprecision**: (Dictionary) A parameter used to specify the
+      settings for auto mixed precision.
+
+      -  **DataSize**: (Int) Specifies the size of the data used for mix-precision. The entire data reader will be used by default.
+      -  **TargetOpType**: (Set) The user defined op type set for mix-precision. The default value is ('Conv', 'ConvTranspose', 'Gemm', 'MatMul').
+      -  **TargetQuantType**: (QuantType) Activation data type to be mixed in the model if 'ActTargetQuantType' is not given. Error will be raised if TargetQuantType is not specified.
+      -  **ActTargetQuantType**: (QuantType) Activation data type to be mixed in the model. 
+         If both ActTargetQuantType and WeightTargetQuantType are not specified, the ActTargetQuantType will be same as TargetQuantType.
+         If only ActTargetQuantType is not specified, the ActTargetQuantType will be the original activation_type.
+      -  **WeightTargetQuantType**: (QuantType) Weight data type to be mixed in the model. 
+         If both ActTargetQuantType and WeightTargetQuantType are not specified, the ActTargetQuantType will be same as TargetQuantType.
+         If only WeightTargetQuantType is not specified, the WeightTargetQuantType will be the original weight_type.
+      -  **BiasTargetQuantType**: (QuantType) Bias data type to be mixed in the model.
+         If BiasTargetQuantType is not specified and Int32Bias is True, the BiasTargetQuantType will be int32.
+         If BiasTargetQuantType is not specified and Int32Bias is False, the BiasTargetQuantType will be same as WeightTargetQuantType.
+      -  **OutputIndex**: (Int) The index of model output to be calculated for loss.
+      -  **L2Target**: (Float) The L2 loss will be no larger than the L2Target. 
+         If L2Target is not specified, the model will be quantized to the target quant type.
+      -  **Top1AccTarget**: (Float) The Top1 accuracy loss will be no larger than the Top1AccTarget. 
+         If Top1AccTarget is not specified, the model will be quantized to the target quant type.
+      -  **EvaluateFunction**: (Function) The function to measure top1 accuracy loss. Input of the function is model output(numpy tensor), 
+         output of the function is top1 accuracy(between 0~1). If EvaluateFunction is not specified while Top1AccTarget is given, error will be raised. 
+      -  **NumTarget**: (Int) Specified the number of nodes for mix-precision to minimize the loss. The default value of NumTarget is 0.
+      -  **TargetTensors**: (List) Specified the names of nodes to mix into the target quant type. It's a experimental option and will be deprecated in the future. The default value is [].
+      -  **TargetIndices**: (List) Specified the indices (based on sensitivity analysis results) of the nodes to mix into the target quant type. The default value is [].
+      -  **ExcludeIndices**: (List) Specified the indices (based on sensitivity analysis results) of the nodes not to mix into the target quant type. The default value is [].
+      -  **NoInputQDQShared**: (Bool) If True, will skip the nodes who shared the input Q/DQ pair with other nodes. The default value is True.
+      -  **AutoMixUseFastFT**: (Bool) If True, will perform fast finetune to improve accuracy after mixed a layer. The default value is False.
+      
    -  **FoldRelu**: (Boolean) If True, the Relu will be fold to Conv
       when use VitisQuantFormat. The default is False.
    -  **CalibDataSize**: (Int) This parameter controls how many data are
@@ -447,6 +537,31 @@ Quantization Configuration
       default is False.
    -  **WeightsOnly**: (Boolean) If True, only quantize weights of the
       model. The default is False.
+   -  **AlignEltwiseQuantType**: (Boolean) If True, quantize weights of the node with the activation quant type if node type in [Mul, Add, Sub, Div, Min, Max] when quant_format is VitisQuantFormat.QDQ and enable_npu_cnn is False and enable_npu_transformer is False. The default is False.
+   -  **UseGPTQ**: (Boolean) If True, GPTQ algorithm will be applied to the 
+      model. The default is False.
+   -  **GPTQParams**: (Dictionary) A parameter used to specify the
+      settings for GPTQ.
+      
+      -  **Bits**: (int) The quantization bits used in GPTQ. The default is 8.
+      -  **BlockSize**: (int) The block size in GPTQ determines 
+         how many columns of weights will be quantized for one update. The default is 128.
+      -  **GroupSize**: (int) The group size in GPTQ determines how many columns of weights share one set of scale and zero-point. The default is -1.
+      -  **PercDamp**: (int) Percent of the average Hessian diagonal to use for dampening. The default is 0.01.
+      -  **ActOrder**: (Boolean) Determine whether to re-order Hessian matrix according the values of diag. The default is False.
+      -  **PerChannel**: (Boolean) Determine whether perform per-channel quantization in GPTQ. The default is False.
+      -  **MSE**: (Boolean) Determine whether to use MSE method to do data calibration in GPTQ. The default is False.
+   -  **UseMatMulNBits**: (Boolean) If True, only quantize weights with nbits for MatMul of the
+      model. The default is False.
+   -  **MatMulNBitsParams**: (Dictionary) A parameter used to specify the
+      settings for MatMulNBits Quantizer.
+      
+      -  **Algorithm**: (str) The algorithm in MatMulNBits Quantization determines which algorithm ("DEFAULT", "GPTQ") to be used to quantize weights. The default is "DEFAULT".
+      -  **GroupSize**: (int) The block size in MatMulNBits Quantization determines how many weights share a scale. The default is 128.
+      -  **Symmetric**: (Boolean) If True, symmetrize quantization for weights. The default is True.
+      -  **Bits**: (int) The target bits to quantize. Only 4b quantization is supported for inference, additional bits support is planned.
+      -  **AccuracyLevel**: (int) The quantization level of input, can be: 0(unset), 1(fp32), 2(fp16), 3(bf16), or 4(int8). The default is 0.
+
 
 Table 7. Quantize Types can be selected for different Quantize Formats
 
@@ -455,7 +570,8 @@ Table 7. Quantize Types can be selected for different Quantize Formats
 +=======================+=======================+=======================+
 | QuantFormat.QDQ       | QuantType.QUInt8      | Implemented by native |
 |                       | QuantType.QInt8       | QuantizeLi            |
-|                       |                       | near/DequantizeLinear |
+|                       | QuantType.QUInt4      | near/DequantizeLinear |
+|                       | QuantType.QInt4       |                       |
 +-----------------------+-----------------------+-----------------------+
 | quark.onnx            | QuantType.QUInt8      | Implemented by        |
 | .VitisQuantFormat.QDQ | QuantType.QInt8       | customized            |
@@ -473,10 +589,12 @@ Table 7. Quantize Types can be selected for different Quantize Formats
 |                       | isQuantType.QBFloat16 |                       |
 +-----------------------+-----------------------+-----------------------+
 
-**Note** : For pure UInt8 or Int8 quantization, we recommend that users
+**Note**: For pure [UInt4, Int4, UInt8, Int8] quantization, we recommend that users
 set quant_format to QuantFormat.QDQ as it uses native
-QuantizeLinear/DequantizeLinear operations which may have better
+QuantizeLinear/DequantizeLinear operations which may have offer better
 compatibility and performance.
+
+   Additionally, for UINT4 and INT4 quantization types, ONNX Runtime version 1.19.0 or later is required. Users must ensure that the ``calibration_method`` is a native ORT quantization method (MinMax, Percentile, etc.).
 
 .. raw:: html
 

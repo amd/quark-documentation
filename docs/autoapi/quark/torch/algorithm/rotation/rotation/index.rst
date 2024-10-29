@@ -19,7 +19,7 @@ Classes
 
 
 
-.. py:class:: RotationProcessor(model: transformers.PreTrainedModel, pre_quant_opt_config: quark.torch.quantization.config.config.RotationConfig, _data_loader: Any)
+.. py:class:: RotationProcessor(model: torch.nn.Module, pre_quant_opt_config: quark.torch.quantization.config.config.RotationConfig, _data_loader: Any)
 
 
 

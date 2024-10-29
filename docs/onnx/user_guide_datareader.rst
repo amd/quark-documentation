@@ -4,7 +4,7 @@ Quark for ONNX - Adding Calibration Datasets
 Class DataReader to Quark quantizer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Quark for ONNX utilizes [ONNXRuntime Quantization Dataloader] for
+Quark for ONNX utilizes `ONNX Runtime's CalibrationDataReader <https://github.com/microsoft/onnxruntime/blob/v1.19.2/onnxruntime/python/tools/quantization/calibrate.py#L142>`__ for
 normalization during quantization calibration. The code below is an
 example showing how to define the class of calibration data loader.
 
@@ -49,6 +49,90 @@ example showing how to define the class of calibration data loader.
    input_shape = (1, 3, 224, 224)
    calib_datareader = ImageDataReader(calibration_image_folder, input_name,
     input_shape[2], input_shape[3])
+
+Calibration Data Path to Quark quantizer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Quark for ONNX supports specifying the path to calibration datasets, making it easy to load them for quantization.
+Currently, this feature only supports data in `.npy` format. Note that no preprocessing will be applied to the calibration datasets after loading.  Please ensure that the calibration data is stored in the following format:
+
+For Single-Input Models:
++++++++++++++++++++++++
+Place the calibration data files in a directory as follows:
+
+.. code-block:: plaintext
+
+   calib_data/
+     calib1.npy
+     calib2.npy
+     calib3.npy
+     calib4.npy
+     calib5.npy
+     ...
+
+For Multi-Input Models:
++++++++++++++++++++++++
+Organize the calibration data in sub-directories named after the input models:
+
+.. code-block:: plaintext
+
+   calib_data/
+     model_input1_name/
+       calib1.npy
+       calib2.npy
+       calib3.npy
+       calib4.npy
+       calib5.npy
+       ...
+     model_input2_name/
+       calib1.npy
+       calib2.npy
+       calib3.npy
+       calib4.npy
+       calib5.npy
+       ...
+     ...
+
+Example Code:
++++++++++++++++++++++++
+.. code-block:: python
+
+   import onnxruntime
+   from quark.onnx import ModelQuantizer
+   from quark.onnx.quantization.config.config import (Config, get_default_config)
+
+   input_model_path = "path/to/your/resnet50.onnx"
+   output_model_path = "path/to/your/resnet50_quantized.onnx"
+   calib_data_path= "path/to/your/calib/data/folder"
+
+   quant_config = get_default_config("XINT8")
+   config = Config(global_quant_config=quant_config)
+
+   quantizer = ModelQuantizer(config)
+   quantizer.quantize_model(input_model_path, output_model_path, calibration_data_reader=None, calibration_data_path=calib_data_path)
+
+Using Random Data to Quark quantizer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Random Data Calibration uses random numbers when no calibration data is available. To enable this feature, set the `UseRandomData` parameter to `True`. This option is useful for testing, but may yield worse quantization results than using a real calibration dataset. It is recommended to use a real calibration dataset when doing static quantization.
+
+Example Code:
++++++++++++++++++++++++
+.. code-block:: python
+
+   import onnxruntime
+   from quark.onnx import ModelQuantizer
+   from quark.onnx.quantization.config.config import Config, get_default_config
+
+   input_model_path = "path/to/your/resnet50.onnx"
+   output_model_path = "path/to/your/resnet50_quantized.onnx"
+
+   quant_config = get_default_config("XINT8")
+   quant_config.extra_options['UseRandomData'] = True
+   config = Config(global_quant_config=quant_config)
+
+   quantizer = ModelQuantizer(config)
+   quantizer.quantize_model(input_model_path, output_model_path, calibration_data_reader=None)
 
 .. raw:: html
 

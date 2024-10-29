@@ -1,7 +1,7 @@
 Tutorial: AdaRound and AdaQuant
 ===============================
 
-In this tutorial, we will learn how to use AdaRound and AdaQuantin in
+In this tutorial, we will learn how to use AdaRound and AdaQuant in
 Quark for ONNX.
 
 Introduction
@@ -10,18 +10,18 @@ Introduction
 AdaRound
 ~~~~~~~~
 
-**AdaRound**, short for “Adaptive Rounding,” is a post-training
+**AdaRound**, short for "Adaptive Rounding," is a post-training
 quantization technique that aims to minimize the accuracy drop typically
 associated with quantization. Unlike standard rounding methods, which
 can be too rigid and cause significant deviations from the original
-model’s behavior, Adaround uses an adaptive approach to determine the
+model's behavior, AdaRound uses an adaptive approach to determine the
 optimal rounding of weights. Here is the
 `link <https://arxiv.org/abs/2004.10568>`__ to the paper.
 
 AdaQuant
 ~~~~~~~~
 
-**AdaQuant**, short for “Adaptive Quantization,” is an advanced
+**AdaQuant**, short for "Adaptive Quantization," is an advanced
 quantization technique designed to minimize the accuracy loss typically
 associated with post-training quantization. Unlike traditional static
 quantization methods, which apply uniform quantization across all layers
@@ -29,18 +29,18 @@ and weights, AdaQuant dynamically adapts the quantization parameters
 based on the characteristics of the model and its data. Here is the
 `link <https://arxiv.org/abs/1712.01048>`__ to the paper.
 
-Benefits of Adaround and AdaQuant
+Benefits of AdaRound and AdaQuant
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. **Improved Accuracy**: By minimizing the quantization error, Adaround
-   helps preserve the model’s accuracy closer to its original state. By
+1. **Improved Accuracy**: By minimizing the quantization error, AdaRound
+   helps preserve the model's accuracy closer to its original state. By
    dynamically adjusting quantization parameters, AdaQuant helps retain
    a higher level of model accuracy compared to traditional quantization
    methods.
-2. **Flexibility**: Adaround and AdaQuant can be applied to various
+2. **Flexibility**: AdaRound and AdaQuant can be applied to various
    layers and types of neural networks, making it a versatile tool for
    different quantization needs.
-3. **Post-Training Application**: Adaround does not require retraining
+3. **Post-Training Application**: AdaRound does not require retraining
    the model from scratch. It can be applied after the model has been
    trained, making it a convenient choice for deploying pre-trained
    models in resource-constrained environments.
@@ -55,10 +55,10 @@ Comparing with the original algorithm, AdaRound in Quark for ONNX is
 modified and upgraded to be more flexible.
 
 1. **Unified Framework**: These two algorithms were integrated into a
-   unified framework named as “fast finetune”.
+   unified framework named as "fast finetune".
 2. **Quantization Aware Finetuning**: Only the weight and bias
    (optional) will be updated, the scales and zero points are fixed,
-   which ensures that all the quantizing informations and the structure
+   which ensures that all the quantizing information and the structure
    of the quantized model keep unchanged after finetuning.
 3. **Flexibility**: AdaRound in Quark for ONNX is compatible with many
    more graph patterns-matching.
@@ -80,8 +80,7 @@ How to enable AdaRound / AdaQuant in Quark?
 -------------------------------------------
 
 AdaRound and AdaQuant are provided as options of optimal algorithms for
-fast finetune. Please refer to this
-`link <./user_guide_accuracy_improvement.html#1.3-quantizing-using-fast-finetune>`__
+fast finetune. Please refer to this :ref:`link <quark-onnx-quantizing-using-fast-finetune>`
 for more details about how to set the configuration to enable AdaRound
 or AdaQuant.
 
@@ -90,11 +89,13 @@ AdaQuant configuration.
 
 .. code:: python
 
-   from quark.onnx.quantization.config.config import Config, QuantizationConfig
+   from quark.onnx.quantization.config.config import Config, QuantizationConfig, get_default_config
    # Config of default AdaRound
-   config = Config(global_quant_config=DEFAULT_S8S8_AAWS_ADAROUND_CONFIG)
+   quant_config = get_default_config("S8S8_AAWS_ADAROUND")
+   config = Config(global_quant_config=quant_config)
    # Config of default AdaQuant
-   config = Config(global_quant_config=DEFAULT_S8S8_AAWS_ADAQUANT_CONFIG)
+   quant_config = get_default_config("S8S8_AAWS_ADAQUANT")
+   config = Config(global_quant_config=quant_config)
 
 Examples
 --------
@@ -105,9 +106,8 @@ AdaRound
 ~~~~~~~~
 
 An example of quantizing a mobilenetv2_050.lamb_in1k model using the
-AadRound in ONNX for Quark is provided
-examples/onnx/accuracy_improvement/adaround/README. The table below
-shows the accuracy improved by applying AdaRound. 
+AdaRound in ONNX for Quark is :doc:`available here <example_quark_onnx_adaround>`.
+The table below shows the accuracy improved by applying AdaRound. 
 
 +-------+-------------------+---------------------+-------------------+
 |       | Float Model       | Quantized Model     | Quantized Model   |
@@ -129,9 +129,8 @@ AdaQuant
 ~~~~~~~~
 
 An example of quantizing a mobilenetv2_050.lamb_in1k model using the
-AdaQuant in ONNX for Quark is provided
-examples/onnx/accuracy_improvement/adaquant/README. The table below
-shows the accuracy improved by applying AdaQuant. 
+AdaQuant in ONNX for Quark is :doc:`available here <example_quark_onnx_adaquant>`.
+The table below shows the accuracy improved by applying AdaQuant. 
 
 +-------+-------------------+---------------------+-------------------+
 |       | Float Model       | Quantized Model     | Quantized Model   |

@@ -16,10 +16,18 @@ Functions
 .. autoapisummary::
 
    quark.torch.kernel.hw_emulation.hw_emulation_interface.quant_fp8_e4m3
+   quark.torch.kernel.hw_emulation.hw_emulation_interface.quant_fp8_e5m2
    quark.torch.kernel.hw_emulation.hw_emulation_interface.dequant_fp8_e4m3
+   quark.torch.kernel.hw_emulation.hw_emulation_interface.dequant_fp8_e5m2
    quark.torch.kernel.hw_emulation.hw_emulation_interface.quant_fp8_e4m3_with_scale
+   quark.torch.kernel.hw_emulation.hw_emulation_interface.quant_fp8_e5m2_with_scale
    quark.torch.kernel.hw_emulation.hw_emulation_interface.dequant_fp8_e4m3_with_scale
-   quark.torch.kernel.hw_emulation.hw_emulation_interface.fake_quantize
+   quark.torch.kernel.hw_emulation.hw_emulation_interface.dequant_fp8_e5m2_with_scale
+   quark.torch.kernel.hw_emulation.hw_emulation_interface.scaled_fake_quantize
+
+
+
+
 
 
 

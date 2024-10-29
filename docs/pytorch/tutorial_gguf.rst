@@ -10,13 +10,13 @@ Introduction
 quantization toolkit for quantizing models from PyTorch, ONNX and other
 frameworks. It provides easy-to-use APIs for quantization and more
 advanced features than native frameworks. Quark supports multiple
-hardware backends and a variety of datatypes with state of the art
+hardware backends and a variety of data types with state of the art
 quantization algorithms integrated, such as AWQ, SmoothQaunt, GPTQ, and
 more.
 
 After quantization, Quark can export the quantized model in different
-formats. Quark has already implemented `ONNX exporting <./user_guide_exporting.html#onnx-exporting>`__ and
-`JSON-Safetensors exporting <./user_guide_exporting.html#json-safetensors-exporting>`__. Now
+formats. Quark has already implemented :ref:`ONNX exporting <quark-torch-onnx-exporting>` and
+:ref:`JSON-Safetensors exporting <quark-torch-json-safetensors-exporting>`. Now
 we introduce GGUF exporting in this tutorial. Thanks to this feature,
 users can obtain both high accuracy with Quark and high performance with
 GGML based frameworks like ``llama.cpp``.
@@ -48,7 +48,7 @@ One may think of GGUF file as model config + Pytorch's model state_dict.
 The ``metadata`` key-value pairs correspond to model config while the
 ``tensors info`` key-value pairs + tensors data correspond to model
 state_dict. The quantization process actually converts tensors in fp32
-or fp16 to tensors in other datatypes with less memory usage and more
+or fp16 to tensors in other data types with less memory usage and more
 computing efficiency. GGUF exporting is mainly about writing quantized
 tensors to tensor part of GGUF file in appropriate format.
 
@@ -57,7 +57,7 @@ How Does Quark Do Quantization
 
 Quark implements quantization by inserting quantization operators before
 and after normal operators, as shown in Figure 2. Quantizers are quite
-versatile as to support for a several datatypes and quantization
+versatile as to support for a several data types and quantization
 schemes.
 
 .. figure:: ../\_static/quant_workflow.png
@@ -67,7 +67,7 @@ schemes.
 
    <div style="text-align: center;">Figure 2</div>
 
-Quantizers are stateful containing information of datatypes and
+Quantizers are stateful containing information of data types and
 quantization schemes, such as scale, zero_point, group size for
 per-group quantization, etc. Exporting is to store weights and quantizer
 states in some format.
@@ -132,14 +132,14 @@ quantized models. To export GGUF models, call
    export_path = "./output_dir"
    model_dir = "<HuggingFace model directory>"
    from quark.torch import ModelExporter
-   from quark.torch.export.config.custom_config import DEFAULT_EXPORTER_CONFIG, EMPTY_EXPORTER_CONFIG
-   config = DEFAULT_EXPORTER_CONFIG
+   from quark.torch.export.config.config import ExporterConfig, JsonExporterConfig
+   config = ExporterConfig(json_export_config=JsonExporterConfig())
    exporter = ModelExporter(config=config, export_dir=export_path)
    exporter.export_gguf_model(model, model_dir, model_type)
 
 After running the code above successfully, there will be a ``.gguf``
 file under export_path, ``./output_dir/llama.gguf`` for example. Users
-can refer to `user guide <./user_guide_exporting.html#gguf-exporting>`__
+can refer to `user guide <quark-torch-gguf-exporting>`
 for more information.
 
 Step 3: Run with llama.cpp
@@ -163,11 +163,11 @@ How Does It Work
 As mentioned above, the export API stores weights and quantizer states
 into GGUF files. To export quantized models to valid GGUF models,
 weights and quantizer states have to be encoded into valid GGUF
-datatypes. There are some defined GGUF datatypes corresponding to
+data types. There are some defined GGUF data types corresponding to
 different quantization schemes, such as ``Q4_0``, ``Q4_1``, ``Q8_0``,
 ``Q8_1``, etc. Users can refer to
 `ggml-common.h <https://github.com/ggerganov/llama.cpp/blob/master/ggml/src/ggml-common.h>`__
-for more datatypes and their definition. Some of the GGUF dtypes and
+for more data types and their definition. Some of the GGUF dtypes and
 their corresponding quant schemes are shown in table 1.
 
 .. table:: 
@@ -186,10 +186,10 @@ their corresponding quant schemes are shown in table 1.
 
    <div style="text-align: center;">Table 1. Some of GGUF dtypes and their corresponding quant schemes</div>
 
-As long as we find the GGUF datatype that matches the quantization
+As long as we find the GGUF data type that matches the quantization
 scheme of the quantized model in quark, exporting to GGUF model is
 feasible. Thankfully, Quark supports a whole bunch of quantization
-schemes which match majority of defined GGUF datatypes.
+schemes which match majority of defined GGUF data types.
 
 Let's take *asymmetric int4 per-group* quantization with *group size 32*
 as an example, which is ``Q4_1`` in GGUF spec. Quantizer state for this
@@ -279,9 +279,9 @@ command
    quantize Llama-2-7b-float.gguf Llama-2-7b-Q4_1.gguf Q4_1
 
 Next, we use quark to quantize ``Llama-2-7b`` with scheme of weight-only
-int4 asymmetric alone with AWQ and export the quantized model to GGUF
-model named ``quark_exported_model.gguf``. Please Check out readme
-examples/torch/language_modeling/README.md to get the command. Then, we
+int4 asymmetric along with AWQ and export the quantized model to GGUF
+model named ``quark_exported_model.gguf``. Please refer to
+:doc:`examples/torch/language_modeling/example_quark_torch_llm` to get the command. Then, we
 evaluate all the three models and get perplexities with the command
 below:
 
@@ -306,7 +306,7 @@ The results are shown in table 2:
 
    <div style="text-align: center;">Table 2. Experiment results</div>
 
-**Note**: There might be discrepency between the perplexity obtained
+**Note**: There might be discrepancy between the perplexity obtained
 from GGUF model and that from Quark evaluation. There are two main
 reasons:
 

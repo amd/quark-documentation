@@ -142,12 +142,13 @@ onnxruntime.quantization.shape_inference, function quant_pre_process().
 -  **external_data_size_threshold**: (Integer) This parameter specifies
    the size threshold for external data. The default value is 1024.
 
-2. Evaluating the Quantized Model
+3. Evaluating the Quantized Model
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If you have scripts to evaluate float models, like the models in Xilinx
-Model Zoo, you can replace the float model file with the quantized model
-for evaluation. Note that if customized Q/DQ is used in the quantized
+If you have scripts to evaluate float models, you can replace the float model file with the quantized model
+for evaluation. 
+
+Note that if BFP/BF16/FP16/int32 data types are used in the quantized
 model, it is necessary to register the custom operations library to
 onnxruntime inference session before evaluation. For example:
 
@@ -157,9 +158,9 @@ onnxruntime inference session before evaluation. For example:
 
    so = ort.SessionOptions()
    so.register_custom_ops_library(quark.onnx.get_library_path())
-   sess = ort.InferenceSession(quantized_model, so)
+   session = ort.InferenceSession(quantized_model, so)
 
-3. Dumping the Simulation Results
+4. Dumping the Simulation Results
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Sometimes after deploying the quantized model, it is necessary to
@@ -177,7 +178,7 @@ all nodes' results.
    quark.onnx.dump_model(
        model,
        dump_data_reader=None,
-       random_data_reader_input_shape=[],
+       random_data_reader_input_shape={},
        dump_float=False,
        output_dir='./dump_results',)
 
@@ -190,21 +191,10 @@ all nodes' results.
    batch will be taken as input. If you wish to use random data for a
    quick test, you can set dump_data_reader to None. The default value
    is None.
--  **random_data_reader_input_shape**: (List or Tuple of Int) If dynamic
-   axes of inputs require specific value, users should provide its
-   shapes when using internal random data reader (That is, set
-   dump_data_reader to None). The basic format of shape for single input
-   is list (Int) or tuple (Int) and all dimensions should have concrete
-   values (batch dimensions can be set to 1). For example,
-   random_data_reader_input_shape=[1, 3, 224, 224] or
-   random_data_reader_input_shape=(1, 3, 224, 224) for single input. If
-   the model has multiple inputs, it can be fed in list (shape) format,
-   where the list order is the same as the onnxruntime got inputs. For
-   example, random_data_reader_input_shape=[[1, 1, 224, 224], [1, 2,
-   224, 224]] for 2 inputs. Moreover, it is possible to use dict {name :
-   shape} to specify a certain input, for example,
-   random_data_reader_input_shape={"image" : [1, 3, 224, 224]} for the
-   input named "image". The default value is [].
+-  **random_data_reader_input_shape**: (Dict) It is required to use 
+   dict {name : shape} to specify a certain input. For example,
+   RandomDataReaderInputShape={"image" : [1, 3, 224, 224]} for the
+   input named "image". The default value is an empty dict {}.
 -  **dump_float**: (Boolean) This flag determines whether to dump the
    floating-point value of nodes' results. If set to True, the float
    values will be dumped. Note that this may require a lot of storage

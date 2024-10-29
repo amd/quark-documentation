@@ -15,6 +15,7 @@ Classes
 .. autoapisummary::
 
    quark.torch.ModelQuantizer
+   quark.torch.ModelPruner
    quark.torch.ModelExporter
 
 
@@ -26,6 +27,9 @@ Functions
 
    quark.torch.load_params
    quark.torch.save_params
+   quark.torch.import_model_info
+
+
 
 
 

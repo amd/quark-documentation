@@ -23,7 +23,7 @@ Classes
 
 
 
-.. py:class:: ConvertQDQToQOPTransformsPipeline(configs: Optional[Dict[str, Any]] = None)
+.. py:class:: ConvertQDQToQOPTransformsPipeline
 
 
 
@@ -34,13 +34,15 @@ Classes
 
       Implement the transforms.
 
-      :param model: Onnx model to be quantized.
+      Args:
+          model: Onnx model to be quantized.
 
-      :returns: Conveted onnx model.
+      Returns:
+          Conveted onnx model.
 
 
 
-.. py:class:: RemoveQDQTransformsPipeline(configs: Optional[Dict[str, Any]] = None)
+.. py:class:: RemoveQDQTransformsPipeline
 
 
 
@@ -51,9 +53,11 @@ Classes
 
       Implement the transforms.
 
-      :param model: Onnx model to be quantized.
+      Args:
+          model: Onnx model to be quantized.
 
-      :returns: Conveted onnx model.
+      Returns:
+          Conveted onnx model.
 
 
 
