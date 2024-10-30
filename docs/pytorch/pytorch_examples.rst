@@ -20,6 +20,7 @@ The example folder is in quark.zip.
                      + llm_ptq
                      + llm_qat
                      + llm_eval
+                  + vision
                   + diffusers
                   + ...
                + onnx

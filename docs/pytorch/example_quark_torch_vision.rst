@@ -1,6 +1,7 @@
 Vision Model Quantization using Quark FX Graph Mode
 ===================================================
 
+
 In this example, we present a vision model quantization workflow. The
 user specified a ``nn.Module`` and transformed the model to
 ``torch.fx.GraphModule`` format by using PyTorch API. During the
@@ -9,6 +10,13 @@ modified ``fx.GraphModule`` can be used to perform PTQ (Post Training
 Quantization), or/and QAT (Quantization Aware Training). We supply a
 demonstration code and show how users assign ``quant config``, more
 information can be found in User Guide.
+
+Get example code and script
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+After unzip ``quark.zip`` (referring to :doc:`Installation Guide <install>`).
+The example folder is in quark.zip. In folder ``/examples/torch/vision``, user can get the detailed explaination of
+image classification and object detection quantization demonstration code.
+
 
 PTQ
 ~~~
@@ -152,6 +160,9 @@ LSQ and TQT are optimized methods for QAT which can improve accuracy theoretical
 Experiment Result
 -----------------
 
+
+1. Image classification Task PTQ/QAT Result.
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 We conducted PTQ and QAT on both ResNet-18 and MobileNet-V2. In these
 model, all weight, bias, and activation are quantized. All kinds of
 Tensors are quantized in INT8, per-tensor, symmetric(zero point is 0).
@@ -163,9 +174,20 @@ script.
 Method       ResNet-18       MobileNetV2
 ============ =============== ===============
 Float Model  69.764 / 89.085 71.881 / 90.301
-PTQ （INT8） 69.084 / 88.648 65.291 / 86.254
+PTQ  (INT8)  69.084 / 88.648 65.291 / 86.254
 QAT (INT8)   69.469 / 88.872 68.562 /88.484
 ============ =============== ===============
+
+2. Object Detection Task PTQ/QAT Result.
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+We conducted PTQ and QAT on YOLO-NAS. In this model quantization, we partly quantized this model by assigned the configuration.
+
+==============  ===============  ===============  ===============
+Metric          FP32 model       INT 8 PTQ         INT 8 QAT
+==============  ===============  ===============  ===============
+mAP@0.50        0.6466             0.6236           0.6239
+mAP@0.50:0.95   0.4759             0.4537           0.4532
+==============  ===============  ===============  ===============
 
 .. raw:: html
 
