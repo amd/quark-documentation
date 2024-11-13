@@ -67,7 +67,7 @@ mdurl==0.1.2
     # via markdown-it-py
 myst-parser==4.0.0
     # via rocm-docs-core
-packaging==24.1
+packaging==24.2
     # via sphinx
 pycparser==2.22
     # via cffi
@@ -75,7 +75,7 @@ pydata-sphinx-theme==0.16.0
     # via
     #   rocm-docs-core
     #   sphinx-book-theme
-pygithub==2.4.0
+pygithub==2.5.0
     # via rocm-docs-core
 pygments==2.18.0
     # via
