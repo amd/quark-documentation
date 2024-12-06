@@ -1,5 +1,5 @@
-Release Note
-============
+Release Notes
+==============
 
 New Features (Version 0.6.0)
 ----------------------------
@@ -8,29 +8,29 @@ New Features (Version 0.6.0)
 
    -  Model Support:
 
-      -  Provided more examples of LLM PTQ, such as Llama3.2 and Llama3.2-Vision models (only quantizing language part).
+      -  Provided more examples of LLM PTQ, such as LLaMA3.2 and LLaMA3.2-Vision models (only quantizing the language part).
       -  Provided examples of Phi and ChatGLM for LLM QAT.
       -  Provided examples of LLM pruning for Qwen2.5, LLaMA, OPT, CohereForAI/c4ai-command models.
       -  Provided an example of YOLO-NAS, a detection model PTQ/QAT, which can partially quantize the model using user configuration under FX mode.
       -  Provided an example of SDXL v1.0 with weight INT8 activation INT8 under Eager Mode.
-      -  Supported more models for rotation, such as Qwen models under Eager Mode
+      -  Supported more models for rotation, such as Qwen models under Eager Mode.
 
    -  PyTorch Quantizer Enhancements:
 
       -  Supported partially quantizing the model by user config under FX mode.
       -  Supported quantization of ``ConvTranspose2d`` in Eager Mode and FX mode.
       -  Advanced Quantization Algorithms: Improved rotation by auto-generating configurations.
-      -  Optimized Configuration with DataTypeSpec for easy-of-use.
+      -  Optimized Configuration with DataTypeSpec for ease of use.
       -  Accelerated in-place replacement under Eager Mode.
-      -  Supported loading configuration from file of algorithms and pre-optimizations under Eager Mode.
+      -  Supported loading configuration from a file of algorithms and pre-optimizations under Eager Mode.
 
    -  Evaluation:
 
-      -  Provided LLM evaluation method of quantized models on benchmark tasks: Open LLM Leaderboard, etc.
+      -  Provided LLM evaluation method of quantized models on benchmark tasks: Open LLM Leaderboard and more such.
 
    -  Export Capabilities:
 
-      -  Integrated the export configurations into the quark format export content, standardizing the pack method for per-group quantization.
+      -  Integrated the export configurations into the Quark format export content, standardizing the pack method for per-group quantization.
 
    -  PyTorch Pruning:
 
@@ -40,30 +40,30 @@ New Features (Version 0.6.0)
 
    -  Model Support:
 
-      -  Provided more ONNX quantization examples of LLM models such as Llama2.
+      -  Provided more ONNX quantization examples of LLM models such as LLaMA2.
 
    -  Data Types:
 
-      -  Supported int4 and uint4 data types
-      -  Supported Microscaling (MX) data types with ``int8``, ``fp8_e4m3fn``, ``fp8_e5m2``, ``fp6_e3m2``, ``fp6_e2m3``and ``fp4 elements``.
+      -  Supported int4 and uint4 data types.
+      -  Supported Microscaling (MX) data types with ``int8``, ``fp8_e4m3fn``, ``fp8_e5m2``, ``fp6_e3m2``, ``fp6_e2m3``, and ``fp4 elements``.
 
    -  ONNX Quantizer Enhancements:
 
-      -  Supported compatibility with ONNX Runtime version 1.19
-      -  Supported MatMulNBits quantization for LLM models
-      -  Supported fast fine-tuning on the Matmul operator
-      -  Supported quantizing specified operators
-      -  Supported quantization type alignment of element-wise operators 
-      -  Supported ONNX graph cleaning for Ryzen AI workflow
-      -  Supported int32 bias quantization for Ryzen AI workflow
-      -  Enhanced support for Windows systems and ROCm GPU
-      -  Optimized the quantization of FP16 models to save memory
-      -  Optimized the custom operator compilation process
-      -  Optimized the default parameters for auto mixed precision
+      -  Supported compatibility with ONNX Runtime version 1.19.
+      -  Supported MatMulNBits quantization for LLM models.
+      -  Supported fast fine-tuning on the Matmul operator.
+      -  Supported quantizing specified operators.
+      -  Supported quantization type alignment of element-wise operators.
+      -  Supported ONNX graph cleaning for Ryzen AI workflow.
+      -  Supported int32 bias quantization for Ryzen AI workflow.
+      -  Enhanced support for Windows systems and ROCm GPU.
+      -  Optimized the quantization of FP16 models to save memory.
+      -  Optimized the custom operator compilation process.
+      -  Optimized the default parameters for auto mixed precision.
 
    -  Advanced Quantization Algorithms:
 
-      -  Supported GPTQ for both QDQ format and MatMulNBits format
+      -  Supported GPTQ for both QDQ format and MatMulNBits format.
 
 New Features (Version 0.5.1)
 ----------------------------
@@ -78,7 +78,7 @@ New Features (Version 0.5.1)
 -  **Quark for ONNX**
 
    -  ONNX Quantizer Enhancements:
-   
+
       -  Supported compatibility with onnxruntime version 1.19.
 
 New Features (Version 0.5.0)
@@ -93,7 +93,7 @@ New Features (Version 0.5.0)
          -  INT/OCP_FP8E4M3: Llama-3.1, gpt-j-6b, Qwen1.5-MoE-A2.7B, phi-2, Phi-3-mini, Phi-3.5-mini-instruct, Mistral-7B-v0.1
          -  OCP_FP8E4M3: mistralai/Mixtral-8x7B-v0.1, hpcai-tech/grok-1, CohereForAI/c4ai-command-r-plus-08-2024, CohereForAI/c4ai-command-r-08-2024, CohereForAI/c4ai-command-r-plus, CohereForAI/c4ai-command-r-v01, databricks/dbrx-instruct, deepseek-ai/deepseek-moe-16b-chat
 
-      -  Provided more examples of diffusion model quantization: 
+      -  Provided more examples of diffusion model quantization:
 
          -  Supported models: SDXL, SDXL-Turbo, SD1.5, Controlnet-Canny-SDXL, Controlnet-Depth-SDXL, Controlnet-Canny-SD1.5
          -  Supported schemes: FP8, W8, W8A8 with and without SmoothQuant
@@ -150,11 +150,11 @@ New Features (Version 0.2.0)
 
    -  **Data Types**:
 
-      -  :doc:`OCP Microscaling (MX) is supported. Valid element data types include INT8, FP8_E4M3, FP4, FP6_E3M2, and FP6_E2M3. <./pytorch/tutorial_mx>`
+      -  :doc:`OCP Microscaling (MX) is supported. Valid element data types include INT8, FP8_E4M3, FP4, FP6_E3M2, and FP6_E2M3. <./pytorch/adv_mx>`
 
    -  **Export Capabilities**:
 
-      -  :doc:`Quantized models can now be exported in GGUF format. The exported GGUF model is runnable with llama.cpp. Only Llama2 is supported for now. <./pytorch/tutorial_gguf>`
+      -  :doc:`Quantized models can now be exported in GGUF format. The exported GGUF model is runnable with llama.cpp. Only Llama2 is supported for now. <./pytorch/export/gguf>`
       -  Introduced Quark's native Json-Safetensors export format, which is identical to AutoFP8 and AutoAWQ when used for FP8 and AWQ quantization.
 
    -  **Model Support**:
@@ -197,7 +197,7 @@ New Features (Version 0.2.0)
 
    -  **Custom operations**:
 
-      -  "BFPFixNeuron" which supports block floating-point data type. It can run on the CPU on Windows, and on both the CPU and GPU on Linux. 
+      -  "BFPFixNeuron" which supports block floating-point data type. It can run on the CPU on Windows, and on both the CPU and GPU on Linux.
       -  "VitisQuantizeLinear" and "VitisDequantizeLinear" which support INT32/UINT32, Float16, Bfloat16, INT16/UINT16 quantization.
       -  "VitisInstanceNormalization" and "VitisLSTM" which have customized Bfloat16 kernels.
       -  All custom operations support running on the CPU on both Linux and Windows.

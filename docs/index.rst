@@ -61,50 +61,145 @@ Key Features
    - **Flexible Scale Types:** Support quantization with `float scale`, `int16 scale`, and `power-of-two scale` options.
    - **Automatic Mixed Precision:**  Achieve an optimal balance between accuracy and performance through automatic mixed precision.
 
+
 .. toctree::
    :hidden:
-   :maxdepth: 1
    :caption: Release Notes
+   :maxdepth: 1
 
    Release Information <release_note.rst>
 
+.. _getting-started-with-quark:
 .. toctree::
    :hidden:
+   :caption: Getting Started with Quark
    :maxdepth: 1
-   :caption: Getting Started
 
-   Introduction to Quantization <quantization.rst>
+   .. _introduction-to-quantization:
+   Introduction to Quantization <intro.rst>
+
+   .. _installation:
    Installation <install.rst>
 
+   .. _basic-usage:
+   Basic Usage <basic_usage.rst>
+
+   .. _accessing-pytorch-examples:
+   Accessing PyTorch Examples <pytorch/pytorch_examples.rst>
+
+   .. _accessing-onnx-examples:
+   Accessing ONNX Examples <onnx/onnx_examples.rst>
+
+.. _advanced-quark-features-pytorch:
 .. toctree::
    :hidden:
+   :caption: Advanced Quark Features for PyTorch
    :maxdepth: 1
-   :caption: PyTorch
 
-   Getting Started <pytorch/getting_started.rst>
-   User Guide <pytorch/user_guide.rst>
-   Examples <pytorch/pytorch_examples.rst>
-   APIs <pytorch/pytorch_apis.rst>
-   Advanced Features <pytorch/pytorch_adv_features.rst>
-   FAQ <pytorch/pytorch_faq.rst>
+   .. _configuration:
+   Configuring PyTorch Quantization <pytorch/user_guide_config_description.rst>
 
+   .. _torch-calibration-methods:
+   Calibration Methods <pytorch/calibration_methods.rst>
+
+   .. _torch-calibration-datasets:
+   Calibration Datasets <pytorch/calibration_datasets.rst>
+
+   .. _torch-quantization-strategies:
+   Quantization Strategies <pytorch/quantization_strategies.rst>
+
+   .. _torch-quantization-schemes:
+   Quantization Schemes <pytorch/quantization_schemes.rst>
+
+   .. _torch-quantization-symmetry:
+   Quantization Symmetry <pytorch/quantization_symmetry.rst>
+
+   .. _quark-for-language-models:
+   Language Model Optimization <pytorch/llm_quark.rst>
+
+   .. _exporting-quantized-models:
+   Exporting Quantized Models <pytorch/user_guide_output.rst>
+
+   .. _exporting-using-onnx-runtime-gen-ai-model-builder:
+   Exporting Using ONNX Runtime Gen AI Model Builder <pytorch/exporting_onnx.rst>
+
+   .. _smoothquant:
+   Activation/Weight Smoothing (SmoothQuant) <pytorch/smoothquant.rst>
+
+   .. _quark-extensions:
+   Extensions <pytorch/extensions.rst>
+
+   .. _using-mx-with-quark:
+   Using MX (Microscaling) <pytorch/adv_mx.rst>
+
+   .. _two-level-quantization-formats:
+   Two Level Quantization Formats <pytorch/adv_two_level.rst>
+
+.. _advanced-quark-features-onnx:
 .. toctree::
    :hidden:
+   :caption: Advanced Quark Features for ONNX
    :maxdepth: 1
-   :caption: ONNX
 
-   Getting Started <onnx/getting_started.rst>
-   User Guide <onnx/user_guide.rst>
-   Examples <onnx/onnx_examples.rst>
-   APIs <onnx/onnx_apis.rst>
-   Advanced Features <onnx/onnx_adv_features.rst>
-   FAQ <onnx/onnx_faq.rst>
+   .. _onnx-configuration:
+   Configuring ONNX Quantization <onnx/user_guide_config_description.rst>
 
-..
-  ------------
+   .. _onnx-calibration-methods:
+   Calibration methods <onnx/config/calibration_methods.rst>
 
-  #####################################
-  License
-  #####################################
+   .. _onnx-calibration-dataset:
+   Calibration datasets <onnx/config/calibration_datasets.rst>
 
-  Quark is licensed under MIT License. Refer to the LICENSE file for the full license text and copyright notice.
+   .. _onnx-quantization-strategies:
+   Quantization Strategies <onnx/config/quantization_strategies.rst>
+
+   .. _onnx-quantization-schemes:
+   Quantization Schemes <onnx/config/quantization_schemes.rst>
+
+   .. _onnx-quantization-symmetry:
+   Quantization Symmetry <onnx/config/quantization_symmetry.rst>
+
+   :_data-types:
+   Data and OP Types <onnx/config/supported_types.rst>
+
+   .. _onnx-mixing-precision:
+   Mixed Precision <onnx/tutorial_mix_precision.rst>
+
+   .. _onnx-bfp-16:
+   Block Floating Point 16 (BFP16) <onnx/bfp16.rst>
+
+   .. _onnx-mx:
+   Microscaling (MX) <onnx/tutorial_mx_quantization.rst>
+
+   .. _onnx-accuracy-improvement-algorithms:
+   Accuracy Improvement Algorithms <onnx/accuracy_improvement_algorithms.rst>
+
+   .. _onnx-optional-utilities:
+   Optional Utilities <onnx/optional_utilities.rst>
+
+   .. _onnx-tools:
+   Tools <onnx/tools.rst>
+
+.. _apis:
+.. toctree::
+   :hidden:
+   :caption: APIs
+   :maxdepth: 1
+
+   .. _pytorch-apis:
+   PyTorch APIs <pytorch/pytorch_apis.rst>
+
+   .. _onnx-apis:
+   ONNX APIs <onnx/onnx_apis.rst>
+
+.. _troubleshooting-and-support:
+.. toctree::
+   :hidden:
+   :caption: Troubleshooting and Support
+   :maxdepth: 1
+
+   .. _pytorch-faq:
+   PyTorch FAQ <pytorch/pytorch_faq.rst>
+
+   .. _onnx-faq:
+   ONNX FAQ <onnx/onnx_faq.rst>

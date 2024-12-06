@@ -1,9 +1,8 @@
-
-Quark for Pytorch - Output
+Exporting Quantized Models
 ==========================
 
-Quark torch not only supports exporting in popular formats requested by 
-downstream tools, including ONNX, Json-safetensors, and GGUF, but also 
+Quark torch not only supports exporting in popular formats requested by
+downstream tools, including ONNX, Json-safetensors, and GGUF, but also
 supports saving and loading in the torch environment.
 
 Exporting
@@ -104,14 +103,22 @@ Json-Safetensors Importing
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Quark provides the importing function for Json-safetensors export files.
+<<<<<<< HEAD
 In other words, these files can be reloaded into Quark. After reloading, 
+=======
+In other words, these files can be reloaded into Quark. After reloading,
+>>>>>>> 273cbb9a1e (Update 0.6.0 documentation as per tech writer review)
 the weights of the quantized operators in the model are stored in the real_quantized format.
 
-Currently, this importing function supports weight-only, static, and dynamic quantization for 
-FP8 and AWQ. For other quantization methods, only weight-only and static 
+Currently, this importing function supports weight-only, static, and dynamic quantization for
+FP8 and AWQ. For other quantization methods, only weight-only and static
 quantization are supported.
 
+<<<<<<< HEAD
 Example of Json-Safetensors Importing 
+=======
+Example of Json-Safetensors Importing
+>>>>>>> 273cbb9a1e (Update 0.6.0 documentation as per tech writer review)
 *************************************
 
 .. code:: python
@@ -154,7 +161,7 @@ Save the network architecture or configurations and parameters of the quantized 
 
 Support both eager and fx-graph model quantization.
 
-For eager mode quantization, the model's configurations are stored in json file, 
+For eager mode quantization, the model's configurations are stored in json file,
 and parameters including weight, bias, scale, and zero_point are stored in safetensors file.
 
 For fx_graph mode quantization, the model's network architecture and parameters are stored in pth file.
@@ -182,8 +189,8 @@ Example of Saving in FX-graph Mode
 Loading
 ~~~~~~~
 
-Instantiate a quantized model from saved model files, which is generated 
-using the above saving function. 
+Instantiate a quantized model from saved model files, which is generated
+using the above saving function.
 
 Support both eager and fx-graph model quantization.
 
@@ -205,9 +212,8 @@ Example of Loading in FX-graph Mode
    from quark.torch.quantization.api import load_params
    model = load_params(pth_path=model_file_path, quant_mode=QuantizationMode.fx_graph_mode)
 
-.. raw:: html
+.. toctree::
+   :hidden:
+   :maxdepth: 1
 
-   <!-- 
-   ## License
-   Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved. SPDX-License-Identifier: MIT
-   -->
+   export/gguf.rst

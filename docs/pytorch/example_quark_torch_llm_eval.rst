@@ -1,5 +1,5 @@
 Language Model Evaluation in Quark
-===========================================================
+==================================
 
 This document provides examples of evaluating large language models using Quark evaluation API. Models are evaluated either by calculating perplexity (PPL) on WikiText2 or by using the third-party benchmark `lm-evaluation-harness <https://github.com/EleutherAI/lm-evaluation-harness>`__.
 Quark supports two types of perplexity calculations: one with a sequence length of 2048 and another for KV cache, while lm-evaluation-harness also includes a separate perplexity metric. By default, Quark uses the 2048-sequence-length perplexity as its primary perplexity metric.

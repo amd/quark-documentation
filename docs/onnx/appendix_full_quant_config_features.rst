@@ -36,31 +36,31 @@ Quantization Configuration
 **Arguments**
 
 *  **model_input**: (String) This parameter specifies the file path of the model that is to be quantized.
-*  **model_output**: (String) This parameter specifies the file path where the quantized model will be saved. 
-*  **calibration_data_reader**: (Object or None) This parameter is a calibration data reader that enumerates the calibration data and generates inputs for the original model. If you wish to use random data for a quick test, you can set calibration_data_reader to None. 
-*  **quant_format**: (String) This parameter is used to specify the quantization format of the model. It has the following options: 
+*  **model_output**: (String) This parameter specifies the file path where the quantized model will be saved.
+*  **calibration_data_reader**: (Object or None) This parameter is a calibration data reader that enumerates the calibration data and generates inputs for the original model. If you wish to use random data for a quick test, you can set calibration_data_reader to None.
+*  **quant_format**: (String) This parameter is used to specify the quantization format of the model. It has the following options:
 
-   -  quark.onnx.QuantFormat.QOperator: This option quantizes the model directly using quantized operators. 
-   -  quark.onnx.QuantFormat.QDQ: This option quantizes the model by inserting QuantizeLinear/DeQuantizeLinear into the tensor. It supports 8-bit quantization only. 
-   -  quark.onnx.VitisQuantFormat.QDQ: This option quantizes the model by inserting VitisQuantizeLinear/VitisDequantizeLinear into the tensor. It supports a wider range of bit-widths and precisions. 
-   -  quark.onnx.VitisQuantFormat.FixNeuron (Experimental): This option quantizes the model by inserting FixNeuron (a combination of QuantizeLinear and DeQuantizeLinear) into the tensor. This quant format is currently experimental and cannot use for actual deployment. 
+   -  quark.onnx.QuantFormat.QOperator: This option quantizes the model directly using quantized operators.
+   -  quark.onnx.QuantFormat.QDQ: This option quantizes the model by inserting QuantizeLinear/DeQuantizeLinear into the tensor. It supports 8-bit quantization only.
+   -  quark.onnx.VitisQuantFormat.QDQ: This option quantizes the model by inserting VitisQuantizeLinear/VitisDequantizeLinear into the tensor. It supports a wider range of bit-widths and precisions.
+   -  quark.onnx.VitisQuantFormat.FixNeuron (Experimental): This option quantizes the model by inserting FixNeuron (a combination of QuantizeLinear and DeQuantizeLinear) into the tensor. This quant format is currently experimental and cannot use for actual deployment.
 
 *  **calibrate_method**: (String) The method used in calibration, default to quark.onnx.PowerOfTwoMethod.MinMSE.
-   
+
    For NPU_CNN platforms, power-of-two methods should be used, options are:
-   
+
    -  quark.onnx.PowerOfTwoMethod.NonOverflow: This method get the power-of-two quantize parameters for each tensor to make sure min/max values not overflow.
    -  quark.onnx.PowerOfTwoMethod.MinMSE: This method get the power-of-two quantize parameters for each tensor to minimize the mean-square-loss of quantized values and float values. This takes longer time but usually gets better accuracy.
-   
+
    For NPU_Transformer or CPU platforms, float scale methods should be used, options are:
-   
+
    -  quark.onnx.CalibrationMethod.MinMax: This method obtains the
       quantization parameters based on the minimum and maximum values of
       each tensor.
    -  quark.onnx.CalibrationMethod.Entropy: This method determines the
       quantization parameters by considering the entropy algorithm of each
       tensor's distribution.
-   -  quark.onnx.CalibrationMethod.Percentile: This method calculates 
+   -  quark.onnx.CalibrationMethod.Percentile: This method calculates
       quantization parameters using percentiles of the tensor values.
 *  **input_nodes**: (List of Strings) This parameter is a list of the
    names of the starting nodes to be quantized. Nodes in the model
@@ -161,7 +161,7 @@ Quantization Configuration
 -  **include_sq**: (Boolean) This parameter is a flag that determines
    whether to optimize the models using SmoothQuant; it can improve the
    accuracy of some models. The default is False.
--  **include_auto_mp**: (Boolean) If True, the auto mixed precision will be turned on. 
+-  **include_auto_mp**: (Boolean) If True, the auto mixed precision will be turned on.
    The default is False.
 -  **specific_tensor_precision**: (Boolean) This parameter is a flag
    that determines whether to use tensor-level mixed precision, this is
@@ -204,7 +204,7 @@ Quantization Configuration
       quantized. The default behavior can be overridden for specific
       nodes using nodes_to_exclude.
    -  **MatMulConstBOnly**: (Boolean) If True, only MatMul operations
-      with a constant 'B' will be quantized. The default is False for 
+      with a constant 'B' will be quantized. The default is False for
       static mode and True for dynmaic mode.
    -  **AddQDQPairToWeight**: (Boolean) If True, both QuantizeLinear and
       DeQuantizeLinear nodes are inserted for weight, maintaining its
@@ -248,9 +248,9 @@ Quantization Configuration
    -  **Percentile**: (Float) If the calibration method is set to
       'quark.onnx.CalibrationMethod.Percentile,' then this parameter can
       be set to the percentage for percentile. The default is 99.999.
-   -  **UseRandomData**: (Boolean) Required to be true when the 
+   -  **UseRandomData**: (Boolean) Required to be true when the
       RandomDataReader is needed. The default value is false.
-   -  **RandomDataReaderInputShape**: (Dict) It is required to use 
+   -  **RandomDataReaderInputShape**: (Dict) It is required to use
       dict {name : shape} to specify a certain input. For example,
       RandomDataReaderInputShape={"image" : [1, 3, 224, 224]} for the
       input named "image". The default value is an empty dict {}.
@@ -398,7 +398,7 @@ Quantization Configuration
       when calculating the scale of the weights, The default is True.
    -  **FastFinetune**: (Dictionary) A parameter used to specify the
       settings for fast finetune.
-      
+
       -  **OptimAlgorithm**: (String) The specified algorithm for fast finetune. Optional values are "adaround" and "adaquant". The
          "adaround" adjusts the weights rounding function, which is
          relatively stable and might converge faster. The "adaquant" trains
@@ -444,7 +444,7 @@ Quantization Configuration
       -  **TargetOpType**: (List) The target operation types to finetune.
          The default value is [Conv, ConvTranspose, Gemm, MatMul,
          InstanceNormalization]. The MatMul node must have one and only one
-         set of weights. 
+         set of weights.
       -  **SelectiveUpdate**: (Bool) If the end-to-end accuracy does not
          improve after finetuned a certain layer, discard the optimized
          weight (and bias) of the layer. The default value is False.
@@ -487,6 +487,12 @@ Quantization Configuration
       will also be fused, if the all input operations of the Concat
       operation are Conv, ConvTranspose or Gemm operatons.The default is
       True.
+   -  **BF16WithClip**: (Boolean) If True, during BFloat16
+      quantization, insert "Clip" node before "VitisQuantizeLinear" node to
+      add boundary protection for activation. The default is False.
+   -  **BF16QDQToCast**: (Boolean) If True, during BFloat16
+      quantization, replace QuantizeLinear/DeQuantizeLinear ops with Cast
+      ops to accelerate BFloat16 quantized inference. The default is False.
    -  **FixShapes**: (String) Set the input_shapes of the quantized
       model to a fixed shape by default if not explicitly specified. The
       example: 'FixShapes':'input_1:[1,224,224,3];input_2:[1,96,96,3]'
@@ -504,29 +510,29 @@ Quantization Configuration
       -  **DataSize**: (Int) Specifies the size of the data used for mix-precision. The entire data reader will be used by default.
       -  **TargetOpType**: (Set) The user defined op type set for mix-precision. The default value is ('Conv', 'ConvTranspose', 'Gemm', 'MatMul').
       -  **TargetQuantType**: (QuantType) Activation data type to be mixed in the model if 'ActTargetQuantType' is not given. Error will be raised if TargetQuantType is not specified.
-      -  **ActTargetQuantType**: (QuantType) Activation data type to be mixed in the model. 
+      -  **ActTargetQuantType**: (QuantType) Activation data type to be mixed in the model.
          If both ActTargetQuantType and WeightTargetQuantType are not specified, the ActTargetQuantType will be same as TargetQuantType.
          If only ActTargetQuantType is not specified, the ActTargetQuantType will be the original activation_type.
-      -  **WeightTargetQuantType**: (QuantType) Weight data type to be mixed in the model. 
+      -  **WeightTargetQuantType**: (QuantType) Weight data type to be mixed in the model.
          If both ActTargetQuantType and WeightTargetQuantType are not specified, the ActTargetQuantType will be same as TargetQuantType.
          If only WeightTargetQuantType is not specified, the WeightTargetQuantType will be the original weight_type.
       -  **BiasTargetQuantType**: (QuantType) Bias data type to be mixed in the model.
          If BiasTargetQuantType is not specified and Int32Bias is True, the BiasTargetQuantType will be int32.
          If BiasTargetQuantType is not specified and Int32Bias is False, the BiasTargetQuantType will be same as WeightTargetQuantType.
       -  **OutputIndex**: (Int) The index of model output to be calculated for loss.
-      -  **L2Target**: (Float) The L2 loss will be no larger than the L2Target. 
+      -  **L2Target**: (Float) The L2 loss will be no larger than the L2Target.
          If L2Target is not specified, the model will be quantized to the target quant type.
-      -  **Top1AccTarget**: (Float) The Top1 accuracy loss will be no larger than the Top1AccTarget. 
+      -  **Top1AccTarget**: (Float) The Top1 accuracy loss will be no larger than the Top1AccTarget.
          If Top1AccTarget is not specified, the model will be quantized to the target quant type.
-      -  **EvaluateFunction**: (Function) The function to measure top1 accuracy loss. Input of the function is model output(numpy tensor), 
-         output of the function is top1 accuracy(between 0~1). If EvaluateFunction is not specified while Top1AccTarget is given, error will be raised. 
+      -  **EvaluateFunction**: (Function) The function to measure top1 accuracy loss. Input of the function is model output(numpy tensor),
+         output of the function is top1 accuracy(between 0~1). If EvaluateFunction is not specified while Top1AccTarget is given, error will be raised.
       -  **NumTarget**: (Int) Specified the number of nodes for mix-precision to minimize the loss. The default value of NumTarget is 0.
       -  **TargetTensors**: (List) Specified the names of nodes to mix into the target quant type. It's a experimental option and will be deprecated in the future. The default value is [].
       -  **TargetIndices**: (List) Specified the indices (based on sensitivity analysis results) of the nodes to mix into the target quant type. The default value is [].
       -  **ExcludeIndices**: (List) Specified the indices (based on sensitivity analysis results) of the nodes not to mix into the target quant type. The default value is [].
       -  **NoInputQDQShared**: (Bool) If True, will skip the nodes who shared the input Q/DQ pair with other nodes. The default value is True.
       -  **AutoMixUseFastFT**: (Bool) If True, will perform fast finetune to improve accuracy after mixed a layer. The default value is False.
-      
+
    -  **FoldRelu**: (Boolean) If True, the Relu will be fold to Conv
       when use VitisQuantFormat. The default is False.
    -  **CalibDataSize**: (Int) This parameter controls how many data are
@@ -538,13 +544,14 @@ Quantization Configuration
    -  **WeightsOnly**: (Boolean) If True, only quantize weights of the
       model. The default is False.
    -  **AlignEltwiseQuantType**: (Boolean) If True, quantize weights of the node with the activation quant type if node type in [Mul, Add, Sub, Div, Min, Max] when quant_format is VitisQuantFormat.QDQ and enable_npu_cnn is False and enable_npu_transformer is False. The default is False.
-   -  **UseGPTQ**: (Boolean) If True, GPTQ algorithm will be applied to the 
+   -  **EnableVaimlBF16**: (Boolean) If True, the bfloat16 quantized model with vitis qdq will be converted to a bfloat16 quantized model with bfloat16 weights stored as float32. Vaiml is the name of a compiler, the bfloat16 quantized model can be directly deployed on the compiler if the parameter is True. The default is False.
+   -  **UseGPTQ**: (Boolean) If True, GPTQ algorithm will be applied to the
       model. The default is False.
    -  **GPTQParams**: (Dictionary) A parameter used to specify the
       settings for GPTQ.
-      
+
       -  **Bits**: (int) The quantization bits used in GPTQ. The default is 8.
-      -  **BlockSize**: (int) The block size in GPTQ determines 
+      -  **BlockSize**: (int) The block size in GPTQ determines
          how many columns of weights will be quantized for one update. The default is 128.
       -  **GroupSize**: (int) The group size in GPTQ determines how many columns of weights share one set of scale and zero-point. The default is -1.
       -  **PercDamp**: (int) Percent of the average Hessian diagonal to use for dampening. The default is 0.01.
@@ -555,8 +562,13 @@ Quantization Configuration
       model. The default is False.
    -  **MatMulNBitsParams**: (Dictionary) A parameter used to specify the
       settings for MatMulNBits Quantizer.
+<<<<<<< HEAD
       
       -  **Algorithm**: (str) The algorithm in MatMulNBits Quantization determines which algorithm ("DEFAULT", "GPTQ") to be used to quantize weights. The default is "DEFAULT".
+=======
+
+      -  **Algorithm**: (str) The algorithm in MatMulNBits Quantization determines which algorithm ("DEFAULT", "GPTQ", "HQQ") to be used to quantize weights. The default is "DEFAULT".
+>>>>>>> 273cbb9a1e (Update 0.6.0 documentation as per tech writer review)
       -  **GroupSize**: (int) The block size in MatMulNBits Quantization determines how many weights share a scale. The default is 128.
       -  **Symmetric**: (Boolean) If True, symmetrize quantization for weights. The default is True.
       -  **Bits**: (int) The target bits to quantize. Only 4b quantization is supported for inference, additional bits support is planned.
@@ -598,7 +610,7 @@ compatibility and performance.
 
 .. raw:: html
 
-   <!-- 
+   <!--
    ## License
    Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved. SPDX-License-Identifier: MIT
    -->

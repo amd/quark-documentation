@@ -1,17 +1,18 @@
 Installation Guide
-==================
+===================
 
 Prerequisites
 -------------
 
-1. Python 3.9+ is required.
-2. Install `PyTorch <https://pytorch.org/>`__ for the compute platform(CUDA, ROCM, CPU…). Version of torch >= 2.2.0.
-3. Install `ONNX <https://onnx.ai/>`__ of version >= 1.16.0, `ONNX Runtime <https://onnxruntime.ai/>`__ of version >= 1.17.0, <1.20.0, `onnxruntime-extensions <https://onnxruntime.ai/docs/extensions/>`__ of version >= 0.4.2
+1. Python 3.9, 3.10, or 3.11 is required. Python 3.12 is currently unsupported.
+2. Install `PyTorch <https://pytorch.org/>`__ for your compute platform (such as CUDA, ROCM, and CPU). Ensure that the version of PyTorch is 2.2.0 or higher.
+3. Install `ONNX <https://onnx.ai/>`__ version 1.16.0 or later, `ONNX Runtime <https://onnxruntime.ai/>`__ version 1.17.0 or later, but earlier than 1.20.0, and `onnxruntime-extensions <https://onnxruntime.ai/docs/extensions/>`__ version 0.4.2 or later.
 
-**Note**: When installing on Windows, Visual Studio is required. The minimum version of Visual Studio is Visual Studio 2022. During the compilation process,There are two ways to use it:
+.. note::
+   When installing on Windows, Visual Studio is necessary, with Visual Studio 2022 being the minimum required version. During the compilation process, you can choose one of the following methods:
 
-1. Use the Developer Command Prompt for Visual Studio, When installing Visual Studio, ensure that Developer Command Prompt for Visual Studio is installed as well. Execute programs in the CMD window of Developer Command Prompt for Visual Studio.
-2. Manually Add Paths to Environment Variables, Visual Studio's cl.exe, MSBuild.exe and link.exe will be used. Please ensure that the paths are added to the PATH environment variable. Those programs are located in the Visual Studio installation directory. In the Edit Environment Variables window, click New, then paste the path to the folder containing cl.exe, link.exe and MSBuild.exe. Click OK on all the windows to apply the changes.
+   1. Use the Developer Command Prompt for Visual Studio. When installing Visual Studio, ensure to include the Developer Command Prompt. You can execute the programs in the CMD window of the Developer Command Prompt for Visual Studio.
+   2. Manually add paths to the environment variables. The tools `cl.exe`, `MSBuild.exe`, and `link.exe` from Visual Studio are utilized. Ensure that their paths are included in the PATH environment variable. These programs can be found in the Visual Studio installation directory. In the Edit Environment Variables window, click **New**, and then paste the path to the folder containing the `cl.exe`, `link.exe`, and `MSBuild.exe` files. Click **OK** on all the windows to apply the changes.
 
 Installation
 ------------
@@ -25,7 +26,7 @@ Install from ZIP
 
    `📥quark.whl release_version <https://www.xilinx.com/bin/public/openDownload?filename=quark-0.6.0-py3-none-any.whl>`__
 
-   Directory Structure of zip file:
+   Directory Structure of the zip file:
 
    ::
 
@@ -35,9 +36,9 @@ Install from ZIP
          + docs        # Off-line documentation of Quark.
          + README.md
 
-   We strongly recommend users download the zip file as it includes examples compatible with the wheel package version.
+   We strongly recommend you to download the zip file, as it includes examples compatible with the wheel package version.
 
-**Step 2**: Install quark wheel package by
+**Step 2**: Install the quark wheel package by running the following command:
 
    ::
 
@@ -47,27 +48,27 @@ Installation Verification
 -------------------------
 
 1. (Optional) Verify the installation by running
-   ``python -c "import quark"``. If it does not report error, the installation is done.
+   ``python -c "import quark"``. If no error is reported, the installation is successful.
 
-2. (Optional) Compile the ``fast quantization kernels``. 
-   When using Quark's quantization APIs for the first time, it will compile the ``fast quantization kernels`` using your installed Torch and CUDA if available. 
-   This process may take a few minutes but subsequent quantization calls will be much faster. 
+2. (Optional) Compile the ``fast quantization kernels``.
+   When using Quark's quantization APIs for the first time, it compiles the ``fast quantization kernels`` using your installed Torch and CUDA, if available.
+   This process might take a few minutes, but the subsequent quantization calls are much faster.
    To invoke this compilation now and check if it is successful, run the following command:
 
    .. code:: bash
 
       python -c "import quark.torch.kernel"
 
-3. (Optional) Compile the ``custom operators library``. 
-   When using Quark-ONNX's custom operators for the first time, it will compile the ``custom operators library`` using your local environment. 
+3. (Optional) Compile the ``custom operators library``.
+   When using Quark-ONNX's custom operators for the first time, it compiles the ``custom operators library`` using your local environment.
    To invoke this compilation now and check if it is successful, run the following command:
 
    .. code:: bash
 
       python -c "import quark.onnx.operators.custom_ops"
 
-Old version zip
----------------
+Older Versions
+--------------
 
 -  `quark_0.5.1.zip <https://www.xilinx.com/bin/public/openDownload?filename=quark-0.5.1+88e60b456.zip>`__  
 -  `quark_0.5.0.zip <https://www.xilinx.com/bin/public/openDownload?filename=quark-0.5.0+fae64a406.zip>`__

@@ -67,7 +67,7 @@ extensions = [
 	#'sphinx_markdown_tables',
 	#'edit_on_github',
     # Auto-generate section labels.
-    #'sphinx.ext.autosectionlabel',	
+    #'sphinx.ext.autosectionlabel',
 	#'rst2pdf.pdfbuilder'
 ]
 
@@ -129,7 +129,7 @@ source_suffix = {
 source_parsers = {
     #'.md': CommonMarkParser,
 	# myst_parser testing
-	#'.md': 
+	#'.md':
 }
 
 # The master toctree document.
@@ -178,6 +178,13 @@ if "READTHEDOCS" in os.environ:
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
+
+# Add any theme-specific options here
+# Add this part to expand the TOC
+html_theme_options = {
+    'collapse_navigation': False,  # Set to False to expand all sections
+}
+
 ##html_logo = '_static/xilinx-header-logo.svg'
 external_projects_current_project = "quark"
 html_theme_options = {
