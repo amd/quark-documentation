@@ -3,7 +3,7 @@ Exporting Using ONNX Runtime Gen AI Model Builder
 
 This document provides examples of quantizing large language models (LLMs) to **UINT4** using the **AWQ algorithm** via the Quark API, and exporting them to ONNX format using the **ONNX Runtime Gen AI Model Builder**.
 
-**ONNX Runtime Gen AI (OGA)** offers an end-to-end pipeline for working with ONNX models, including inference using ONNX Runtime, logits processing, search and sampling, and key-value (KV) cache management. For detailed documentation, visit the `ONNX Runtime Gen AI Documentation <https://onnxruntime.ai/docs/genai>`_. The tool includes a `Model Builder <https://onnxruntime.ai/docs/genai/howto/build-model.html>` that facilitates exporting models to the ONNX format.
+**ONNX Runtime Gen AI (OGA)** offers an end-to-end pipeline for working with ONNX models, including inference using ONNX Runtime, logits processing, search and sampling, and key-value (KV) cache management. For detailed documentation, visit the `ONNX Runtime Gen AI Documentation <https://onnxruntime.ai/docs/genai>`_. The tool includes a `Model Builder <https://onnxruntime.ai/docs/genai/howto/build-model.html>`_ that facilitates exporting models to the ONNX format.
 
 Preparation
 -----------

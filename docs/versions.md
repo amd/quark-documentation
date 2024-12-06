@@ -6,7 +6,11 @@
 
 # Quark release history
 
-| Version                                             | Release date      |
-| --------------------------------------------------- | ----------------- |
-| [0.2](https://quark.docs.amd.com/release-0.2.0/)    | August 5, 2024    |
-| [0.1](https://quark.docs.amd.com/release-0.1.0/)    | June 17, 2024     |
+| Version                                             | Release date        |
+| --------------------------------------------------- | ------------------- |
+| [0.6](https://quark.docs.amd.com/release-0.5.0/)    | December 6, 2024    |
+| [0.5.1](https://quark.docs.amd.com/release-0.5.1/)  | October 29, 2024    |
+| [0.5](https://quark.docs.amd.com/release-0.5.0/)    | September 135, 2024 |
+| [0.2](https://quark.docs.amd.com/release-0.2.0/)    | August 5, 2024      |
+| [0.1](https://quark.docs.amd.com/release-0.1.0/)    | June 17, 2024       |
+
