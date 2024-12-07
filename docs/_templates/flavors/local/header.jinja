@@ -1,3 +1,4 @@
+{#
 {% macro top_level_header(branch, latest_version, release_candidate_version) -%}
     {% if branch in ["dev", "develop", "master", "main"] %}
         {% set version_name = "Future Release" %}
@@ -10,6 +11,12 @@
     {% endif %}
     <a class="klavika-font hover-opacity" href="{{ projects['quark'] }}">Quark {{ version_name }}</a>
 {%- endmacro -%}
+#}
+# Fix latest_version passing to the template. Coie template from rocm and something is missing yet
+{% macro top_level_header(branch, latest_version, release_candidate_version) -%}
+    <a class="klavika-font hover-opacity" href="{{ projects['quark'] }}">Quark {{ version_name }}</a>
+{%- endmacro -%}
+
 
 {% macro version_list() -%}
     <a class="header-all-versions" href="https://quark.docs.amd.com/latest/versions.html">Version List</a>
