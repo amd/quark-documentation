@@ -1,41 +1,52 @@
 Language Model Evaluation in Quark
 ==================================
 
-This document provides examples of evaluating large language models using Quark evaluation API. Models are evaluated either by calculating perplexity (PPL) on WikiText2 or by using the third-party benchmark `lm-evaluation-harness <https://github.com/EleutherAI/lm-evaluation-harness>`__.
-Quark supports two types of perplexity calculations: one with a sequence length of 2048 and another for KV cache, while lm-evaluation-harness also includes a separate perplexity metric. By default, Quark uses the 2048-sequence-length perplexity as its primary perplexity metric.
-The evaluated models can be either pre-trained or quantized, and evaluation can be performed after the model is exported from Quark or during the quantization pipeline.
+.. note::
 
+   For information on accessing Quark PyTorch examples, refer to :doc:`Accessing PyTorch Examples <../pytorch_examples>`.
+   This example and the relevant files are available at ``/torch/language_modeling/llm_eval``.
 
+This topic provides examples of evaluating large language models using the Quark evaluation API. Evaluate models either by calculating perplexity (PPL) on WikiText2 or `benchmark tasks <https://github.com/EleutherAI/lm-evaluation-harness/tree/main/lm_eval/tasks>`_. The evaluated models can be either pre-trained or quantized, and evaluation can be performed after the model is exported from Quark or during the quantization pipeline. Use the PTQ method for evaluation as an example. For QAT or pruning, employ the evaluation APIs in a similar way.
 
-How to get the example code and script
------------------------
+Quick Start
+-----------
 
-Users can get the example code after downloading and unzipping ``quark.zip`` (referring to :doc:`Installation Guide <install>`).
-The example folder is in quark.zip.
+.. code-block:: bash
 
-   Directory Structure of the ZIP File:
+    pip install -r requirements.txt
 
-   ::
+Note that perplexity evaluation is performed by default in the PTQ pipeline. For task evaluation, add new tasks to the evaluation list as follows.
 
-         + quark.zip
-            + examples
-               + torch
-                  + language_modeling
-                     + llm_ptq
-                        + README.md                       <--- Scripts
-                        + quantize_quark.py               <--- Main function of example
-                        + configuration_preparation.py
-                     + llm_eval
-                        + README.md                       <--- Scripts
-                        + requirements.txt
-                        + evaluation.py                   <--- Main function of evaluation
-                     + utils
-                        + data_preparation.py
-                        + model_preparation.py
+Evaluate Pre-trained Model without Quantization: PPL and openllm
+----------------------------------------------------------------
 
-.. raw:: html
+.. code-block:: bash
 
-   <!--
-   ## License
-   Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved. SPDX-License-Identifier: MIT
-   -->
+    cd ../llm_ptq
+    python3 quantize_quark.py --model_dir [model checkpoint] \
+                              --skip_quantization \
+                              --tasks openllm
+
+Evaluate Quantized Model during PTQ Pipeline: PPL and MMLU
+----------------------------------------------------------
+
+.. code-block:: bash
+
+    python3 quantize_quark.py --model_dir [model checkpoint] \
+                              --output_dir output_dir \
+                              --quant_scheme w_fp8_a_fp8 \
+                              --kv_cache_dtype fp8 \
+                              --num_calib_data 128 \
+                              --tasks mmlu \
+                              --eval_batch_size 8 \
+                              --model_export quark_safetensors
+
+Evaluate Quantized Model Exported by Quark: PPL and arc_challenge, hellaswag
+----------------------------------------------------------------------------
+
+.. code-block:: bash
+
+    python3 quantize_quark.py --model_dir [model checkpoint] \
+                              --safetensors_model_reload \
+                              --safetensors_model_dir [output_dir] \
+                              --tasks arc_challenge,hellaswag

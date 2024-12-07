@@ -1,62 +1,43 @@
-Language Model Pruning Using Quark
-==================================
-
-This document provides examples of pruning the language models(OPT, Llama…) using Quark.
-
-
-Table of Contents
-=================
-
-.. contents::
-  :local:
-  :depth: 1
-
-Supported Models
-----------------
-
-
-+------------------------------------+------------+--------------+-------------------+-----------------------------+----------------------------+
-| Model Name                         | Model Size | Pruning Rate | Pruned Model Size | Before Pruning PPL On Wiki2 | After Pruning PPL On Wiki2 |
-+====================================+============+==============+=================================================+============================+
-| Qwen/Qwen2.5-14B-Instruct          | 14.8B      | 7.0284%      | 13.7B             | 5.6986                      | 7.5994                     |
-+------------------------------------+------------+--------------+-------------------+-----------------------------+----------------------------+
-| CohereForAI/c4ai-command-r-08-2024 | 32.3B      | 7.4025%      | 29.9B             | 4.5081                      | 6.3794                     |
-+------------------------------------+------------+--------------+-------------------+-----------------------------+----------------------------+
-| facebook/opt-6.7b                  | 6.7B       | 7.5651%      | 6.2B              | 10.8602                     | 11.8958                    |
-+------------------------------------+------------+--------------+-------------------+-----------------------------+----------------------------+
-| meta-llama/Llama-2-7b-hf           | 6.7B       | 6.7224%      | 6.2B              | 5.4721                      | 6.2462                     |
-+------------------------------------+------------+--------------+-------------------+-----------------------------+----------------------------+
-
-
+Pruning
+=======
 
 .. note::
-   - Experiments for all models using 128 samples of pile val dataset as a calibration dataset.
 
+   For information on accessing Quark PyTorch examples, refer to :doc:`Accessing PyTorch Examples <../pytorch_examples>`.
+   This example and the relevant files are available at ``/torch/language_modeling/llm_pruning``.
 
-How to get the example code and script
---------------------------------------
+This topic contains examples of pruning language models (such as OPT and Llama) using Quark.
 
-Users can get the example code after downloading and unzipping ``quark.zip`` (referring to :doc:`Installation Guide <install>`).
-The example folder is in quark.zip.
+Preparation
+-----------
 
-   Directory Structure of the ZIP File:
+For Llama2 models, download the HF Llama2 checkpoint. Access the Llama2 models checkpoint by submitting a permission request to Meta. For additional details, see the Llama2 page on Huggingface. Upon obtaining permission, download the checkpoint to the ``[llama2_checkpoint_folder]``.
 
-   ::
+Pruning Scripts
+---------------
 
-         + quark.zip
-            + examples
-               + torch
-                  + language_modeling
-                     + llm_pruning
-                        + main.py               <--- Main function of example
-                     + llm_utils
-                        + data_preparation.py
-                        + model_preparation.py
-                        + evaluation.py
+Run the following Python scripts in the ``examples/torch/language_modeling/llm_pruning`` path. Use Llama2-7b as an example.
 
-.. raw:: html
+.. note::
 
-   <!--
-   ## License
-   Copyright (C) 2024, Advanced Micro Devices, Inc. All rights reserved. SPDX-License-Identifier: MIT
-   -->
+    - To avoid memory limitations, GPU users can add the ``--multi_gpu`` argument when running the model on multiple GPUs.
+    - CPU users should add the ``--device cpu`` argument.
+
+Recipe 1: Evaluation of Llama2 Float16 Model without Pruning
+------------------------------------------------------------
+
+.. code-block:: bash
+
+    python3 main.py --model_dir [llama2 checkpoint folder] \
+                             --skip_pruning
+
+Recipe 2: Pruning Model and Saved to Safetensors
+------------------------------------------------
+
+.. code-block:: bash
+
+    python3 main.py --model_dir [llama2 checkpoint folder] \
+                             --pruning_algo "osscar" \
+                             --num_calib_data 128 \
+                             --save_pruned_model \
+                             --save_dir save_dir

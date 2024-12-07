@@ -1,7 +1,3 @@
-.. raw:: html
-
-   <!-- omit in toc -->
-
 Quark ONNX Quantization Example
 ===============================
 
@@ -175,13 +171,3 @@ dataset:
 
 Note: Different machine models can lead to minor variations in the
 accuracy of quantized model with adaquant.
-
-.. raw:: html
-
-   <!-- omit in toc -->
-
-License
--------
-
-Copyright (C) 2024, Advanced Micro Devices, Inc. All rights reserved.
-SPDX-License-Identifier: MIT

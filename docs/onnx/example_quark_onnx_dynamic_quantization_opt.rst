@@ -2,8 +2,8 @@
 
    <!-- omit in toc -->
 
-Quark ONNX Quantization Example
-===============================
+Dynamic Quantization for OPT-125M
+=================================
 
 This folder contains an example of quantizing an opt-125m model using the ONNX quantizer of Quark.
 The example has the following parts:

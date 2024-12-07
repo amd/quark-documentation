@@ -2,8 +2,8 @@
 
    <!-- omit in toc -->
 
-Quark ONNX Quantization Example
-===============================
+Dynamic Quantization for Llama-2-7b
+===================================
 
 This folder contains an example of quantizing an Llama-2-7b model using the ONNX quantizer of Quark.
 The example has the following parts:

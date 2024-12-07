@@ -1,29 +1,23 @@
-.. raw:: html
+Microscaling (MX) Example
+=========================
 
-   <!-- omit in toc -->
+.. note::
 
-Quark ONNX Quantization Example for MX Formats
-===============================
+   For information on accessing Quark ONNX examples, refer to :doc:`Accessing ONNX Examples <../onnx_examples>`.
+   This example and the relevant files are available at ``/onnx/accuracy_improvement/MX``.
 
-This folder contains an example of quantizing a ResNet50 model using the ONNX quantizer
+This example describes how to quantize a ResNet50 model using the ONNX quantizer
 of Quark with Microscaling (MX) formats.
 
-Same as Block Floating Point (BFP), the elements in the MX block also share a common exponent, but
-they have independent data type, such as FP8 (E5M2 and E4M3), FP6 (E3M2 and E2M3), FP4 (E2M1) and INT8,
-which bring about a fine-grained scaling within the block to improve the precision.
-
-The example has the following parts:
-
--  `Pip requirements <#pip-requirements>`__
--  `Prepare model <#prepare-model>`__
--  `Prepare data <#prepare-data>`__
--  `Quantization with MX Formats <#quantization-with-mx-formats>`__
--  `Evaluation <#evaluation>`__
+Similar to Block Floating Point (BFP), the elements in the MX block also share a common exponent, but
+they have independent data types, such as FP8 (E5M2 and E4M3), FP6 (E3M2 and E2M3), FP4 (E2M1), and INT8,
+which provide fine-grained scaling within the block to improve precision.
 
 
 Pip requirements
 ----------------
-Install the necessary python packages:
+
+Install the necessary Python packages:
 
 ::
 
@@ -32,26 +26,25 @@ Install the necessary python packages:
 Prepare model
 -------------
 
-Download the onnx float model from the `onnx/models <https://github.com/onnx/models>`__ repo directly:
+Download the ONNX float model from the `onnx/models <https://github.com/onnx/models>`__ repo directly:
 
 ::
 
    wget -P models https://github.com/onnx/models/raw/new-models/vision/classification/resnet/model/resnet50-v1-12.onnx
 
-
 Prepare data
 ------------
 
-ILSVRC 2012, commonly known as ‘ImageNet’. This dataset provides access
-to ImageNet (ILSVRC) 2012 which is the most commonly used subset of
+ILSVRC 2012, commonly known as 'ImageNet'. This dataset provides access
+to ImageNet (ILSVRC) 2012, which is the most commonly used subset of
 ImageNet. This dataset spans 1000 object classes and contains 50,000
 validation images.
 
-If you already have an ImageNet datasets, you can directly use your
+If you already have an ImageNet dataset, you can directly use your
 dataset path.
 
 To prepare the test data, please check the download section of the main
-website: https://huggingface.co/datasets/imagenet-1k/tree/main/data. You
+website: `https://huggingface.co/datasets/imagenet-1k/tree/main/data`__. You
 need to register and download **val_images.tar.gz**.
 
 Then, create the validation dataset and calibration dataset:
@@ -61,7 +54,7 @@ Then, create the validation dataset and calibration dataset:
    mkdir val_data && tar -xzf val_images.tar.gz -C val_data
    python ../utils/prepare_data.py val_data calib_data
 
-The storage format of the val_data of the ImageNet dataset organized as
+The storage format of the `val_data` of the ImageNet dataset is organized as
 follows:
 
 -  val_data
@@ -85,7 +78,7 @@ follows:
       -  ILSVRC2012_val_00002663.JPEG
       -  …
 
-The storage format of the calib_data of the ImageNet dataset organized
+The storage format of the `calib_data` of the ImageNet dataset is organized
 as follows:
 
 -  calib_data
@@ -104,11 +97,11 @@ as follows:
       -  ILSVRC2012_val_00001079.JPEG
 
 Quantization with MX Formats
------------------------------
+----------------------------
 
-The quantizer takes the float model and produces a MX quantized model.
+The quantizer takes the float model and produces an MX quantized model.
 There are built-in configurations in the quantization script for MX formats,
-which named as 'MXFP8E5M2', 'MXFP8E4M3', 'MXFP6E3M2', 'MXFP6E2M3', 'MXFP4E2M1', 'MXINT8'.
+which are named as 'MXFP8E5M2', 'MXFP8E4M3', 'MXFP6E3M2', 'MXFP6E2M3', 'MXFP4E2M1', 'MXINT8'.
 We can choose different MX formats by passing one of the configuration names to the script.
 Here is an example of MXINT8 quantization:
 
@@ -119,26 +112,25 @@ Here is an example of MXINT8 quantization:
                             --calibration_dataset_path calib_data \
                             --config MXINT8
 
-This command will generate a MX quantized model under the **models** folder.
+This command will generate an MX quantized model under the **models** folder.
 
 Evaluation
 ----------
 
-Test the accuracy of the float model on ImageNet val dataset:
+Test the accuracy of the float model on the ImageNet validation dataset:
 
 ::
 
    python onnx_validate.py val_data --batch-size 1 --onnx-input models/resnet50-v1-12.onnx
 
-Test the accuracy of the MX quantized model on ImageNet
-val dataset:
+Test the accuracy of the MX quantized model on the ImageNet
+validation dataset:
 
 ::
 
    python onnx_validate.py val_data --batch-size 1 --onnx-input models/resnet50-v1-12_quantized.onnx
 
-If want to run faster with GPU support, you can also execute the following command:
-
+If you want to run faster with GPU support, you can also execute the following command:
 
 ::
 
@@ -158,15 +150,5 @@ If want to run faster with GPU support, you can also execute the following comma
 |        |                   |                     |                   |                   |                   |                   |                   |
 +--------+-------------------+---------------------+-------------------+-------------------+-------------------+-------------------+-------------------+
 
-Note: Different executive devices can lead to minor variations in the
-accuracy of quantized model.
-
-.. raw:: html
-
-   <!-- omit in toc -->
-
-License
--------
-
-Copyright (C) 2024, Advanced Micro Devices, Inc. All rights reserved.
-SPDX-License-Identifier: MIT
+.. note:: Different execution devices can lead to minor variations in the
+          accuracy of the quantized model.

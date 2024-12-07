@@ -1,38 +1,30 @@
-.. raw:: html
+Block Floating Point (BFP) Example
+==================================
 
-   <!-- omit in toc -->
+.. note::
 
-Quark ONNX Quantization Example for BFP
-=======================================
+   For information on accessing Quark PyTorch examples, refer to :doc:`Accessing PyTorch Examples <../../pytorch_examples>`.
+   This example and the relevant files are available at ``/onnx/accuracy_improvement/BFP``.
 
-This folder contains an example of quantizing a
-mobilenetv2_050.lamb_in1k model using the ONNX quantizer of Quark with BFP16.
-Int8 quantization performs poorly on the model, but BFP16 and ADAQUANT can
-significantly mitigate the quantization loss.
+This is an example of quantizing a `mobilenetv2_050.lamb_in1k` model using the ONNX quantizer of Quark with BFP16.
+Int8 quantization performs poorly on the model, but BFP16 and ADAQUANT can significantly mitigate the quantization loss.
 
 Block Floating Point (BFP) quantization computational complexity by grouping numbers to share a common exponent, preserving accuracy efficiently.
 BFP has both reduced storage requirements and high quantization precision.
 
-The example has the following parts:
-
--  `Pip requirements <#pip-requirements>`__
--  `Prepare model <#prepare-model>`__
--  `Prepare data <#prepare-data>`__
--  `Quantization with BFP <#quantization-with-BFP>`__
--  `Quantization with ADAQUANT of BFP <#quantization-with-adaquant-of-BFP>`__
--  `Evaluation <#evaluation>`__
-
 
 Pip requirements
-----------------
+~~~~~~~~~~~~~~~~
+
 Install the necessary python packages:
 
 ::
 
    python -m pip install -r ../utils/requirements.txt
 
+
 Prepare model
--------------
+~~~~~~~~~~~~~
 
 Export onnx model from mobilenetv2_050.lamb_in1k torch model. The corresponding model link is https://huggingface.co/timm/mobilenetv2_050.lamb_in1k:
 
@@ -41,7 +33,7 @@ Export onnx model from mobilenetv2_050.lamb_in1k torch model. The corresponding 
    mkdir models && python ../utils/export_onnx.py mobilenetv2_050.lamb_in1k
 
 Prepare data
-------------
+~~~~~~~~~~~~
 
 ILSVRC 2012, commonly known as 'ImageNet'. This dataset provides access
 to ImageNet (ILSVRC) 2012 which is the most commonly used subset of
@@ -65,47 +57,43 @@ Then, create the validation dataset and calibration dataset:
 The storage format of the val_data of the ImageNet dataset organized as
 follows:
 
--  val_data
+.. list-table::
+   :widths: 25 75
+   :header-rows: 0
 
-   -  n01440764
-
-      -  ILSVRC2012_val_00000293.JPEG
-      -  ILSVRC2012_val_00002138.JPEG
-      -  …
-
-   -  n01443537
-
-      -  ILSVRC2012_val_00000236.JPEG
-      -  ILSVRC2012_val_00000262.JPEG
-      -  …
-
-   -  …
-   -  n15075141
-
-      -  ILSVRC2012_val_00001079.JPEG
-      -  ILSVRC2012_val_00002663.JPEG
-      -  …
+   * - val_data
+     - n01440764
+       - ILSVRC2012_val_00000293.JPEG
+       - ILSVRC2012_val_00002138.JPEG
+       - …
+     * - n01443537
+       - ILSVRC2012_val_00000236.JPEG
+       - ILSVRC2012_val_00000262.JPEG
+       - …
+     * - …
+     * - n15075141
+       - ILSVRC2012_val_00001079.JPEG
+       - ILSVRC2012_val_00002663.JPEG
+       - …
 
 The storage format of the calib_data of the ImageNet dataset organized
 as follows:
 
--  calib_data
+.. list-table::
+   :widths: 25 75
+   :header-rows: 0
 
-   -  n01440764
-
-      -  ILSVRC2012_val_00000293.JPEG
-
-   -  n01443537
-
-      -  ILSVRC2012_val_00000236.JPEG
-
-   -  …
-   -  n15075141
-
-      -  ILSVRC2012_val_00001079.JPEG
+   * - calib_data
+     - n01440764
+       - ILSVRC2012_val_00000293.JPEG
+     * - n01443537
+       - ILSVRC2012_val_00000236.JPEG
+     * - …
+     * - n15075141
+       - ILSVRC2012_val_00001079.JPEG
 
 BFP16 Quantization
-------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 The quantizer takes the float model and produce a BFP16 quantized model.
 
@@ -117,12 +105,11 @@ The quantizer takes the float model and produce a BFP16 quantized model.
                             --calibration_dataset_path calib_data \
                             --config BFP16
 
-
 This command will generate a BFP16 quantized model under the **models**
 folder, which was quantized by BFP16 configuration.
 
 BFP16 Quantization with ADAQUANT
---------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The quantizer takes the float model and produce a BFP16 quantized model with
 ADAQUANT.
@@ -145,7 +132,7 @@ This command will generate a BFP16 quantized model under the **models**
 folder, which was quantized by BFP16 configuration with ADAQUANT.
 
 Evaluation
-----------
+~~~~~~~~~~
 
 Test the accuracy of the float model on ImageNet val dataset:
 
@@ -179,29 +166,34 @@ If want to run faster with GPU support, you can also execute the following comma
 
    python ../utils/onnx_validate_with_custom_op.py val_data --model-name mobilenetv2_050.lamb_in1k --batch-size 1 --onnx-input models/mobilenetv2_050.lamb_in1k_adaquant_quantized.onnx --gpu
 
-+-------+-------------------+---------------------+-------------------+
-|       | Float Model       | Quantized Model     | Quantized Model   |
-|       |                   | without ADAQUANT    | with ADAQUANT     |
-+=======+===================+=====================+===================+
-| Model | 8.7 MB            | 8.4 MB              | 8.4 MB            |
-| Size  |                   |                     |                   |
-+-------+-------------------+---------------------+-------------------+
-| P     | 65.424 %          | 60.838%             | 62.262 %          |
-| rec@1 |                   |                     |                   |
-+-------+-------------------+---------------------+-------------------+
-| P     | 85.788 %          | 82.658%             | 83.736 %          |
-| rec@5 |                   |                     |                   |
-+-------+-------------------+---------------------+-------------------+
+Quantization Results
+~~~~~~~~~~~~~~~~~~~~
 
-Note: Different machine models can lead to minor variations in the
-accuracy of quantized model with adaquant.
+.. list-table::
+   :widths: 25 25 25 25
+   :header-rows: 1
 
-.. raw:: html
+   * -
+     - Float Model
+     - Quantized Model
+     - Quantized Model
+     -
+     -
+     - without ADAQUANT
+     - with ADAQUANT
+   * - Model Size
+     - 8.7 MB
+     - 8.4 MB
+     - 8.4 MB
+   * - P rec@1
+     - 65.424 %
+     - 60.838%
+     - 62.262 %
+   * - P rec@5
+     - 85.788 %
+     - 82.658%
+     - 83.736 %
 
-   <!-- omit in toc -->
+.. note::
 
-License
--------
-
-Copyright (C) 2024, Advanced Micro Devices, Inc. All rights reserved.
-SPDX-License-Identifier: MIT
+   Different machine models can lead to minor variations in the accuracy of quantized model with adaquant.

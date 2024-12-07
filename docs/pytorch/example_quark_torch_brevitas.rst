@@ -1,10 +1,14 @@
-Quark Extension for Brevitas Integration
-========================================
+Brevitas Integration
+=====================
 
-   **Note:** This feature is experimental and under active development.
-   As such, it does not guarantee backward compatibility for the APIs.
-   Users should exercise caution and expect changes in future releases.
+   .. note::
 
+      This feature is experimental and under active development.
+      As such, it does not guarantee backward compatibility for the APIs.
+      You should exercise caution and expect changes in future releases.
+
+      For information on accessing Quark PyTorch examples, refer to `Accessing PyTorch Examples <pytorch_examples>`_.
+      This example and the relevant files are available at ``/torch/extensions/brevitas``.
 Overview
 --------
 
@@ -74,9 +78,3 @@ this interface, users can leverage advanced features from other
 libraries like Brevitas while maintaining a streamlined quantization
 process within Quark's ecosystem.
 
-.. raw:: html
-
-   <!--
-   ## License
-   Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved. SPDX-License-Identifier: MIT
-   -->

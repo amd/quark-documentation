@@ -2,8 +2,8 @@
 
    <!-- omit in toc -->
 
-Quark ONNX Quantization Example
-===============================
+Quantizing a ResNet50-v1-12 Model
+=================================
 
 This folder contains an example of quantizing a `Resnet50-v1-12 image
 classification

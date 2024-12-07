@@ -2,22 +2,21 @@
 
    <!-- omit in toc -->
 
-Quark ONNX Quantization Example
-===============================
+Quantizing an OPT-125M Model
+============================
 
-This folder contains an example of quantizing a opt-125m model using the ONNX quantizer of Quark.
+.. note::
 
-The example has the following parts:
+   For information on accessing Quark ONNX examples, refer to `Accessing ONNX Examples <../onnx_examples>`_.
+   This example and the relevant files are available at ``onnx/weights_only_quantization/int8_qdq/llama2``
 
--  `Pip requirements <#pip-requirements>`__
--  `Prepare model <#prepare-model>`__
--  `Quantization <#quantization>`__
--  `Evaluation <#evaluation>`__
+This example describes how to quantize an opt-125m model using the ONNX quantizer of Quark.
+
 
 Pip requirements
 ----------------
 
-Install the necessary python packages:
+Install the necessary Python packages:
 
 ::
 
@@ -39,17 +38,16 @@ Get opt-125m torch model:
    wget -P opt-125m https://huggingface.co/facebook/opt-125m/resolve/main/generation_config.json
    wget -P opt-125m https://huggingface.co/facebook/opt-125m/resolve/main/special_tokens_map.json
 
-
-Export onnx model from opt-125m torch model:
+Export ONNX model from opt-125m torch model:
 
 ::
 
    mkdir models && optimum-cli export onnx --model ./opt-125m --task text-generation ./models/
 
 Quantization
-------------------------
+------------
 
-The quantizer takes the float model and produce a quantized model.
+The quantizer takes the float model and produces a quantized model.
 
 ::
 
@@ -91,5 +89,5 @@ Test the PPL of the quantized model:
 License
 -------
 
-Copyright (C) 2024, Advanced Micro Devices, Inc. All rights reserved.
+Copyright (C) 2024, Advanced Micro Devices, Inc. All rights reserved.
 SPDX-License-Identifier: MIT
