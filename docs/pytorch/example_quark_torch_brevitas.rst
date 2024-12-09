@@ -77,4 +77,3 @@ Quark's and the external libraries' utility and effectiveness. Through
 this interface, users can leverage advanced features from other
 libraries like Brevitas while maintaining a streamlined quantization
 process within Quark's ecosystem.
-

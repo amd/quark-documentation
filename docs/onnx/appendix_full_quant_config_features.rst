@@ -562,13 +562,8 @@ Quantization Configuration
       model. The default is False.
    -  **MatMulNBitsParams**: (Dictionary) A parameter used to specify the
       settings for MatMulNBits Quantizer.
-<<<<<<< HEAD
-      
-      -  **Algorithm**: (str) The algorithm in MatMulNBits Quantization determines which algorithm ("DEFAULT", "GPTQ") to be used to quantize weights. The default is "DEFAULT".
-=======
 
-      -  **Algorithm**: (str) The algorithm in MatMulNBits Quantization determines which algorithm ("DEFAULT", "GPTQ", "HQQ") to be used to quantize weights. The default is "DEFAULT".
->>>>>>> 273cbb9a1e (Update 0.6.0 documentation as per tech writer review)
+      -  **Algorithm**: (str) The algorithm in MatMulNBits Quantization determines which algorithm ("DEFAULT", "GPTQ") to be used to quantize weights. The default is "DEFAULT".
       -  **GroupSize**: (int) The block size in MatMulNBits Quantization determines how many weights share a scale. The default is 128.
       -  **Symmetric**: (Boolean) If True, symmetrize quantization for weights. The default is True.
       -  **Bits**: (int) The target bits to quantize. Only 4b quantization is supported for inference, additional bits support is planned.

@@ -103,22 +103,14 @@ Json-Safetensors Importing
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Quark provides the importing function for Json-safetensors export files.
-<<<<<<< HEAD
-In other words, these files can be reloaded into Quark. After reloading, 
-=======
 In other words, these files can be reloaded into Quark. After reloading,
->>>>>>> 273cbb9a1e (Update 0.6.0 documentation as per tech writer review)
 the weights of the quantized operators in the model are stored in the real_quantized format.
 
 Currently, this importing function supports weight-only, static, and dynamic quantization for
 FP8 and AWQ. For other quantization methods, only weight-only and static
 quantization are supported.
 
-<<<<<<< HEAD
-Example of Json-Safetensors Importing 
-=======
 Example of Json-Safetensors Importing
->>>>>>> 273cbb9a1e (Update 0.6.0 documentation as per tech writer review)
 *************************************
 
 .. code:: python

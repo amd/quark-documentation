@@ -32,11 +32,7 @@ Quantization & Export Scripts
 You can run the following Python scripts in the ``examples/torch/diffusers`` path.
 
 Run Diffusion Model Without Quantization
-<<<<<<< HEAD
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-=======
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>>>>>> 273cbb9a1e (Update 0.6.0 documentation as per tech writer review)
 
 - Run SDXL:
 
@@ -48,32 +44,16 @@ Run Diffusion Model Without Quantization
 
 .. code-block:: shell
 
-   python quantize_diffusers.py --model_id runwayml/stable-diffusion-v1-5 --controlnet_id lllyasviel/control_v11p_sd15_canny --input_image {your input image for guidance in controlnet} --float
-
-<<<<<<< HEAD
    python quantize_diffusers.py --model_id runwayml/stable-diffusion-v1-5 --controlnet_id lllyasviel/control_v11p_sd15_canny --input_image {your input image for guidence in controlnet} --float
 
-
-Calibration and Export SafeTensor
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
--  Run Calibration and Export:
-
---------------------------------------
-
-.. code::
-
-   python quantize_diffusers.py --model_id {your diffusion model} --controlnet_id {your controlnet if used} --input_image {guidence image if controlnet is used} --quant_scheme {'w_fp8_a_fp8', 'w_int8_per_tensor_sym'} --calib_prompts {your calibration dataset file path} --export --saved_path {output path for your quantized model} --calib_size {number of calibration prompts, default 500}
-=======
 Calibration and Export SafeTensor
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - Run Calibration and Export:
 
-.. code-block:: shell
+.. code::
 
-   python quantize_diffusers.py --model_id {your diffusion model} --controlnet_id {your controlnet if used} --input_image {guidance image if controlnet is used} --quant_scheme {'w_fp8_a_fp8', 'w_int8_per_tensor_sym'} --calib_prompts {your calibration dataset file path} --export --saved_path {output path for your quantized model} --calib_size {number of calibration prompts, default 500}
->>>>>>> 273cbb9a1e (Update 0.6.0 documentation as per tech writer review)
+   python quantize_diffusers.py --model_id {your diffusion model} --controlnet_id {your controlnet if used} --input_image {guidence image if controlnet is used} --quant_scheme {'w_fp8_a_fp8', 'w_int8_per_tensor_sym'} --calib_prompts {your calibration dataset file path} --export --saved_path {output path for your quantized model} --calib_size {number of calibration prompts, default 500}
 
 Load SafeTensor and Test
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -82,31 +62,16 @@ Load SafeTensor and Test
 
 .. code-block:: shell
 
-   python quantize_diffusers.py --model_id {your diffusion model} --controlnet_id {your controlnet if used} --input_image {guidance image if controlnet is used} --quant_scheme {'w_fp8_a_fp8', 'w_int8_per_tensor_sym'} --test_prompts {your test dataset file path} --load --saved_path {the path for your quantized model} --test --test_size {number of test prompts, default 5000}
-
-<<<<<<< HEAD
    python quantize_diffusers.py --model_id {your diffusion model} --controlnet_id {your controlnet if used} --input_image {guidence image if controlnet is used} --quant_scheme {'w_fp8_a_fp8', 'w_int8_per_tensor_sym'}  --test_prompts {your test dataset file path} --load --saved_path {the path for your quantized model} --test --test_size {number of test prompts, default 5000}
 
-Load SafeTensor and Run with a prompt
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-=======
 Load SafeTensor and Run with a Prompt
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - Load and Run:
->>>>>>> 273cbb9a1e (Update 0.6.0 documentation as per tech writer review)
 
 .. code-block:: shell
 
-<<<<<<< HEAD
---------------------------------------
-
-.. code::
-
    python quantize_diffusers.py --model_id {your diffusion model} --controlnet_id {your controlnet if used} --input_image {guidence image if controlnet is used} --quant_scheme {'w_fp8_a_fp8', 'w_int8_per_tensor_sym'} --load --saved_path {the path for your quantized model} --prompt "A city at night with people walking around."
-=======
-   python quantize_diffusers.py --model_id {your diffusion model} --controlnet_id {your controlnet if used} --input_image {guidance image if controlnet is used} --quant_scheme {'w_fp8_a_fp8', 'w_int8_per_tensor_sym'} --load --saved_path {the path for your quantized model} --prompt "A city at night with people walking around."
->>>>>>> 273cbb9a1e (Update 0.6.0 documentation as per tech writer review)
 
 Benchmark
 ---------
