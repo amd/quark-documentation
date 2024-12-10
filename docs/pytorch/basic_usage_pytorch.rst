@@ -36,8 +36,8 @@ Quark for PyTorch supports the following key features:
 +--------------------+-------------------------------------------------+
 | KV-Cache Quant     | FP8 KV-Cache Quant                              |
 +--------------------+-------------------------------------------------+
-| In-Place Replace   | nn.Linear / nn.Conv2d                           |
-| OP                 |                                                 |
+| In-Place Replace   | nn.Linear / nn.Conv2d / nn.ConvTranspose2d /    |
+| OP                 | nn.Embedding / nn.EmbeddingBag                  |
 +--------------------+-------------------------------------------------+
 | Pre-Quant          | SmoothQuant                                     |
 | Optimization       |                                                 |
