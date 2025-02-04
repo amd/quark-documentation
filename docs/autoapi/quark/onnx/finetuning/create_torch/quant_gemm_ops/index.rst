@@ -24,6 +24,6 @@ Classes
 
 
 
-   A wrapper for torch layer's input/weight/bias quantization
+   A wrapper for torch layer's input/weight/bias quantization 
 
 

@@ -24,7 +24,7 @@ Classes
 
 
 
-.. py:class:: HistDataReader(model_path: str, data_path: str, input_shape: List[int])
+.. py:class:: HistDataReader(model_path: str, data_path: str, input_shape: Dict[str, List[int]] = {})
 
 
 

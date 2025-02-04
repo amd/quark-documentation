@@ -27,30 +27,19 @@ Classes
 
    A class to perform quantization on an ONNX model.
 
-   :param model: The ONNX model to be quantized.
-   :type model: ModelProto
-   :param per_channel: Whether to perform per-channel quantization.
-   :type per_channel: bool
-   :param reduce_range: Whether to reduce the quantization range.
-   :type reduce_range: bool
-   :param mode: The quantization mode to be used.
-   :type mode: QuantizationMode.QLinearOps
-   :param static: Whether to use static quantization.
-   :type static: bool
-   :param weight_qType: The quantization type for weights.
-   :type weight_qType: Any
-   :param activation_qType: The quantization type for activations.
-   :type activation_qType: Any
-   :param tensors_range: The range of tensors for quantization.
-   :type tensors_range: Any
-   :param nodes_to_quantize: List of node names to be quantized.
-   :type nodes_to_quantize: List[str]
-   :param nodes_to_exclude: List of node names to be excluded from quantization.
-   :type nodes_to_exclude: List[str]
-   :param op_types_to_quantize: List of operation types to be quantized.
-   :type op_types_to_quantize: List[str]
-   :param extra_options: Additional options for quantization.
-   :type extra_options: Optional[Dict[str, Any]]
+   Args:
+       model (ModelProto): The ONNX model to be quantized.
+       per_channel (bool): Whether to perform per-channel quantization.
+       reduce_range (bool): Whether to reduce the quantization range.
+       mode (QuantizationMode.QLinearOps): The quantization mode to be used.
+       static (bool): Whether to use static quantization.
+       weight_qType (Any): The quantization type for weights.
+       activation_qType (Any): The quantization type for activations.
+       tensors_range (Any): The range of tensors for quantization.
+       nodes_to_quantize (List[str]): List of node names to be quantized.
+       nodes_to_exclude (List[str]): List of node names to be excluded from quantization.
+       op_types_to_quantize (List[str]): List of operation types to be quantized.
+       extra_options (Optional[Dict[str, Any]]): Additional options for quantization.
 
    Inherits from:
        OrtONNXQuantizer: Base class for ONNX quantization.
@@ -63,34 +52,21 @@ Classes
 
    A class to perform quantization on an ONNX model specifically optimized for Vitis AI.
 
-   :param model: The ONNX model to be quantized.
-   :type model: ModelProto
-   :param per_channel: Whether to perform per-channel quantization.
-   :type per_channel: bool
-   :param reduce_range: Whether to reduce the quantization range.
-   :type reduce_range: bool
-   :param mode: The quantization mode to be used.
-   :type mode: QuantizationMode.QLinearOps
-   :param static: Whether to use static quantization.
-   :type static: bool
-   :param weight_qType: The quantization type for weights.
-   :type weight_qType: Any
-   :param activation_qType: The quantization type for activations.
-   :type activation_qType: Any
-   :param tensors_range: Dictionary specifying the min and max values for tensors.
-   :type tensors_range: Any
-   :param nodes_to_quantize: List of node names to be quantized.
-   :type nodes_to_quantize: List[str]
-   :param nodes_to_exclude: List of node names to be excluded from quantization.
-   :type nodes_to_exclude: List[str]
-   :param op_types_to_quantize: List of operation types to be quantized.
-   :type op_types_to_quantize: List[str]
-   :param calibrate_method: The calibration method to be used.
-   :type calibrate_method: Any
-   :param quantized_tensor_type: Dictionary specifying the types for quantized tensors.
-   :type quantized_tensor_type: Dict[Any, Any], optional
-   :param extra_options: Additional options for quantization.
-   :type extra_options: Optional[Dict[str, Any]], optional
+   Args:
+       model (ModelProto): The ONNX model to be quantized.
+       per_channel (bool): Whether to perform per-channel quantization.
+       reduce_range (bool): Whether to reduce the quantization range.
+       mode (QuantizationMode.QLinearOps): The quantization mode to be used.
+       static (bool): Whether to use static quantization.
+       weight_qType (Any): The quantization type for weights.
+       activation_qType (Any): The quantization type for activations.
+       tensors_range (Any): Dictionary specifying the min and max values for tensors.
+       nodes_to_quantize (List[str]): List of node names to be quantized.
+       nodes_to_exclude (List[str]): List of node names to be excluded from quantization.
+       op_types_to_quantize (List[str]): List of operation types to be quantized.
+       calibrate_method (Any): The calibration method to be used.
+       quantized_tensor_type (Dict[Any, Any], optional): Dictionary specifying the types for quantized tensors.
+       extra_options (Optional[Dict[str, Any]], optional): Additional options for quantization.
 
    Inherits from:
        OrtONNXQuantizer: Base class for ONNX quantization.
@@ -179,7 +155,7 @@ Classes
    .. py:method:: quantize_initializer(weight: Any, qType: Any, method: Any, reduce_range: bool = False, keep_float_weight: bool = False) -> Tuple[str, str, str]
 
       :param weight: TensorProto initializer
-      :param qType: type to quantize to
+      :param qType: type to quantize to. Note that it may be different with weight_qType because of mixed precision
       :param keep_float_weight: Whether to quantize the weight. In some cases, we only want to qunatize scale and zero point.
                                 If keep_float_weight is False, quantize the weight, or don't quantize the weight.
       :return: quantized weight name, zero point name, scale name
@@ -222,13 +198,12 @@ Classes
 
       :raises ValueError: If a weight is not an initializer.
 
-      .. rubric:: Notes
-
-      - If `self.tensors_range` is None, the method returns immediately.
-      - Adjusts tensor ranges for Clip and Relu nodes.
-      - For versions of ONNX Runtime below 1.16.0, specific quantization parameters are computed.
-      - For versions of ONNX Runtime 1.16.0 and above, the `QuantizationParams` class is used.
-      - Forces asymmetric quantization for ReLU-like output tensors if `self.use_unsigned_relu` is True.
+      Notes:
+          - If `self.tensors_range` is None, the method returns immediately.
+          - Adjusts tensor ranges for Clip and Relu nodes.
+          - For versions of ONNX Runtime below 1.16.0, specific quantization parameters are computed.
+          - For versions of ONNX Runtime 1.16.0 and above, the `QuantizationParams` class is used.
+          - Forces asymmetric quantization for ReLU-like output tensors if `self.use_unsigned_relu` is True.
 
 
 

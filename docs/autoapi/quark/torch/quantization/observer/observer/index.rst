@@ -20,8 +20,10 @@ Classes
    quark.torch.quantization.observer.observer.PerTensorMinMaxObserver
    quark.torch.quantization.observer.observer.PerChannelMinMaxObserver
    quark.torch.quantization.observer.observer.PerBlockMXObserver
+   quark.torch.quantization.observer.observer.PerBlockBFPObserver
    quark.torch.quantization.observer.observer.PerGroupMinMaxObserver
    quark.torch.quantization.observer.observer.PerTensorHistogramObserver
+   quark.torch.quantization.observer.observer.PerTensorHistogramObserverPro
    quark.torch.quantization.observer.observer.PerTensorPercentileObserver
    quark.torch.quantization.observer.observer.PerTensorMSEObserver
 
@@ -49,15 +51,6 @@ Classes
    Only can be used for quantization to float16 and bfloat16 which doesn't require determining
    ranges.
 
-   .. py:method:: extra_repr() -> str
-
-      Set the extra representation of the module.
-
-      To print customized extra information, you should re-implement
-      this method in your own modules. Both single-line and multi-line
-      strings are acceptable.
-
-
 
 .. py:class:: UniformScalingObserver(qspec: quark.torch.quantization.config.config.QuantizationSpec, device: Optional[torch.device] = None, eps: float = torch.finfo(torch.float32).eps)
 
@@ -70,15 +63,6 @@ Classes
    .. py:method:: calculate_qparams(min_val: torch.Tensor, max_val: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]
 
       Calculates the quantization parameters.
-
-
-   .. py:method:: extra_repr() -> str
-
-      Set the extra representation of the module.
-
-      To print customized extra information, you should re-implement
-      this method in your own modules. Both single-line and multi-line
-      strings are acceptable.
 
 
    .. py:method:: reset_min_max_vals() -> None
@@ -119,6 +103,15 @@ Classes
    inheritance.
 
 
+.. py:class:: PerBlockBFPObserver(qspec: quark.torch.quantization.config.config.QuantizationSpec, device: Optional[torch.device] = None, eps: float = torch.finfo(torch.float32).eps)
+
+
+
+
+   Helper class that provides a standard way to create an ABC using
+   inheritance.
+
+
 .. py:class:: PerGroupMinMaxObserver(qspec: quark.torch.quantization.config.config.QuantizationSpec, device: Optional[torch.device] = None, eps: float = torch.finfo(torch.float32).eps)
 
 
@@ -149,6 +142,14 @@ Classes
       - ValueError: If the `self.symmetric` argument is False.
 
 
+
+
+.. py:class:: PerTensorHistogramObserverPro(qspec: quark.torch.quantization.config.config.QuantizationSpec, device: Optional[torch.device] = None, bins: int = 256, reduce_range: bool = False, upsample_rate: int = 384)
+
+
+
+
+   A wrap of pytorch version observer: HistogramObserver
 
 
 .. py:class:: PerTensorPercentileObserver(qspec: quark.torch.quantization.config.config.QuantizationSpec, device: Optional[torch.device] = None)

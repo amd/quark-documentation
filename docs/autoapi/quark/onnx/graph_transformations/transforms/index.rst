@@ -34,20 +34,20 @@ Classes
    `OpTypePattern` can be used to describe various common patterns in model
    graphs that we need to find.
 
-   .. rubric:: Examples
-
-   Matches a Conv+BN+ReLU6 and DepthwiseConv+BN+ReLU6 pattern.
-   pattern = OpTypePattern('ReLU', {'max_value': 6.0}, [
-       OpTypePattern('BatchNormalization', {}, [
-           OpTypePattern('Conv2D|DepthwiseConv2D', {} [])
+   Examples:
+       Matches a Conv+BN+ReLU6 and DepthwiseConv+BN+ReLU6 pattern.
+       pattern = OpTypePattern('ReLU', {'max_value': 6.0}, [
+           OpTypePattern('BatchNormalization', {}, [
+               OpTypePattern('Conv2D|DepthwiseConv2D', {} [])
+           ])
        ])
-   ])
 
-   Matches multiple Conv2Ds feeding into a Concat.
-   pattern = OpTypePattern('Concat', {}, [
-       OpTypePattern('Conv2D', {}, []),
-       OpTypePattern('Conv2D', {}, [])
-   ])
+       Matches multiple Conv2Ds feeding into a Concat.
+       pattern = OpTypePattern('Concat', {}, [
+           OpTypePattern('Conv2D', {}, []),
+           OpTypePattern('Conv2D', {}, [])
+       ])
+
 
 
 .. py:class:: NodeTree(node: Optional[onnx.NodeProto] = None, weights: Union[OrderedDict[str, onnx.TensorProto], List[Any], None] = None, input_nodes: Optional[List[NodeTree]] = None, metadata: Optional[Dict[str, Any]] = None)
@@ -95,6 +95,7 @@ Classes
       Please be careful to handle the transformation to not break the input connection
       of consumers outside the pattern, otherwise will lead to unknown input tensors.
 
+
    .. py:method:: pattern() -> OpTypePattern
       :abstractmethod:
 
@@ -112,7 +113,8 @@ Classes
       as the original sub-graph. Not following this could crash model creation,
       or introduce bugs in the new model graph.
 
-      :param match_nodes: Matched NodeTree based on `self.pattern()`.
+      Args:
+        match_nodes: Matched NodeTree based on `self.pattern()`.
 
 
 
