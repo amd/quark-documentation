@@ -15,16 +15,18 @@ Classes
 .. autoapisummary::
 
    quark.torch.quantization.config.type.QSchemeType
+   quark.torch.quantization.config.type.ZeroPointType
    quark.torch.quantization.config.type.Dtype
    quark.torch.quantization.config.type.ScaleType
    quark.torch.quantization.config.type.RoundType
    quark.torch.quantization.config.type.DeviceType
    quark.torch.quantization.config.type.QuantizationMode
+   quark.torch.quantization.config.type.TQTThresholdInitMeth
 
 
 
 
-.. py:class:: QSchemeType
+.. py:class:: QSchemeType(*args, **kwds)
 
 
 
@@ -37,7 +39,18 @@ Classes
 
 
 
-.. py:class:: Dtype
+.. py:class:: ZeroPointType(*args, **kwds)
+
+
+
+
+   The zero point Dtype used for zero point.
+
+   - 'int32': int zero point
+   - 'float32': float zero point
+
+
+.. py:class:: Dtype(*args, **kwds)
 
 
 
@@ -51,23 +64,30 @@ Classes
    - `bfloat16`: Bfloat16 format.
    - `float16`: Standard 16-bit floating point format.
    - `fp8_e4m3`: FP8 format with 4 exponent bits and 3 bits of mantissa.
-   - `mx`: MX format 8 bit shared scale value with fp8 element data types.
+   - `fp8_e5m2`: FP8 format with 5 exponent bits and 2 bits of mantissa.
+   - `fp6_e3m2`: FP6 format with 3 exponent bits and 2 bits of mantissa.
+   - `fp6_e2m3`: FP6 format with 2 exponent bits and 3 bits of mantissa.
+   - `fp4`: FP4 format.
+   - `mx`: MX format 8 bit shared exponent with specific element data types.
+   - `mx6`, `mx9`: Block data representation with multi-level ultra-fine scaling factors.
 
 
 
-.. py:class:: ScaleType
+.. py:class:: ScaleType(*args, **kwds)
 
 
 
 
    The types of scales used in quantization.
 
-   - `float`: Scale values are floating-point numbers.
+   - `float`: Scale values are floating-point numbers. They use the same floating point dtype as the original model dtype.
    - `pof2`: Scale values are powers of two.
+   - `float32`: Scale values are float32 numbers.
+   - `float16`: Scale values are float16 numbers.
+   - `bfloat16`: Scale values are bfloat16 numbers.
 
 
-
-.. py:class:: RoundType
+.. py:class:: RoundType(*args, **kwds)
 
 
 
@@ -80,7 +100,7 @@ Classes
 
 
 
-.. py:class:: DeviceType
+.. py:class:: DeviceType(*args, **kwds)
 
 
 
@@ -91,7 +111,7 @@ Classes
    - `IPU`: IPU.
 
 
-.. py:class:: QuantizationMode
+.. py:class:: QuantizationMode(*args, **kwds)
 
 
 
@@ -100,5 +120,16 @@ Classes
 
    - `eager_mode`: The eager mode based on PyTorch in-place operator replacement.
    - `fx_graph_mode`: The graph mode based on torch.fx.
+
+
+.. py:class:: TQTThresholdInitMeth(*args, **kwds)
+
+
+
+
+   The method of threshold initialization of TQT algorithm in QAT. See Table 2 in https://arxiv.org/pdf/1903.08066.pdf
+
+   - `_3SD`: The method of threshold initialization with std and 3 as hyperparameters.
+   - `_LL_J`: The method of threshold initialization in the Algorithm 1 of paper "Quantizing Convolutional Neural Networks for Low-Power High-Throughput Inference Engines" - Sean Settle et al. https://arxiv.org/pdf/1805.07941.pdf
 
 

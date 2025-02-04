@@ -61,6 +61,7 @@ Functions
    quark.onnx.quant_utils.get_clip_min_max
    quark.onnx.quant_utils.check_relu_like_node
    quark.onnx.quant_utils.print_quantize_info
+   quark.onnx.quant_utils.print_quantize_dynamic_info
    quark.onnx.quant_utils.find_int16_scale
 
 
@@ -69,56 +70,189 @@ Functions
 
    This function checks whether the current version of ONNX Runtime (ORT) is below a specified version.
 
-   :param target_version: The version to compare against the current ORT version.
-   :type target_version: str
+   Args:
+       target_version (str): The version to compare against the current ORT version.
 
-   :returns: True if the current ORT version is less than the target version, False otherwise.
-
-
-.. py:class:: Int16Method
+   Returns:
+       True if the current ORT version is less than the target version, False otherwise.
 
 
-
-
-   Generic enumeration.
-
-   Derive from this class to define new enumerations.
-
-
-.. py:class:: PowerOfTwoMethod
+.. py:class:: Int16Method(*args, **kwds)
 
 
 
 
-   Generic enumeration.
+   Create a collection of name/value pairs.
 
-   Derive from this class to define new enumerations.
+   Example enumeration:
+
+   >>> class Color(Enum):
+   ...     RED = 1
+   ...     BLUE = 2
+   ...     GREEN = 3
+
+   Access them by:
+
+   - attribute access::
+
+   >>> Color.RED
+   <Color.RED: 1>
+
+   - value lookup:
+
+   >>> Color(1)
+   <Color.RED: 1>
+
+   - name lookup:
+
+   >>> Color['RED']
+   <Color.RED: 1>
+
+   Enumerations can be iterated over, and know how many members they have:
+
+   >>> len(Color)
+   3
+
+   >>> list(Color)
+   [<Color.RED: 1>, <Color.BLUE: 2>, <Color.GREEN: 3>]
+
+   Methods can be added to enumerations, and members can have their own
+   attributes -- see the documentation for details.
 
 
-.. py:class:: VitisQuantType
+.. py:class:: PowerOfTwoMethod(*args, **kwds)
 
 
 
 
-   Generic enumeration.
+   Create a collection of name/value pairs.
 
-   Derive from this class to define new enumerations.
+   Example enumeration:
+
+   >>> class Color(Enum):
+   ...     RED = 1
+   ...     BLUE = 2
+   ...     GREEN = 3
+
+   Access them by:
+
+   - attribute access::
+
+   >>> Color.RED
+   <Color.RED: 1>
+
+   - value lookup:
+
+   >>> Color(1)
+   <Color.RED: 1>
+
+   - name lookup:
+
+   >>> Color['RED']
+   <Color.RED: 1>
+
+   Enumerations can be iterated over, and know how many members they have:
+
+   >>> len(Color)
+   3
+
+   >>> list(Color)
+   [<Color.RED: 1>, <Color.BLUE: 2>, <Color.GREEN: 3>]
+
+   Methods can be added to enumerations, and members can have their own
+   attributes -- see the documentation for details.
 
 
-.. py:class:: VitisQuantFormat
+.. py:class:: VitisQuantType(*args, **kwds)
 
 
 
 
-   Generic enumeration.
+   Create a collection of name/value pairs.
 
-   Derive from this class to define new enumerations.
+   Example enumeration:
+
+   >>> class Color(Enum):
+   ...     RED = 1
+   ...     BLUE = 2
+   ...     GREEN = 3
+
+   Access them by:
+
+   - attribute access::
+
+   >>> Color.RED
+   <Color.RED: 1>
+
+   - value lookup:
+
+   >>> Color(1)
+   <Color.RED: 1>
+
+   - name lookup:
+
+   >>> Color['RED']
+   <Color.RED: 1>
+
+   Enumerations can be iterated over, and know how many members they have:
+
+   >>> len(Color)
+   3
+
+   >>> list(Color)
+   [<Color.RED: 1>, <Color.BLUE: 2>, <Color.GREEN: 3>]
+
+   Methods can be added to enumerations, and members can have their own
+   attributes -- see the documentation for details.
+
+
+.. py:class:: VitisQuantFormat(*args, **kwds)
+
+
+
+
+   Create a collection of name/value pairs.
+
+   Example enumeration:
+
+   >>> class Color(Enum):
+   ...     RED = 1
+   ...     BLUE = 2
+   ...     GREEN = 3
+
+   Access them by:
+
+   - attribute access::
+
+   >>> Color.RED
+   <Color.RED: 1>
+
+   - value lookup:
+
+   >>> Color(1)
+   <Color.RED: 1>
+
+   - name lookup:
+
+   >>> Color['RED']
+   <Color.RED: 1>
+
+   Enumerations can be iterated over, and know how many members they have:
+
+   >>> len(Color)
+   3
+
+   >>> list(Color)
+   [<Color.RED: 1>, <Color.BLUE: 2>, <Color.GREEN: 3>]
+
+   Methods can be added to enumerations, and members can have their own
+   attributes -- see the documentation for details.
 
 
 .. py:function:: get_qmin_qmax_for_qType(qType: int, reduce_range: bool = False, symmetric: bool = False) -> Any
 
    Return qmin and qmax, the minimum and maximum value representable by the given qType
-   :parameter qType: onnx.onnx_pb.TensorProto.UINT8/16 or onnx.onnx_pb.TensorProto.UINT8/16
+   :parameter qType: Integer or Floating Point Type
    :return: qmin, qmax
 
 
@@ -129,7 +263,7 @@ Functions
        return: quantization range.
 
 
-.. py:class:: CachedDataReader(dr: onnxruntime.quantization.calibrate.CalibrationDataReader, data_size: Optional[int] = None, convert_nchw_to_nhwc: bool = False)
+.. py:class:: CachedDataReader(dr: onnxruntime.quantization.calibrate.CalibrationDataReader, data_size: Optional[int] = None, convert_nchw_to_nhwc: bool = False, quantize_fp16: bool = False)
 
 
 
@@ -148,7 +282,7 @@ Functions
 
 
 
-.. py:class:: RandomDataReader(model_path: str, input_shape: Union[List[int], Tuple[int], List[List[int]], Dict[str, List[int]], List[Any], Any] = [], input_data_range: Optional[str] = None)
+.. py:class:: RandomDataReader(model_path: str, input_shape: Dict[str, List[int]] = {}, input_data_range: Optional[Dict[str, List[int]]] = None)
 
 
 
@@ -188,7 +322,7 @@ Functions
    :return: datatype and shape of the tensor
 
 
-.. py:function:: dump_model(model: Union[str, onnx.ModelProto], dump_data_reader: Optional[object] = None, random_data_reader_input_shape: List[int] = [], dump_float: bool = False, output_dir: str = './dump_results') -> None
+.. py:function:: dump_model(model: Union[str, onnx.ModelProto], dump_data_reader: Optional[object] = None, random_data_reader_input_shape: Dict[str, List[int]] = {}, dump_float: bool = False, output_dir: str = './dump_results') -> None
 
    This function dumps the simulation results of the quantized model,
    including weights and activation results.
@@ -325,18 +459,18 @@ Functions
    :parameter rmax: maximum value of r
    :parameter qmin: minimum value representable by the target quantization data type
    :parameter qmax: maximum value representable by the target quantization data type
-   :return: zero and scale [z, s] of pof2s
+   :return: zero and scale [z, s]
 
 
 
-.. py:function:: compute_scale_zp_fp(rmin: numpy.ndarray[Any, Any], rmax: numpy.ndarray[Any, Any], element_type: int, symmetric: bool = True) -> List[Any]
+.. py:function:: compute_scale_zp_fp(rmin: numpy.ndarray[Any, Any], rmax: numpy.ndarray[Any, Any], qmin: numpy.ndarray[Any, Any], qmax: numpy.ndarray[Any, Any], element_type: int, method: onnxruntime.quantization.calibrate.CalibrationMethod, symmetric: bool = True, use_scaling: bool = False) -> List[Any]
 
    Calculate the scale and zero point for a float type.
 
    :param rmin: minimum value of r
    :param rmax: maximum value of r
    :param element_type: the element data type of the tensor to quantize
-   :return: zero and scale [z, s] of pof2s
+   :return: zero and scale [z, s]
 
 
 .. py:function:: dequantize_data(data: numpy.ndarray[Any, Any], scale: numpy.ndarray[Any, Any], zero_point: numpy.ndarray[Any, Any]) -> Any
@@ -347,7 +481,7 @@ Functions
    :return: the de-quantized data
 
 
-.. py:function:: quantize_data_pof2s(data: numpy.ndarray[Any, Any], qType: int, symmetric: bool, reduce_range: bool = False, rmin_real_range: Optional[float] = None, rmin_override: Optional[numpy.ndarray[Any, Any]] = None, rmax_override: Optional[numpy.ndarray[Any, Any]] = None, method: PowerOfTwoMethod = PowerOfTwoMethod.NonOverflow, pos_range: int = 5, use_pof2s: bool = True) -> Any
+.. py:function:: quantize_data_pof2s(data: numpy.ndarray[Any, Any], qType: int, symmetric: bool, reduce_range: bool = False, rmin_real_range: Optional[float] = None, rmin_override: Optional[numpy.ndarray[Any, Any]] = None, rmax_override: Optional[numpy.ndarray[Any, Any]] = None, method: PowerOfTwoMethod = PowerOfTwoMethod.NonOverflow, pos_range: int = 5, use_pof2s: bool = True, use_scaling: bool = False) -> Any
 
    :param data: data to quantize
    :param qType: data type to quantize to. Supported types UINT8/16 and INT8/16
@@ -423,7 +557,12 @@ Functions
    :return: True if it is
 
 
-.. py:function:: print_quantize_info(model_input: str, model_output: str, calibration_data_reader: str, calibration_data_path: Union[str, None], quant_format: Union[Any, VitisQuantFormat], input_nodes: Union[List[str], None], output_nodes: Union[List[str], None], op_types_to_quantize: Union[List[str], None], random_data_reader_input_shape: Union[List[int], Tuple[int], List[List[int]], Dict[str, List[int]], List[Any], None], per_channel: bool, reduce_range: bool, activation_type: Union[Any, VitisQuantType], weight_type: Union[Any, VitisQuantType], nodes_to_quantize: List[str], nodes_to_exclude: List[str], optimize_model: bool, use_external_data_format: bool, calibrate_method: Union[Any, PowerOfTwoMethod, Int16Method], execution_providers: Union[List[str], None], enable_npu_cnn: bool, enable_npu_transformer: bool, specific_tensor_precision: bool, debug_mode: bool, convert_fp16_to_fp32: bool, convert_nchw_to_nhwc: bool, include_cle: bool, include_sq: bool, include_fast_ft: bool, extra_options: Dict[str, Any]) -> None
+.. py:function:: print_quantize_info(model_input: str, model_output: str, calibration_data_reader: str, calibration_data_path: Union[str, None], quant_format: Union[Any, VitisQuantFormat], input_nodes: Union[List[str], None], output_nodes: Union[List[str], None], op_types_to_quantize: Union[List[str], None], extra_op_types_to_quantize: Union[List[str], None], per_channel: bool, reduce_range: bool, activation_type: Union[Any, VitisQuantType], weight_type: Union[Any, VitisQuantType], nodes_to_quantize: List[str], nodes_to_exclude: List[str], optimize_model: bool, use_external_data_format: bool, calibrate_method: Union[Any, PowerOfTwoMethod, Int16Method], execution_providers: Union[List[str], None], enable_npu_cnn: bool, enable_npu_transformer: bool, specific_tensor_precision: bool, debug_mode: bool, convert_fp16_to_fp32: bool, convert_nchw_to_nhwc: bool, include_cle: bool, include_sq: bool, include_fast_ft: bool, extra_options: Dict[str, Any]) -> None
+
+   print os_cpu, time, tool_version, quantized_configuration information.
+
+
+.. py:function:: print_quantize_dynamic_info(model_input: Union[str, pathlib.Path, onnx.ModelProto], model_output: Union[str, pathlib.Path], op_types_to_quantize: Union[List[str], None], per_channel: bool, reduce_range: bool, weight_type: Union[Any, VitisQuantType], nodes_to_quantize: List[str], nodes_to_exclude: List[str], use_external_data_format: bool, debug_mode: bool, extra_options: Dict[str, Any]) -> None
 
    print os_cpu, time, tool_version, quantized_configuration information.
 

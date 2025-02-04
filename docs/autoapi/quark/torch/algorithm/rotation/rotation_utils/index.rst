@@ -42,12 +42,12 @@ Functions
 
 
 
-.. py:function:: rotate_in_channels(weight: torch.nn.Parameter, /, *, rotation: torch.Tensor) -> None
+.. py:function:: rotate_in_channels(module: torch.nn.Module, rotation: torch.Tensor) -> None
 
    Rotate the input channels of a weight matrix.
 
 
-.. py:function:: rotate_out_channels(weight: torch.nn.Parameter, /, *, rotation: torch.Tensor, bias: Optional[torch.nn.Parameter] = None) -> None
+.. py:function:: rotate_out_channels(module: torch.nn.Module, rotation: torch.Tensor) -> None
 
    Rotate the output channels of a weight matrix.
 

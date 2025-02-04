@@ -21,6 +21,6 @@ Functions
 
 .. py:function:: insert_quantizer(model: torch.fx.GraphModule) -> torch.fx.GraphModule
 
-   step 1 insert the Fakequantizer as node to graph
+   Inserts FakeQuantize `call_module` nodes in the graph for input and/or output quantization, if necessary, based on the `quantization_annotation` metadata attached to nodes.
 
 

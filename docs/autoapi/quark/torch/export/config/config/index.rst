@@ -41,6 +41,7 @@ Classes
    :param Optional[List[List[str]]] weight_merge_groups: A list of operators group that share the same weight scaling factor. These operators' names should correspond to the original module names from the model. Additionally, wildcards can be used to denote a range of operators. Default is None.
    :param List[str] kv_cache_group: A list of operators group that should be merged to kv_cache. These operators' names should correspond to the original module names from the model. Additionally, wildcards can be used to denote a range of operators.
    :param str weight_format: The flag indicating whether to export the real quantized weights.
+   :param str pack_method: The flag indicating whether to reorder the quantized tensors.
 
 
 
