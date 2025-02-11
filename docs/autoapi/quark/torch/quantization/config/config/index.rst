@@ -477,14 +477,12 @@ Functions
 
 
 
-   A data class that defines the specifications for Smooth Quantization.
+   A data class that defines the specifications for AutoSmoothQuant.
 
-   :param str name: The name of the configuration, typically used to identify different quantization settings. Default is "smoothquant".
-   :param bool auto_alpha: Whether to automatically search for hyperparameters alpha. Default is False.
-   :param float scale_clamp_min: The minimum scaling factor to be used during quantization, preventing the scale from becoming too small. Default is 1e-3.
-   :param Optional[List[Dict[str, str]]] scaling_layers: Specific settings for scaling layers, allowing customization of quantization parameters for different layers within the model. Default is None.
-   :param Optional[List[str]] embedding_layers: A list of embedding layer names that require special quantization handling to maintain their performance and accuracy. Default is None.
-   :param Optional[str] model_decoder_layers: Specifies any particular decoder layers in the model that might have unique quantization requirements. Default is None.
+   :param str name: The name of the quantization configuration. Default is "autosmoothquant".
+   :param List[Dict[str, str]] scaling_layers: Configuration details for scaling layers within the model, specifying custom scaling parameters per layer. Default is None.
+   :param str compute_scale_loss: Calculate the best scale loss, "MSE" or "MAE". Default is "MSE".
+   :param str model_decoder_layers: Specifies the layers involved in model decoding that may require different quantization parameters. Default is None.
 
 
 .. py:class:: AWQConfig

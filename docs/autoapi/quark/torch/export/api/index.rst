@@ -68,7 +68,7 @@ Functions
                                                          pack_method="reorder")
               export_config = ExporterConfig(json_export_config=NO_MERGE_REALQ_CONFIG, onnx_export_config=OnnxExporterConfig())
               exporter = ModelExporter(config=export_config, export_dir=export_path)
-              quant_config = get_config(args.quant_scheme, args.group_size, args.model_dir, args.kv_cache_dtype, args.exclude_layers, args.pre_quantization_optimization, args.pre_optimization_config_file_path, args.quant_algo, args.quant_algo_config_file_path, model_type)
+              quant_config = get_config(args.quant_scheme, args.group_size, args.model_dir, args.kv_cache_dtype, args.fp8_attention_quant, args.exclude_layers, args.pre_quantization_optimization, args.pre_optimization_config_file_path, args.quant_algo, args.quant_algo_config_file_path, model_type)
               exporter.export_quark_model(model, quant_config=quant_config, custom_mode=args.custom_mode)
 
       Note:

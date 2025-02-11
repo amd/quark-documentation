@@ -4,9 +4,14 @@ Installation Guide
 Prerequisites
 -------------
 
-1. Python 3.9, 3.10, or 3.11 is required. Python 3.12 is currently unsupported.
-2. Install `PyTorch <https://pytorch.org/>`__ for your compute platform (such as CUDA, ROCM, and CPU). Ensure that the version of PyTorch is 2.2.0 or higher.
-3. Install `ONNX <https://onnx.ai/>`__ version 1.16.0 or later, `ONNX Runtime <https://onnxruntime.ai/>`__ version 1.17.0 or later, but earlier than 1.21.0, and `onnxruntime-extensions <https://onnxruntime.ai/docs/extensions/>`__ version 0.4.2 or later.
+1. Python 3.9, 3.10, or 3.11 is required.
+    * Python 3.12 is currently **unsupported**.
+2. Install `PyTorch <https://pytorch.org/>`__ for your compute platform (such as CUDA, ROCM, and CPU).
+    * **Only select** PyTorch version 2.2.0 or later.
+3. Install the following:
+    * `ONNX <https://onnx.ai/>`__ version 1.16.0 or later,
+    * `ONNX Runtime <https://onnxruntime.ai/>`__ version 1.17.0 or later, **but earlier than or equal to 1.20.1**,
+    * `onnxruntime-extensions <https://onnxruntime.ai/docs/extensions/>`__ version 0.4.2 or later.
 
 .. note::
    When installing on Windows, Visual Studio is necessary, with Visual Studio 2022 being the minimum required version. During the compilation process, you can choose one of the following methods:
