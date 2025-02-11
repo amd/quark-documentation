@@ -8,7 +8,7 @@
 
 | Version                                             | Release date        |
 | --------------------------------------------------- | ------------------- |
-| [0.7](https://quark.docs.amd.com/release-0.7/)      | January 7, 2025     |
+| [0.7](https://quark.docs.amd.com/release-0.7/)      | February 10, 2025   |
 | [0.6](https://quark.docs.amd.com/release-0.6.0/)    | December 6, 2024    |
 | [0.5.1](https://quark.docs.amd.com/release-0.5.1/)  | October 29, 2024    |
 | [0.5](https://quark.docs.amd.com/release-0.5.0/)    | September 135, 2024 |
