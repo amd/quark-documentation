@@ -19,4 +19,12 @@ Classes
 
 
 
+.. py:class:: QuaRotProcessor(model: torch.nn.Module, pre_quant_opt_config: quark.torch.quantization.config.config.QuaRotConfig, _data_loader: Any)
+
+
+
+
+   Helper class that provides a standard way to create an ABC using
+   inheritance.
+
 
