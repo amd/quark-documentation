@@ -4,7 +4,7 @@ Best Practice for Ryzen AI in AMD Quark ONNX
 This topic outlines the best practice for Post-Training Quantization (PTQ) in AMD Quark ONNX. It provides guidance on fine-tuning your quantization strategy to meet target quantization accuracy.
 
 
-.. figure:: ../../../docs/source/_static/best_practice_in_quark_onnx.png
+.. figure:: ../_static/best_practice_in_quark_onnx.png
    :align: center
    :width: 85%
 
@@ -24,7 +24,8 @@ Prepare model
 
 Download the ONNX float model from the `onnx/models <https://github.com/onnx/models>`__ repo directly:
 
-::
+.. code-block:: bash
+
 
    wget -P models https://github.com/onnx/models/raw/new-models/vision/classification/resnet/model/resnet50-v1-12.onnx
 
@@ -34,7 +35,7 @@ Prepare Calibration Data
 
 You can provide a folder containing PNG or JPG files as calibration data folder. For example, you can download images from https://github.com/microsoft/onnxruntime-inference-examples/tree/main/quantization/image_classification/cpu/test_images as a quick start. Specifically, you can provide the preprocessing code at line 63 in ``quantize_quark.py``
 
-::
+.. code-block:: bash
 
     mkdir calib_data
     wget -O calib_data/daisy.jpg https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/test_images/daisy.jpg?raw=true
@@ -69,7 +70,6 @@ A8W8 uses symmetric INT8 activation and weights quantization with float scales. 
 
 A16W8 uses symmetric INT16 activation and symmetric INT8 weights quantization with float scales. Typically, the calibration method uses MinMax.
 
-
 .. code-block:: bash
 
    python quantize_quark.py  --input_model_path models/resnet50-v1-12.onnx \
@@ -90,8 +90,7 @@ BFLOAT16 (BF16) is a 16-bit floating-point format designed for machine learning.
 
 - **BFP16**
 
-Block Floating Point (BFP) quantization reduces computational complexity by grouping numbers to share a common exponent, thereby preserving accuracy efficiently. BFP offers both reduced storage requirements and high quantization precision.  
-
+Block Floating Point (BFP) quantization reduces computational complexity by grouping numbers to share a common exponent, thereby preserving accuracy efficiently. BFP offers both reduced storage requirements and high quantization precision.
 
 .. code-block:: bash
 

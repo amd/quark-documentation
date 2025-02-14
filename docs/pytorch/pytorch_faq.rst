@@ -1,12 +1,12 @@
 Frequently Asked Questions (FAQ)
 ================================
 
-.. note::  
-  
+.. note::
+
     In this documentation, **AMD Quark** is sometimes referred to simply as **"Quark"** for ease of reference. When you  encounter the term "Quark" without the "AMD" prefix, it specifically refers to the AMD Quark quantizer unless otherwise stated. Please do not confuse it with other products or technologies that share the name "Quark."
 
 AMD Quark for Pytorch
------------------
+---------------------
 
 Environment Issues
 ~~~~~~~~~~~~~~~~~~
@@ -26,10 +26,9 @@ C++ Compilation Issues
 
 Stuck in the compilation phase for a long time (over ten minutes), the terminal shows like:
 
-.. code:: shell
+.. code-block:: bash
 
-   [QUARK-INFO]: Configuration checking start. 
-
+   [QUARK-INFO]: Configuration checking start.
    [QUARK-INFO]: C++ kernel build directory [cache folder path]/torch_extensions/py39...
 
 **Solution**:
@@ -38,7 +37,7 @@ delete the cache folder ``[cache folder path]/torch_extensions`` and run AMD Qua
 
 .. raw:: html
 
-   <!-- 
+   <!--
    ## License
    Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved. SPDX-License-Identifier: MIT
    -->

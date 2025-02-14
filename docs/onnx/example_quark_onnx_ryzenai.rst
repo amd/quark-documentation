@@ -1,22 +1,19 @@
-.. raw:: html
-
-   <!-- omit in toc -->
 Auto Search for Best Practice of RyzenAI ONNX Model Quantization
 ================================================================
 
-This guide explains how to use the Auto Search framework to perform optimal quantization of an ONNX model on the RyzenAI platform.\
-The framework automatically searches for the best configuration to balance accuracy, search time by adjusting quantization settings.
+This guide explains how to use the Auto Search framework to perform optimal quantization of an ONNX model on the RyzenAI platform. The framework automatically searches for the best configuration to balance accuracy, search time by adjusting quantization settings.
 
 Search Config Settings
----------------------------
+----------------------
 
 **a. Search Space Building**
 
-The search space defines the range of potential quantization configurations that the Auto Search framework will explore.\
-The goal is to explore different combinations of quantization parameters to find the best trade-off between accuracy, latency and quantization complexity.
+The search space defines the range of potential quantization configurations that the Auto Search framework will explore. The goal is to explore different combinations of quantization parameters to find the best trade-off between accuracy, latency and quantization complexity.
 
 - **one example**: You can specify different bit widths (e.g., 8-bit, 4-bit) for weights and activations, calibration algorithms, FastFinetune hyper-parameters, etc.
-::
+
+
+.. code-block:: python
 
     search_space: dict[str, any] = {
         "calibrate_method": [CalibrationMethod.MinMax, CalibrationMethod.Percentile],
@@ -32,9 +29,9 @@ The goal is to explore different combinations of quantization parameters to find
         }
     }
 
-
 - **multi-space settings**: Combine multi-search spaces into one, where you can control the search order and avoid some bad config combination.
-::
+
+.. code-block:: python
 
     space1 = auto_search_ins.build_all_configs(auto_search_config.search_space_XINT8)
     space2 = auto_search_ins.build_all_configs(auto_search_config.search_space)
@@ -43,11 +40,9 @@ The goal is to explore different combinations of quantization parameters to find
 
 The search space can be configured manually or based on predefined templates.
 
-- **GPU setting**: For taking advantage of GPU resources, we could set GPU to do model optimization and inference.\
-Specifically, set the 'OptimDevice' and 'InferDevice' to be the GPU number in the 'FastFinetune' item.\
-In order to call the GPU smoothly, we need to insall onnxruntime-gpu after uninstalling onnxruntime.
+- **GPU setting**: For taking advantage of GPU resources, we could set GPU to do model optimization and inference. Specifically, set the 'OptimDevice' and 'InferDevice' to be the GPU number in the 'FastFinetune' item. In order to call the GPU smoothly, we need to insall onnxruntime-gpu after uninstalling onnxruntime.
 
-::
+.. code-block:: python
 
     search_space_with_GPU: dict[str, any] = {
         "calibrate_method": [PowerOfTwoMethod.MinMSE],
@@ -70,14 +65,10 @@ In order to call the GPU smoothly, we need to insall onnxruntime-gpu after unins
 
 The evaluator measures the performance of each quantization configuration. It is essential to set the right metrics to optimize for your deployment needs.
 
-- **Built-in Metric**: Typically, the framework uses the drop in accuracy between the original floating-point model and the quantized model.\
-It is important to keep this drop within an acceptable threshold.\
-The Built-in metrics now support L2, L1, cos, psnr, ssim, which calculate the similarity between the float onnx output and quantized onnx output.
-- **Customer-defined Metric in auto_search_config's Evaluator**: Measure the task's metric between the float onnx output and the quantized model output, which may include a post-processing.\
-This configuration is designed for the situation where we need a more concrete metric such as MaP value in YOLOV series models.
+- **Built-in Metric**: Typically, the framework uses the drop in accuracy between the original floating-point model and the quantized model. It is important to keep this drop within an acceptable threshold. The Built-in metrics now support L2, L1, cos, psnr, ssim, which calculate the similarity between the float onnx output and quantized onnx output.
+- **Customer-defined Metric in auto_search_config's Evaluator**: Measure the task's metric between the float onnx output and the quantized model output, which may include a post-processing. This configuration is designed for the situation where we need a more concrete metric such as MaP value in YOLOV series models.
 
-
-You can specify which metric should be prioritized during the search.\
+You can specify which metric should be prioritized during the search.
 For example, if your application demands high accuracy, the evaluator will prioritize configurations that minimize accuracy loss.
 
 **c. Search Tolerance Setting**
@@ -87,11 +78,13 @@ The search tolerance is the acceptable margin between the accuracy of the origin
 - **Tolerance Threshold**: This is a value representing the maximum acceptable accuracy drop from the floating-point model.
 - **Auto-Stop Condition**: When the search reaches a configuration with accuracy loss below the tolerance threshold, the framework will halt, saving the best configuration and corresponding quantized model.
 
+
 Example:
+
 If the floating-point model has 95% accuracy and the tolerance is set to 1%, the Auto Search will stop if a configuration causes an accuracy drop greater than 1% (i.e., below 94%).
 
 Model Quantization Preparation
-----------------------------------
+------------------------------
 
 Before initiating the Auto Search process, ensure that you have the following components ready:
 
@@ -100,6 +93,7 @@ Before initiating the Auto Search process, ensure that you have the following co
 This is the pre-trained floating-point ONNX model that you intend to quantize.
 
 - **Model File**: model.onnx
+
   - Ensure the model is trained and exported in the ONNX format. Download the yolov3 model from huggingface url:
 
 ::
@@ -117,16 +111,17 @@ The calibration data is used during the post-training quantization (PTQ) process
 
 A default quantization configuration file that defines the starting parameters for the search process. This file may include:
 As usual, you can set
-::
+
+.. code-block:: python
 
     default_config = "S8S8_AAWS"
 
 Call the Auto Search Process
---------------------------------
+----------------------------
 
 After configuring the search settings, model, and calibration data, you can start the auto search process. Use the following command to trigger the search:
 
-::
+.. code-block:: bash
 
     python quark_quantize.py --input_model_path [INPUT_MODEL_PATH] --calibration_dataset_path [CALIB_DATA_PATH]
 

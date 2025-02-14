@@ -5,22 +5,22 @@
 Introduction
 ============
 
-.. note::  
-  
+.. note::
+
     In this documentation, **AMD Quark** is sometimes referred to simply as **"Quark"** for ease of reference. When you  encounter the term "Quark" without the "AMD" prefix, it specifically refers to the AMD Quark quantizer unless otherwise stated. Please do not confuse it with other products or technologies that share the name "Quark."
 
-This tutorial explains how to use Microexponents (MX) data types for quantization.  
-  
-Microexponents represent an advancement over Block Floating Point (BFP), aiming to improve the numerical efficiency and flexibility of low-precision computations for artificial intelligence.  
-  
-Block Floating Point groups numbers (for example, tensors and arrays) into blocks, where each block shares a common exponent, and the values in the block are represented with individual mantissas (and the sign bit). This approach effectively reduces memory usage; however, it is coarse-grained, meaning all numbers within a block are forced to have the same exponent, regardless of their individual value ranges.  
-  
-To address this issue, Microexponents extend the concept of BFP by introducing two levels of exponents: shared exponents for entire blocks and micro exponents for finer-grained sub-blocks. This dual-level approach enables more precise scaling of individual elements within a block, reducing quantization error and improving the representational range. By allowing sub-blocks to adjust their scaling more accurately, Microexponents strike a balance between the coarse-grained nature of BFP and the fine-grained precision of floating-point formats.  
-  
-This technique is particularly useful for low-precision computations in modern deep learning models, where maintaining accuracy while optimizing memory and power usage is critical. Furthermore, hardware accelerators that support Microexponents can process data more efficiently while preserving the numerical stability of operations such as matrix multiplications and convolutions.  
+This tutorial explains how to use Microexponents (MX) data types for quantization.
+
+Microexponents represent an advancement over Block Floating Point (BFP), aiming to improve the numerical efficiency and flexibility of low-precision computations for artificial intelligence.
+
+Block Floating Point groups numbers (for example, tensors and arrays) into blocks, where each block shares a common exponent, and the values in the block are represented with individual mantissas (and the sign bit). This approach effectively reduces memory usage; however, it is coarse-grained, meaning all numbers within a block are forced to have the same exponent, regardless of their individual value ranges.
+
+To address this issue, Microexponents extend the concept of BFP by introducing two levels of exponents: shared exponents for entire blocks and micro exponents for finer-grained sub-blocks. This dual-level approach enables more precise scaling of individual elements within a block, reducing quantization error and improving the representational range. By allowing sub-blocks to adjust their scaling more accurately, Microexponents strike a balance between the coarse-grained nature of BFP and the fine-grained precision of floating-point formats.
+
+This technique is particularly useful for low-precision computations in modern deep learning models, where maintaining accuracy while optimizing memory and power usage is critical. Furthermore, hardware accelerators that support Microexponents can process data more efficiently while preserving the numerical stability of operations such as matrix multiplications and convolutions.
 
 What is Microexponents Quantization?
--------------------------------------
+------------------------------------
 
 `This paper <https://arxiv.org/abs/2302.08007>`__ introduces several specific formats, including MX4, MX6, and MX9. We have implemented these formats in AMD Quark ONNX quantizer through a custom op named BFPFixNeuron. This op supports classical BFP and Microexponents both by setting attribute ``bfp_method`` to ``to_bfp`` for BFP or ``to_bfp_prime`` for Microexponents. To select MX4, MX6, and MX9, set the value for the ``bit_width`` attribute according to the following table.
 
@@ -37,12 +37,12 @@ What is Microexponents Quantization?
 Other parameters should be set as defined in the paper.
 
 How to enable MX9 quantization in AMD Quark for ONNX?
----------------------------------------------------
+-----------------------------------------------------
 
 Here is a simple example of how to enable Microexponents quantization with
 MX9 in AMD Quark for ONNX.
 
-.. code:: python
+.. code-block:: python
 
    from quark.onnx import ModelQuantizer, VitisQuantType, VitisQuantFormat
    from onnxruntime.quantization.calibrate import CalibrationMethod
@@ -72,7 +72,7 @@ MX9 in AMD Quark for ONNX.
 
 *Note* : When inferencing with ONNXRuntime, you need to register the custom operator's shared object file (Linux) or DLL file (Windows) in the ORT session options.
 
-.. code:: python
+.. code-block:: python
 
     import onnxruntime
     from quark.onnx import get_library_path
@@ -92,11 +92,11 @@ MX9 in AMD Quark for ONNX.
     session = onnxruntime.InferenceSession(onnx_model_path, sess_options, providers=providers)
 
 How to Further Improve the Accuracy of a MX9 Quantized Model?
----------------------------------------------------------------------------------
+-------------------------------------------------------------
 
-If you want to further improve the effectiveness of MX9 quantization after applying it, you can use ``fast_finetune`` to enhance the quantization accuracy. Refer to this :ref:`link <quark-onnx-quantizing-using-fast-finetune>` for more details on how to enable MX9 quantization in the configuration of Quark for ONNX. This is a simple example code:
+If you want to further improve the effectiveness of MX9 quantization after applying it, you can use ``fast_finetune`` to enhance the quantization accuracy. Refer to this :doc:`link <accuracy_algorithms/ada>`. This is a simple example code:
 
-.. code:: python
+.. code-block:: python
 
    from quark.onnx import ModelQuantizer, VitisQuantFormat, VitisQuantType
    from onnxruntime.quantization.calibrate import CalibrationMethod
@@ -134,7 +134,7 @@ If you want to further improve the effectiveness of MX9 quantization after apply
    config = Config(global_quant_config=quant_config)
 
 .. note::
-    
+
      You can install onnxruntime-rocm or onnxruntime-gpu instead of onnxruntime to accelerate inference speed. Set ``InferDevice`` to ``hip:0`` or ``cuda:0`` to use the GPU for inference. Additionally, set ``OptimDevice`` to ``hip:0`` or ``cuda:0`` to accelerate the training process of fast finetuning with the GPU.
 
 Examples

@@ -65,7 +65,7 @@ mdit-py-plugins==0.4.2
     # via myst-parser
 mdurl==0.1.2
     # via markdown-it-py
-myst-parser==4.0.0
+myst-parser==4.0.1
     # via rocm-docs-core
 packaging==24.2
     # via sphinx

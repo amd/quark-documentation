@@ -35,6 +35,7 @@ Classes
    graphs that we need to find.
 
    Examples:
+
        Matches a Conv+BN+ReLU6 and DepthwiseConv+BN+ReLU6 pattern.
        pattern = OpTypePattern('ReLU', {'max_value': 6.0}, [
            OpTypePattern('BatchNormalization', {}, [

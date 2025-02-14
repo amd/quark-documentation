@@ -34,7 +34,7 @@ Pip requirements
 
 Install the necessary Python packages:
 
-::
+.. code-block:: bash
 
    python -m pip install -r ../utils/requirements.txt
 
@@ -43,7 +43,7 @@ Prepare model
 
 Download the ONNX float model from the `onnx/models <https://github.com/onnx/models>`__ repo directly:
 
-::
+.. code-block:: bash
 
    wget -P models https://github.com/onnx/models/raw/new-models/vision/classification/resnet/model/resnet50-v1-12.onnx
 
@@ -64,7 +64,7 @@ need to register and download **val_images.tar.gz**.
 
 Then, create the validation dataset and calibration dataset:
 
-::
+.. code-block:: bash
 
    mkdir val_data && tar -xzf val_images.tar.gz -C val_data
    python ../utils/prepare_data.py val_data calib_data
@@ -72,58 +72,62 @@ Then, create the validation dataset and calibration dataset:
 The storage format of the ``val_data`` of the ImageNet dataset is organized as
 follows:
 
--  val_data
+.. code-block::
 
-   -  n01440764
+   -  val_data
 
-      -  ILSVRC2012_val_00000293.JPEG
-      -  ILSVRC2012_val_00002138.JPEG
+      -  n01440764
+
+         -  ILSVRC2012_val_00000293.JPEG
+         -  ILSVRC2012_val_00002138.JPEG
+         -  …
+
+      -  n01443537
+
+         -  ILSVRC2012_val_00000236.JPEG
+         -  ILSVRC2012_val_00000262.JPEG
+         -  …
+
       -  …
+      -  n15075141
 
-   -  n01443537
-
-      -  ILSVRC2012_val_00000236.JPEG
-      -  ILSVRC2012_val_00000262.JPEG
-      -  …
-
-   -  …
-   -  n15075141
-
-      -  ILSVRC2012_val_00001079.JPEG
-      -  ILSVRC2012_val_00002663.JPEG
-      -  …
+         -  ILSVRC2012_val_00001079.JPEG
+         -  ILSVRC2012_val_00002663.JPEG
+         -  …
 
 The storage format of the ``calib_data`` of the ImageNet dataset is organized
 as follows:
 
--  calib_data
+.. code-block::
 
-   -  n01440764
+   -  calib_data
 
-      -  ILSVRC2012_val_00000293.JPEG
+      -  n01440764
 
-   -  n01443537
+         -  ILSVRC2012_val_00000293.JPEG
 
-      -  ILSVRC2012_val_00000236.JPEG
+      -  n01443537
 
-   -  …
-   -  n15075141
+         -  ILSVRC2012_val_00000236.JPEG
 
-      -  ILSVRC2012_val_00001079.JPEG
+      -  …
+      -  n15075141
+
+         -  ILSVRC2012_val_00001079.JPEG
 
 Quantization with MX Formats
 ----------------------------
 
 The quantizer takes the float model and produces a MX quantized model.
 
-There are sereral built-in configurations within the quantizer for MX formats, that
+There are several built-in configurations within the quantizer for MX formats, that
 are named as 'MX4', 'MX6', 'MX9', 'MXFP8E5M2', 'MXFP8E4M3', 'MXFP6E3M2', 'MXFP6E2M3',
 'MXFP4E2M1' and 'MXINT8'. We can choose one of the formats by passing the name of
 the configuration to the script.
 
 Here is an example of MXINT8 quantization:
 
-::
+.. code-block:: bash
 
    python quantize_model.py --input_model_path models/resnet50-v1-12.onnx \
                             --output_model_path models/resnet50-v1-12_quantized.onnx \
@@ -137,23 +141,22 @@ Evaluation
 
 Test the accuracy of the float model on the ImageNet validation dataset:
 
-::
+.. code-block:: bash
 
    python onnx_validate.py val_data --batch-size 1 --onnx-input models/resnet50-v1-12.onnx
 
 Test the accuracy of the MX quantized model on the ImageNet
 validation dataset:
 
-::
+.. code-block:: bash
 
    python onnx_validate.py val_data --batch-size 1 --onnx-input models/resnet50-v1-12_quantized.onnx
 
 If you want to run faster with GPU support, you can also execute the following command:
 
-::
+.. code-block:: bash
 
    python onnx_validate.py val_data --batch-size 1 --onnx-input models/resnet50-v1-12_quantized.onnx --gpu
-
 
 Here are the comparison results of these data types:
 
@@ -181,9 +184,9 @@ Here are the comparison results of these data types:
 | MXINT8              |       97.47 MB      |       73.920 %      |       91.662 %      |
 +---------------------+---------------------+---------------------+---------------------+
 
-.. note:: Different execution devices can lead to minor variations in the
-          accuracy of the quantized model.
+.. note::
 
+   Different execution devices can lead to minor variations in the accuracy of the quantized model.
 
 .. raw:: html
 

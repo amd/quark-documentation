@@ -107,10 +107,16 @@ Key Features
    Data and OP Types <onnx/user_guide_supported_optype_datatype.rst>
    Accelerate with GPUs <onnx/gpu_usage_guide.rst>
    Mixed Precision <onnx/tutorial_mix_precision.rst>
-   Block Floating Point 16 (BFP16) <onnx/bfp16.rst>
+   Block Floating Point 16 (BFP16) <onnx/tutorial_bfp16_quantization.rst>
    BF16 Quantization <onnx/tutorial_bf16_quantization.rst>
-   Microscaling (MX) <onnx/tutorial_mx_quantization.rst>
+   Microscaling (MX) <onnx/tutorial_microscaling_quantization.rst>
+   Microexponents (MX) <onnx/tutorial_microexponents_quantization.rst>
    Accuracy Improvement Algorithms <onnx/accuracy_improvement_algorithms.rst>
+   Automatic Search for Model Quantization <onnx/user_guide_auto_search.rst>
+   Auto search for quantizing a yolov3 ONNX model <onnx/example_quark_onnx_auto_search>
+   Best Practice for Ryzen AI in AMD Quark ONNX <onnx/ryzen_ai_best_practice>
+   Best Practice of RyzenAI ONNX Model Quantization using Auto Search <onnx/example_quark_onnx_ryzenai>
+   Using ONNX Model Inference and Saving Input Data in NPY Format <onnx/config/user_guide_onnx_model_inference_save_input_npy>
    Optional Utilities <onnx/optional_utilities.rst>
    Tools <onnx/tools.rst>
 

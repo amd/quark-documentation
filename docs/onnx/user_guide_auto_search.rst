@@ -3,6 +3,7 @@ Automatic Search for Model Quantization
 
 Overview
 --------
+
 The purpose of the Automatic Search design is to find better configurations for model quantization, aiming to achieve better accuracy while reducing the resource usage of the quantized model. The design is centered around an iterative loop that continuously refines the configuration by evaluating and adjusting various quantization parameters. This loop includes several key components:
 
 1. **Auto Search Config**: Defines the parameters for the search process.
@@ -15,7 +16,7 @@ The purpose of the Automatic Search design is to find better configurations for 
 
 The core idea is to explore different configurations to find the optimal settings for the quantized model, improving its accuracy while ensuring it meets specified performance constraints.
 
-.. image:: auto_search_diagram.png
+.. image:: ../_static/auto_search_diagram.png
    :alt: Overview diagram of the automatic search process
    :width: 600px
    :align: center
@@ -61,6 +62,7 @@ The stop condition ensures that the search process concludes either when a satis
 
 Flow Diagram
 -------------
+
 1. Initialize auto search config and quantization config.
 2. Build the search space based on the configuration.
 3. Sample configurations using the search algorithm (grid or random search).
@@ -74,6 +76,7 @@ Flow Diagram
 
 Usage
 -----
+
 To use the automatic search process for model quantization, you need to define the following:
 - **Auto Search Config**: This includes parameters like the number of iterations, expected time per configuration, tolerance levels, and the stop condition.
 - **Quantization Config**: Defines the quantization method, such as bit width, layer-wise quantization, and rounding methods.
@@ -82,7 +85,9 @@ To use the automatic search process for model quantization, you need to define t
 - **DataReader**: Defines the calibration dataset for model quantization.
 
 Example Configuration:
-.. code:: python
+
+.. code-block:: python
+
     from quark.onnx.auto_search import AutoSearch
     from quark.onnx.auto_search import AutoSearchConfig
     from quark.onnx.quant_utils import PowerOfTwoMethod
@@ -121,17 +126,14 @@ Example Configuration:
         "time_limit": 3600,  # in seconds
     }
     auto_search_config.search_evaluator = None
-    
+
     auto_search_instance = AutoSearch(quantization_config, auto_search_config, float_onnx_model_path, calibration_data_reader)
     searched_candidates = auto_search_instance.search_model()
 
-
-
 Conclusion
-------------
+----------
+
 The Automatic Search for model quantization provides a systematic approach to explore different quantization configurations in search of the best-performing model. By leveraging intelligent search algorithms and efficient evaluation processes, this approach can significantly improve the accuracy and efficiency of model quantization, making it easier to deploy optimized models in real-world applications.
-
-
 
 License
 -------

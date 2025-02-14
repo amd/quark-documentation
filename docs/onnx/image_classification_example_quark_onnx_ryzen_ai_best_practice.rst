@@ -1,17 +1,17 @@
 Best Practice for Ryzen AI in Quark ONNX
-===================================================
+========================================
 
 This topic outlines best practice for Post-Training Quantization (PTQ) in Quark ONNX. It provides guidance on fine-tuning your quantization strategy to meet target quantization accuracy.
 
 
-.. figure:: ../../../../docs/source/_static/best_practice_in_quark_onnx.png
+.. figure:: ../_static/best_practice_in_quark_onnx.png
    :align: center
    :width: 85%
 
    **Figure 1. Best Practices for Quark ONNX Quantization**
 
 Pip Requirements
-----------------------
+----------------
 
 Install the necessary python packages:
 
@@ -24,24 +24,24 @@ Prepare model
 
 Download the ONNX float model from the `onnx/models <https://github.com/onnx/models>`__ repo directly:
 
-::
+image_classification_example_quark_onnx_ryzen_ai_best_practice.rst
 
    wget -P models https://github.com/onnx/models/raw/new-models/vision/classification/resnet/model/resnet50-v1-12.onnx
 
 
 Prepare Calibration Data
------------------------------
+------------------------
 
 You can provide a folder containing PNG or JPG files as calibration data folder. For example, you can download images from https://github.com/microsoft/onnxruntime-inference-examples/tree/main/quantization/image_classification/cpu/test_images as a quick start. Specifically, you can provide the preprocessing code at line 63 in quantize_quark.py
 
-::
+.. code-block:: bash
 
     mkdir calib_data
     wget -O calib_data/daisy.jpg https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/test_images/daisy.jpg?raw=true
 
 
 Quantization
------------------------------
+------------
 
 - **XINT8**
 

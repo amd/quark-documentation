@@ -2,8 +2,8 @@
 Microscaling (MX)
 =================
 
-.. note::  
-  
+.. note::
+
     In this documentation, **AMD Quark** is sometimes referred to simply as **"Quark"** for ease of reference. When you  encounter the term "Quark" without the "AMD" prefix, it specifically refers to the AMD Quark quantizer unless otherwise stated. Please do not confuse it with other products or technologies that share the name "Quark."
 
 In this tutorial, you learn how to use Microscaling (MX) quantization.
@@ -39,11 +39,11 @@ introduces several specific MX formats, including MXFP8, MXFP6, MXFP4, and MXINT
 If you initialize the quantizer with the MX configuration, it quantizes all the activations and weights using the MXFixNeuron.
 
 How to Enable MX Quantization in AMD Quark for ONNX?
-------------------------------------------------
+----------------------------------------------------
 
 Here is a simple example of how to enable MX quantization with MXINT8 in AMD Quark for ONNX:
 
-.. code:: python
+.. code-block:: python
 
    from quark.onnx import ModelQuantizer, VitisQuantType, VitisQuantFormat
    from onnxruntime.quantization.calibrate import CalibrationMethod
@@ -69,10 +69,10 @@ Here is a simple example of how to enable MX quantization with MXINT8 in AMD Qua
    quantizer.quantize_model(input_model_path, output_model_path, data_reader)
 
 .. note::
-  
+
    When inferencing with ONNXRuntime, you need to register the custom operator's shared object file (Linux) or DLL file (Windows) in the ORT session options.
 
-.. code:: python
+.. code-block:: python
 
    import onnxruntime
    from quark.onnx import get_library_path
@@ -92,13 +92,13 @@ Here is a simple example of how to enable MX quantization with MXINT8 in AMD Qua
    session = onnxruntime.InferenceSession(onnx_model_path, sess_options, providers=providers)
 
 How to Further Improve the Accuracy of a MX Quantized Model?
----------------------------------------------------------------------------------
+------------------------------------------------------------
 
-If you want to further improve the effectiveness of MX quantization after applying it, you can use ``fast_finetune`` to enhance the quantization accuracy. Refer to this :ref:`link <quark-onnx-quantizing-using-fast-finetune>`
+If you want to further improve the effectiveness of MX quantization after applying it, you can use ``fast_finetune`` to enhance the quantization accuracy. Refer to this :doc:`link <accuracy_algorithms/ada>`.
 
 Here is a simple example code which is fast finetuning a MXINT8 model:
 
-.. code:: python
+.. code-block:: python
 
    from quark.onnx import ModelQuantizer, VitisQuantFormat, VitisQuantType
    from onnxruntime.quantization.calibrate import CalibrationMethod
@@ -131,11 +131,11 @@ Here is a simple example code which is fast finetuning a MXINT8 model:
    config = Config(global_quant_config=quant_config)
 
 .. note::
-   
+
    You can install onnxruntime-rocm or onnxruntime-gpu instead of onnxruntime to accelerate inference speed. Set 'InferDevice' to 'hip:0' or 'cuda:0' to use the GPU for inference. Additionally, set 'OptimDevice' to 'hip:0' or 'cuda:0' to accelerate the training process of fast finetuning with the GPU.
 
 Example
---------
+-------
 
 An example of quantizing a model using the Microscaling quantization is :doc:`available here <example_quark_onnx_MX>`.
 

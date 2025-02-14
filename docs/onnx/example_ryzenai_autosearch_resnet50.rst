@@ -1,21 +1,20 @@
 Best Practice for Ryzen AI in Quark ONNX
-===================================================
+========================================
 
 This topic outlines best practice for Post-Training Quantization (PTQ) in Quark ONNX. It provides guidance on fine-tuning your quantization strategy to meet target quantization accuracy.
 
-
-.. figure:: ../../../../../docs/source/_static/best_practice_in_quark_onnx.png
+.. figure:: ../_static/best_practice_in_quark_onnx.png
    :align: center
    :width: 85%
 
    **Figure 1. Best Practices for Quark ONNX Quantization**
 
 Pip Requirements
-----------------------
+----------------
 
 Install the necessary python packages:
 
-::
+.. code-block:: bash
 
    python -m pip install -r requirements.txt
 
@@ -24,28 +23,29 @@ Prepare model
 
 Download the ONNX float model from the `onnx/models <https://github.com/onnx/models>`__ repo directly:
 
-::
+.. code-block:: bash
 
    wget -P models https://github.com/onnx/models/raw/new-models/vision/classification/resnet/model/resnet50-v1-12.onnx
 
 
 Prepare Calibration Data
------------------------------
+------------------------
 
 You can provide a folder containing PNG or JPG files as calibration data folder. For example, you can download images from https://github.com/microsoft/onnxruntime-inference-examples/tree/main/quantization/image_classification/cpu/test_images as a quick start. Specifically, you can provide the preprocessing code at line 63 in quantize_quark.py
 
-::
+.. code-block:: bash
 
     mkdir calib_data
     wget -O calib_data/daisy.jpg https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/test_images/daisy.jpg?raw=true
 
 
 Auto search for RyzenAI quantization
--------------------------
+------------------------------------
 
 - **build search space**
    Search space is a set of parameters to define the searching item. In the search space, we will list out all the possible combination of the config. An example is like below:
-::
+
+.. code-block:: python
 
    search_space_advanced: dict[str, any] = {
         "calibrate_method": [CalibrationMethod.MinMax, CalibrationMethod.Percentile],
@@ -69,7 +69,7 @@ Auto search for RyzenAI quantization
 
 When needing build more than one search space, you can build many space according to your preference and concatenate all of them:
 
-::
+.. code-block:: python
 
    space1 = auto_search_ins.build_all_configs(auto_search_config.search_space_XINT8)
    space2 = auto_search_ins.build_all_configs(auto_search_config.search_space)
@@ -82,7 +82,7 @@ When needing build more than one search space, you can build many space accordin
 There are two ways to define evaluator function:
 - defined in auto_search_config as a static method:
 
-::
+.. code-block:: python
 
     class AutoSearchConfig_Default:
         # 1) define search space
@@ -102,7 +102,7 @@ There are two ways to define evaluator function:
 
 - instance a auto_search_config and assign the evaluator function:
 
-::
+.. code-block:: python
 
    def customer_defined_evaluator(onnx_path, **args):
             # step 1) build onnx inference session
@@ -115,7 +115,6 @@ There are two ways to define evaluator function:
    auto_search_conig = AutoSearchConfig_Default()
    auto_search_config.search_evaluator = customer_defined_evaluator
 
-
 - **metric**
 
    If evalutor is not None, metric is defined in the evaluator. If evalutor is None, we can support the metrics such as "L2", "L1", "cos", "psnr" and "ssim". Default is "L2".
@@ -124,7 +123,7 @@ There are two ways to define evaluator function:
 
   Target setting is the acceptable drop of metric. For example, we can set the search metric is "L2". And the target is the L2 distance between float model and quantized model is within 0.1.
 
-::
+.. code-block:: python
 
    search_metric: str = "L2"
    search_metric_tolerance: float = 0.1
@@ -137,10 +136,9 @@ There are two ways to define evaluator function:
 
   Auto search execution command:
 
-::
+.. code-block:: bash
 
     python quantize_quark.py  --input_model_path models/resnet50-v1-12.onnx --calib_data_path calib_data --output_model_path models
-
 
 .. raw:: html
 

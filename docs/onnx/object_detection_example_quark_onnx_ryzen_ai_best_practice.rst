@@ -4,7 +4,7 @@ Best Practice for Ryzen AI in Quark ONNX
 This topic outlines best practice for Post-Training Quantization (PTQ) in Quark ONNX. It provides guidance on fine-tuning your quantization strategy to meet target quantization accuracy.
 
 
-.. figure:: ../../../../docs/source/_static/best_practice_in_quark_onnx.png
+.. figure:: ../_static/best_practice_in_quark_onnx.png
    :align: center
    :width: 85%
 
@@ -20,17 +20,19 @@ Install the necessary python packages:
    python -m pip install -r requirements.txt
 
 Prepare model from Torch to ONNX (Optional)
--------------
+-------------------------------------------
 
 Download the Yolov8 pytorch float model:
 
-::
+.. code-block:: bash
+
 
    wget -P models https://github.com/akanametov/yolo-face/releases/download/v0.0.0/yolov8n-face.pt
 
 Export the Yolov8 pytorch model to onnx model:
 
-::
+.. code-block:: bash
+
 
    python export_yolo_to_onnx.py --input_model_path models/yolov8n-face.pt --output_model_path yolov8n-face.onnx
 
@@ -40,7 +42,7 @@ Prepare model
 
 Download the Yolov8 ONNX float model:
 
-::
+.. code-block:: bash
 
    wget -P models https://github.com/akanametov/yolo-face/releases/download/v0.0.0/yolov8n-face.onnx
 
@@ -50,7 +52,7 @@ Prepare Calibration Data
 
 You can provide a folder containing PNG or JPG files as calibration data folder. For example, you can download images from https://github.com/microsoft/onnxruntime-inference-examples/tree/main/quantization/image_classification/cpu/test_images as a quick start. Specifically, you can provide the preprocessing code at line 63 in quantize_quark.py
 
-::
+.. code-block:: bash
 
     mkdir calib_images
     wget -O calib_images/daisy.jpg https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/test_images/daisy.jpg?raw=true
@@ -87,7 +89,6 @@ A8W8 uses symmetric INT8 activation and weights quantization with float scales. 
 - **A16W8**
 
 A16W8 uses symmetric INT16 activation and symmetric INT8 weights quantization with float scales. Typically, the calibration method uses MinMax.
-
 
 .. code-block:: bash
 
@@ -193,7 +194,6 @@ The command below shows how to input an image and output an image with detection
 
    mkdir detection_images
    python onnx_evaluate.py --input_model_path models/yolov8n-face.onnx --input_image [INPUT_IMAGE] --output_image [DETECTION_IMAGE]
-
 
 .. raw:: html
 

@@ -37,6 +37,8 @@ ONNX Examples in AMD Quark for This Release
    Mixed Precision <example_quark_onnx_mixed_precision>
    Smooth Quant <example_quark_onnx_smoothquant>
    QuaRot <example_quark_onnx_quarot>
+   Best practice example using auto search for resnet50 quantization <example_ryzenai_autosearch_resnet50>
+   Best practice example using auto search for yolov3 quantization <example_quark_onnx_ryzenai_yolov3_customer_evaluator>
 
 .. toctree::
    :caption: Dynamic Quantization

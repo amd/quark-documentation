@@ -1,8 +1,8 @@
 Debugging quantization degradation in AMD Quark
-===========================================
+===============================================
 
-.. note::  
-  
+.. note::
+
     In this documentation, **AMD Quark** is sometimes referred to simply as **"Quark"** for ease of reference. When you  encounter the term "Quark" without the "AMD" prefix, it specifically refers to the AMD Quark quantizer unless otherwise stated. Please do not confuse it with other products or technologies that share the name "Quark."
 
 Quantization is a destructive compression method that may degrade the predictive performance of quantized models. As we strive to strike a balance between model compression and preserving predictive capabilities of quantized models, it is useful to gain insight into **which layers are most sensitive to quantization, and thus likely which quantized layers degrade prediction quality the most**.
@@ -11,9 +11,9 @@ AMD Quark provides a tool to analyze the quantization error of each of the quant
 
 When using AMD Quark quantizer in eager mode, typically
 
-.. code:: python
+.. code-block:: python
 
-    from quark.torch import ModelQuantizer 
+    from quark.torch import ModelQuantizer
 
     # Define quant_config, model, optionally define dataloader for static quantization.
 
@@ -103,7 +103,7 @@ These indications may motivate us to quantize ``down_proj`` from the layer 31 (o
 
 .. raw:: html
 
-   <!-- 
+   <!--
    ## License
    Copyright (C) 2024, Advanced Micro Devices, Inc. All rights reserved. SPDX-License-Identifier: MIT
    -->

@@ -4,24 +4,136 @@ Release Notes
 New Features (Version 0.8)
 --------------------------
 
--  **Quark for PyTorch**
+-  **AMD Quark for PyTorch**
 
-   - TBD
+   -  Model Support:
 
--  **Quark for ONNX**
+      -  Supported SD3.0 quantization with W-INT4, W-INT8-A-INT8, and W-FP8-A-FP8.
+      -  Supported FLUX.1 quantization with W-INT4, W-INT8-A-INT8, and W-FP8-A-FP8.
+      -  Supported DLRM embedding-bag UINT4 weight quantization.
 
-   - TBD
+   -  Quantization Enhancement: 
 
-New Features (Version 0.7)
---------------------------
+      -  Supported fp8 attention quantization of Llama Family.
+      -  Integrated SmoothQuant algorithm for SDXL.
+      -  Enabled quantization for all SDXL components (UNet, VAE, text_encoder, text_encoder_2), supporting both W-INT8-A-INT8 and W-FP8-A-FP8 formats.
 
--  **Quark for PyTorch**
+   -  Model Export:
 
-   - TBD
+      -  Exported diffusion models (SDXL, SDXL-Turbo and SD1.5) to ONNX format via optimum.
 
--  **Quark for ONNX**
+   -  Model Evaluation:
 
-   - TBD
+      -  Added Rouge and Meteor evaluation metrics for LLMs.
+      -  Supported evaluating ONNX models exported using torch.onnx.export for LLMs.
+      -  Supported offline evaluation mode (evaluation without generation) for LLMs.
+
+-  **AMD Quark for ONNX**
+
+   -  Model Support:
+
+      -  Provided more ONNX quantization examples of detection models such as yolov7/yolov8.
+
+   -  Data Types: 
+
+      -  Supported Microexponents (MX) data types, including MX4, MX6 and MX9.
+      -  Enhanced BFloat16 with more implementation formats suitable for deployment.
+
+   -  ONNX Quantizer Enhancements: 
+
+      -  Supported compatibility with ONNX Runtime version 1.20.0 and 1.20.1.
+      -  Supported quantization with excluding subgraphs.
+      -  Enhanced mixed precision to support quantizing a model with any two data types.
+
+   -  Documentation Enhancements: 
+
+      -  Provided Best Practice for Quark ONNX.
+
+   -  Custom Operations:
+
+      -  Optimized the customized "QuantizeLinear" and “DequantizeLinear” to support running on GPU.
+
+   -  Advanced Quantization Algorithms: 
+
+      -  Supported Quarot Rotation R1 algorithm.
+      -  Improved AdaQuant algorithm to support Microexponents and Microscaling data types.
+      -  Added auto-search algorithm to automatically find the optimal quantized model with the best accuracy within the search space.
+      -  Enhanced the LLM quantization by using EMA algorithm.
+
+   -  Model Evaluation: 
+
+      -  Supported evaluation of L2/PSNR/VMAF/COS.
+
+Release 0.7
+-----------
+
+New Features
+^^^^^^^^^^^^
+
+**PyTorch**
+
+* Added quantization error statistics collection tool.
+* Added support for reloading quantized models using `load_state_dict`.
+* Added support for W8A8 quantization for the Llama-3.1-8B-Instruct example.
+* Added option of saving metrics to CSV in examples.
+* Added support for HuggingFace integration.
+* Added support for more models
+
+    * Added support for Gemma2 quantization using the OGA flow.
+    * Added support for Llama-3.2 with FP8 quantization (weight, activation and KV-Cache) for the vision and language components.
+    * Added support for Stable Diffusion v1-5 and Stable Diffusion XL Base 1.0
+
+**ONNX**
+
+* Added a tool to replace BFloat16 QDQ with Cast op.
+* Added support for rouge and meteor evaluation metrics.
+* Added a feature to fuse Gelu ops into a single Gelu op.
+* Added the HQQ algorithm for MatMulNBits.
+* Added a tool to convert opset version.
+* Added support for fast fine-tuning BF16 quantized models.
+* Added U8U8_AAWA and some other built-in configurations.
+
+Bug Fixes and Enhancements
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**PyTorch**
+
+* Enhanced LLM examples to support layer group size customization.
+* Decoupled model inference from LLM evaluation harness.
+* Fixed OOM issues when quantizing the entire SDXL pipeline.
+* Fixed LLM eval bugs caused by export and multi-gpu usage.
+* Fixed QAT functionality.
+* Addressed AWQ preparation issues.
+* Fixed mismatching QDQ implementation compared to Torch.
+* Enhanced readability and added docstring for graph quantization.
+* Fixed config retrieval by name pattern.
+* Supported more Torch versions for auto config rotation.
+* Refactored dataloader of algorithms.
+* Fixed accuracy issues with Qwen2-MOE.
+* Fixed upscaling of scales during the export of quantized models.
+* Added support for reloading per-layer quantization config.
+* Fixed misleading code in `ModelQuantizer._do_calibration` for weight-only quantization.
+* Implemented transpose scales for per-group quantization for int8/uint8.
+* Implemented export and load for compressed models.
+* Fixed auto config rotation compatibility for more PyTorch versions.
+* Fixed bug in input of get_config in exporter.
+* Fixed bug in input of the eval_model function.
+* Refactored LLM PTQ examples.
+* Fixed infer_pack_shape function.
+* Documented smoothquant alpha and warned users about possible undesired values.
+* Fixed slightly misleading code in `ModelQuantizer._do_calibration`.
+* Aligned ONNX mean 2 GAP.
+
+**ONNX**
+
+* Refactored documentation for LLM evaluations.
+* Fixed NaN issues caused by overflow for BF16 quantization.
+* Fixed an issue where trying to fast fine-tune the MatMul layers without weights.
+* Updated ONNX unit tests to use temporary paths.
+* Removed generated model "sym_shape_infer_temp.onnx" on infer_shape failure.
+* Fixed error in mixed-precision weights calculation.
+* Fixed a bug when simplifying llama2-7b without kv_cache.
+* Fixed import path and add parent directory to system path in BFP quantize_model.py example.
 
 New Features (Version 0.6.0)
 ----------------------------

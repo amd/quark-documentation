@@ -74,11 +74,12 @@ Functions
 .. py:function:: convert_matmul(node: onnx.NodeProto, layer_params: List[Any], layer_qinfos: List[Any]) -> Tuple[quark.onnx.finetuning.create_torch.quant_matmul_ops.QMatMul, None]
 
    Use to convert MatMul ONNX node to Torch module.
-   This function supports onnx's Matmul from 6.
-    :param node : ONNX node.
-    :param layer_params : Layer weight parameters.
-    :param layer_qinfos : Layer quantization informations.
-    :return: Converted MatMul layer.
+
+   This function supports onnx's MatMul from 6.
+   :param node : ONNX node.
+   :param layer_params : Layer weight parameters.
+   :param layer_qinfos : Layer quantization informations.
+   :return: Converted MatMul layer.
 
 
 .. py:function:: convert_gemm(node: onnx.NodeProto, layer_params: List[Any], layer_qinfos: List[Any]) -> Tuple[quark.onnx.finetuning.create_torch.quant_gemm_ops.QGemm, None]
