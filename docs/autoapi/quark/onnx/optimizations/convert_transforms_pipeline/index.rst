@@ -23,7 +23,7 @@ Classes
 
 
 
-.. py:class:: ConvertQDQToQOPTransformsPipeline
+.. py:class:: ConvertQDQToQOPTransformsPipeline(configs: Optional[Dict[str, Any]] = None)
 
 
 
@@ -42,7 +42,7 @@ Classes
 
 
 
-.. py:class:: RemoveQDQTransformsPipeline
+.. py:class:: RemoveQDQTransformsPipeline(configs: Optional[Dict[str, Any]] = None)
 
 
 

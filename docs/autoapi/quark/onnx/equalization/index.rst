@@ -71,7 +71,7 @@ Functions
    attributes -- see the documentation for details.
 
 
-.. py:class:: Equalization
+.. py:class:: Equalization(model: onnx.ModelProto, op_types_to_quantize: List[str], nodes_to_quantize: Optional[List[str]], nodes_to_exclude: Optional[List[str]])
 
 
 

@@ -107,6 +107,11 @@ Functions
       :return: augmented ONNX model
 
 
+   .. py:method:: collect_data(data_reader: onnxruntime.quantization.calibrate.CalibrationDataReader) -> None
+
+      abstract method: collect the tensors that will be used for range computation. It can be called multiple times.
+
+
    .. py:method:: compute_range() -> Any
 
       Compute the min-max range of tensor
@@ -127,6 +132,18 @@ Functions
    :param minmse_mode: Mode for the MinMSE method. Default is "All".
    :param percentile: Percentile value for calibration, a float between 0 and 100. Default is 99.999.
    :param quantized_tensor_type: Dictionary specifying the quantized tensor type. Default is an empty dictionary.
+
+
+   .. py:method:: collect(name_to_arr: Dict[Any, Any]) -> None
+
+      Generate informative data based on given data.
+          name_to_arr : dict
+              tensor name to NDArray data
+
+
+   .. py:method:: compute_collection_result() -> Any
+
+      Get the optimal result among collection data.
 
 
 

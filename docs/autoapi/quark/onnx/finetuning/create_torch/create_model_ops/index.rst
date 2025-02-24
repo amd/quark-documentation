@@ -9,6 +9,14 @@
 Module Contents
 ---------------
 
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   quark.onnx.finetuning.create_torch.create_model_ops.Clip
+
+
 
 Functions
 ~~~~~~~~~
@@ -102,6 +110,43 @@ Functions
    :param layer_params : Layer weight and bias parameters.
    :param layer_qinfos : Layer quantization information.
    :return: Converted norm (Instance/Layer Norm) layer.
+
+
+.. py:class:: Clip(min: Optional[float] = None, max: Optional[float] = None)
+
+
+
+
+   Base class for all neural network modules.
+
+   Your models should also subclass this class.
+
+   Modules can also contain other Modules, allowing to nest them in
+   a tree structure. You can assign the submodules as regular attributes::
+
+       import torch.nn as nn
+       import torch.nn.functional as F
+
+       class Model(nn.Module):
+           def __init__(self) -> None:
+               super().__init__()
+               self.conv1 = nn.Conv2d(1, 20, 5)
+               self.conv2 = nn.Conv2d(20, 20, 5)
+
+           def forward(self, x):
+               x = F.relu(self.conv1(x))
+               return F.relu(self.conv2(x))
+
+   Submodules assigned in this way will be registered, and will have their
+   parameters converted too when you call :meth:`to`, etc.
+
+   .. note::
+       As per the example above, an ``__init__()`` call to the parent class
+       must be made before assignment on the child.
+
+   :ivar training: Boolean represents whether this module is in training or
+                   evaluation mode.
+   :vartype training: bool
 
 
 .. py:function:: convert_act(node: onnx.NodeProto) -> Union[torch.nn.Module, None]

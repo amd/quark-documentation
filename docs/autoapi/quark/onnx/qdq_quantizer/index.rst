@@ -48,6 +48,20 @@ Classes
    Inherits from:
        OrtQDQQuantizer: Base class for ONNX QDQ quantization.
 
+   .. py:method:: quantize_bias_tensor(bias_name: str, input_name: str, weight_name: str, beta: float = 1.0) -> None
+
+      Adds a bias tensor to the list of bias tensors to quantize. Called by op quantizers that
+      want to quantize a bias with bias_zero_point = 0 and bias_scale = input_scale * weight_scale * beta.
+      TODO: Explain the reasoning for using this formula.
+
+      Args:
+          node_name: name of the node that consumes the bias, input, and weight tensors.
+          bias_name: name of the bias tensor to quantize.
+          input_name: name of the input tensor whose scale is used to compute the bias's scale.
+          weight_name: name of the weight tensor whose scale is used to compute the bias's scale.
+          beta: Multiplier used to compute the bias's scale.
+
+
 
 .. py:class:: QDQNPUTransformerQuantizer(model: onnx.ModelProto, per_channel: bool, reduce_range: bool, mode: onnxruntime.quantization.quant_utils.QuantizationMode.QLinearOps, static: bool, weight_qType: Any, activation_qType: Any, tensors_range: Any, nodes_to_quantize: List[str], nodes_to_exclude: List[str], op_types_to_quantize: List[str], extra_options: Optional[Dict[str, Any]] = None)
 
@@ -73,6 +87,20 @@ Classes
 
    Inherits from:
        QDQQuantizer: Base class for ONNX QDQ quantization.
+
+   .. py:method:: quantize_bias_tensor(bias_name: str, input_name: str, weight_name: str, beta: float = 1.0) -> None
+
+      Adds a bias tensor to the list of bias tensors to quantize. Called by op quantizers that
+      want to quantize a bias with bias_zero_point = 0 and bias_scale = input_scale * weight_scale * beta.
+      TODO: Explain the reasoning for using this formula.
+
+      Args:
+          node_name: name of the node that consumes the bias, input, and weight tensors.
+          bias_name: name of the bias tensor to quantize.
+          input_name: name of the input tensor whose scale is used to compute the bias's scale.
+          weight_name: name of the weight tensor whose scale is used to compute the bias's scale.
+          beta: Multiplier used to compute the bias's scale.
+
 
 
 .. py:class:: VitisQDQQuantizer(model: onnx.ModelProto, per_channel: bool, reduce_range: bool, mode: onnxruntime.quantization.quant_utils.QuantizationMode.QLinearOps, static: bool, weight_qType: Any, activation_qType: Any, tensors_range: Any, nodes_to_quantize: List[str], nodes_to_exclude: List[str], op_types_to_quantize: List[str], calibrate_method: Any, quantized_tensor_type: Dict[Any, Any] = {}, extra_options: Any = None)
