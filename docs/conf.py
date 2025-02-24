@@ -191,7 +191,7 @@ external_projects_current_project = "quark"
 html_theme_options = {
     # "flavor": "rocm-docs-home",
     "flavor": "local",
-    "repository_url": "https://gitenterprise.xilinx.com/AMDNeuralOpt/Quark",
+    "repository_url": "https://github.com/amd/quark",
     "repository_provider": "github",
     "link_main_doc": False
 }
