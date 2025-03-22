@@ -1,4 +1,4 @@
-Highlight Features
+Advanced Features
 ==================
 
 This page introduces some key features of Quark. Please refere to the
@@ -8,14 +8,10 @@ of Quark.
 Quark for PyTorch
 -----------------
 
--  `Bridge from Quark to llama.cpp <./pytorch/tutorial_gguf.html>`__
--  `Using MX (Microscaling) with Quark <./pytorch/tutorial_mx.html>`__
+-  `Bridge from Quark to llama.cpp <./tutorial_gguf.html>`__
+-  `Using MX (Microscaling) with Quark <./tutorial_mx.html>`__
 
-Quark for ONNX
---------------
 
--  `AdaRound and AdaQuant <./onnx/tutorial_adaround_adaquant.html>`__
--  `Mixed Precision <./onnx/tutorial_mix_precision.html>`__
 .. raw:: html
 
    <!-- 
