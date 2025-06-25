@@ -16,26 +16,27 @@
 import os
 import sys
 import urllib.parse
-# import recommonmark
-# from recommonmark.transform import AutoStructify
-# from recommonmark.parser import CommonMarkParser
+from datetime import datetime
+import re
+from dataclasses import is_dataclass
 
-# sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('_ext'))
 sys.path.insert(0, os.path.abspath('docs'))
 
+def get_version_from_file():
+    with open('version.txt', 'r') as f:
+        return f.read().strip()
 # -- Project information -----------------------------------------------------
 
-project = 'Quark'
+project = 'AMD Quark'
 copyright = '2024, Advanced Micro Devices, Inc'
 author = 'Advanced Micro Devices, Inc'
 
 # The short X.Y version
-version = '0.2.0'
+version = '.'.join(get_version_from_file().split('.')[:2])
 # The full version, including alpha/beta/rc tags
-release = '0.2.0'
-html_last_updated_fmt = 'Aug 14, 2024'
-
+release = get_version_from_file()
+html_last_updated_fmt = datetime.now().strftime('%b %d, %Y')
 
 # -- General configuration ---------------------------------------------------
 
@@ -47,24 +48,95 @@ html_last_updated_fmt = 'Aug 14, 2024'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.graphviz',
     'breathe',
-    'sphinx.ext.autodoc',
-    'sphinx.ext.doctest',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.todo',
+    'myst_nb',
+    'notfound.extension',
+    'quark_version_substitution',
+    'quark_autoapi_build',
+    'toctree_filter',
     'sphinx.ext.coverage',
+    'sphinx.ext.doctest',
+    'sphinx.ext.githubpages',
+    'sphinx.ext.graphviz',
+    'sphinx.ext.intersphinx',
     'sphinx.ext.mathjax',
     'sphinx.ext.ifconfig',
+    'sphinx.ext.todo',
     'sphinx.ext.viewcode',
-    'sphinx.ext.githubpages',
-    "notfound.extension",
-	#'recommonmark',
-	#'sphinx_markdown_tables',
-	#'edit_on_github',
-    # Auto-generate section labels.
-    #'sphinx.ext.autosectionlabel',	
-	#'rst2pdf.pdfbuilder'
+]
+
+generate_autoapi_docs = "QUARK_SKIP_DOC_AUTOAPI" not in os.environ or os.environ["QUARK_SKIP_DOC_AUTOAPI"].lower() in ("0", "false", "off")
+if generate_autoapi_docs:
+    extensions.append('sphinx.ext.autodoc')
+
+if "READTHEDOCS" not in os.environ:
+    # TODO: Pages from https://quark.docs.amd.com are built by readthedocs.com based on github.com/amd/quark-documentation repo
+    # which does not contain source-code, thus autoapi cannot be ran on READTHEDOCS infra
+    # Instead, we must run sphinx-build locally and submit the generated autoapi rst files to github.com/amd/quark-documentation
+    # where it will be used to build the public documentation page for Quark
+    if generate_autoapi_docs:
+        extensions.append('autoapi.extension')
+        autoapi_dirs = ['../../quark']
+        autoapi_keep_files = True
+        autoapi_add_toctree_entry = False
+        autoapi_options = ["members", "show-module-summary"]
+        autoapi_ignore = []
+
+FACTORY_TYPES = {"typing.List": "[]", "typing.Dict": "{}", "str": "''"}
+
+def fix_signature(app, what, name, obj, options, signature, return_annotation):
+    """
+    Fixes a formatting bug in sphinx-autodoc with ``dataclasses.dataclass``'s ``default_factory`` reported in: https://github.com/sphinx-doc/sphinx/issues/10893 and https://github.com/sphinx-doc/sphinx/issues/12695.
+    In case the signature contains "<" or ">", its rendering breaks with things like "~typing.Optional[~quark.torch.quantization.config.type.QuanitzationMode]" being rendered.
+    This functions fixes the generated ``signature`` string and replaces the substring ``"<factory>"`` with the relevant default for each data type (``{}`` for dict, ``[]`` for list, ``""`` for string)
+
+    TODO: remove once https://github.com/sphinx-doc/sphinx/issues/10893 and https://github.com/sphinx-doc/sphinx/issues/12695 are fixed.
+    """
+    if what == "class" and is_dataclass(obj):
+        # Avoid splitting `Dict[str, str]`, for example.
+        split_signature = re.split(r",(?![^\[\]]*\])", signature)
+
+        split_signature[0] = split_signature[0][1:]  # Remove leading '('
+        split_signature[-1] = split_signature[-1][:-1]  # Remove trailing ')'
+
+        fixed_signature = "("
+        for i, arg in enumerate(split_signature):
+            if "<factory>" not in arg:
+                fixed_signature += arg
+            else:
+                cur_idx = -1
+                default = None
+
+                for type in FACTORY_TYPES:
+                    idx = arg.find(type)
+
+                    if idx > -1 and (cur_idx == -1 or idx < cur_idx):
+                        default = FACTORY_TYPES[type]
+                        break
+
+                if default is None:
+                    raise RuntimeError("should not happen")
+
+                fixed_arg = arg.replace("<factory>", default)
+
+                fixed_signature += fixed_arg
+
+            if i < len(split_signature) - 1:
+                fixed_signature += ","
+
+        fixed_signature += ")"
+
+        return fixed_signature, return_annotation
+
+# TODO: Revisit when to ignore classes
+# Ignore `WARNING: py:class reference target not found: torch.nn.Module`, etc.
+
+nitpick_ignore_regex = [(r'py:class', r'.*')]
+
+# TODO: Remove once https://github.com/sphinx-doc/sphinx/issues/4961 is addressed.
+# Bypass `WARNING: more than one target found for cross-reference 'Config': quark.onnx.quantization.config.config.Config, quark.torch.pruning.config.Config, quark.torch.quantization.config.config.Config`, etc.
+suppress_warnings = [
+    'ref.python',
 ]
 
 graphviz_output_format = 'svg'
@@ -73,22 +145,13 @@ graphviz_output_format = 'svg'
 # rather than 'path/to/file:heading'
 autosectionlabel_prefix_document = True
 
-
-
 # Breathe Configuration
 breathe_projects = {
     "XRT":"../xml",
 }
 
-
-
 # Configuration for rst2pdf
 pdf_documents = [('index', u'', u'', u'AMD, Inc.'),]
-  # index - master document
-  # rst2pdf - name of the file that will be created
-  # Sample rst2pdf doc - title of the pdf
-  # Your Name - author name in the pdf
-
 
 # Configure 'Edit on GitHub' extension
 edit_on_github_project = '/amd/quark-documentation'
@@ -101,23 +164,8 @@ templates_path = ['_templates']
 def setup(app):
     app.add_css_file('custom.css')
 
-
-# The suffix(es) of source filenames.
-# You can specify multiple suffix as a list of string:
-#
-# source_suffix = ['.rst', '.md']
-source_suffix = {
-    '.rst': 'restructuredtext',
-    #'.txt': 'restructuredtext',
-    '.md': 'markdown',
-}
-
-# For MD support
-source_parsers = {
-    #'.md': CommonMarkParser,
-	# myst_parser testing
-	#'.md': 
-}
+    if generate_autoapi_docs:
+        app.connect("autodoc-process-signature", fix_signature)
 
 # The master toctree document.
 master_doc = 'index'
@@ -132,7 +180,16 @@ language = 'en'
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This patterns also effect to html_static_path and html_extra_path
-exclude_patterns = ['include', 'api_rst', '_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = ['include', 'api_rst', '_build', 'Thumbs.db', '.DS_Store', '**.ipynb_checkpoints']
+nitpicky = True
+
+# 'autoapi' pages are included on main index.rst by a sphinx extension (docs/source/_ext/quark_autoapi_build.py)
+# This is hacky, but needed to allow QUARK_SKIP_DOC_AUTOAPI=1 to pass without warnings during sphinx-build
+# that would the build to fail  when QUARK_DOC_FAIL_ON_WARNING=1
+if not generate_autoapi_docs:
+    exclude_patterns += ['autoapi']
+
+exclude_patterns.append('*autoapi/quark/index.rst')
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
@@ -143,25 +200,41 @@ todo_include_todos = False
 primary_domain = 'c'
 highlight_language = 'none'
 
-
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-##html_theme = 'karma_sphinx_theme'
+# html_theme = 'sphinx_book_theme'
 html_theme = 'rocm_docs_theme'
-##html_theme_path = ["./_themes"]
 
+# For 'rocm_docs_theme' them
+html_context = {}
+html_context["projects"] = {"quark": "https://quark.docs.amd.com"}
+if "READTHEDOCS" in os.environ:
+    html_context["READTHEDOCS"] = True
+
+##html_theme_path = ["./_themes"]
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-##html_logo = '_static/xilinx-header-logo.svg'
+
+# Add any theme-specific options here
+# Add this part to expand the TOC
 html_theme_options = {
-    "link_main_doc": False,
-    "flavor": "local"
+    'collapse_navigation': False,  # Set to False to expand all sections
+}
+
+##html_logo = '_static/xilinx-header-logo.svg'
+external_projects_current_project = "quark"
+html_theme_options = {
+    # "flavor": "rocm-docs-home",
+    "flavor": "local",
+    "repository_url": "https://github.com/amd/quark",
+    "repository_provider": "github",
+    "link_main_doc": False
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
@@ -188,12 +261,10 @@ html_static_path = ['_static']
 #        'donate.html',
 #    ]}
 
-
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'ProjectName'
-
 
 # -- Options for LaTeX output ------------------------------------------------
 latex_engine = 'pdflatex'
@@ -223,7 +294,6 @@ latex_documents = [
      'AMD', 'manual'),
 ]
 
-
 # -- Options for manual page output ------------------------------------------
 
 # One entry per manual page. List of tuples
@@ -232,7 +302,6 @@ man_pages = [
     (master_doc, 'quark.tex', 'Quark',
      [author], 1)
 ]
-
 
 # -- Options for Texinfo output ----------------------------------------------
 
@@ -244,7 +313,6 @@ texinfo_documents = [
      author, 'AMD', 'One line description of project.',
      'Miscellaneous'),
 ]
-
 
 # -- Options for Epub output -------------------------------------------------
 
@@ -263,16 +331,10 @@ epub_title = project
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ['search.html']
 
-
-
-
 # -- Options for rinoh ------------------------------------------
-
 
 rinoh_documents = [dict(doc='index',        # top-level file (index.rst)
                         target='manual')]   # output file (manual.pdf)
-
-
 
 # -- Notfound (404) extension settings
 
@@ -280,6 +342,10 @@ if "READTHEDOCS" in os.environ:
     components = urllib.parse.urlparse(os.environ["READTHEDOCS_CANONICAL_URL"])
     notfound_urls_prefix = components.path
 
+# Tutorials build take long time. Only build it when requested
+toctree_filter_exclude = []
+if "QUARK_SPHINX_BUILD_SKIP_TUTORIALS" in os.environ or "READTHEDOCS" in os.environ:
+    toctree_filter_exclude = ['tutorials']
 
 # -- Extension configuration -------------------------------------------------
 # At the bottom of conf.py
@@ -290,3 +356,90 @@ if "READTHEDOCS" in os.environ:
 #            }, True)
 #    app.add_transform(AutoStructify)
 
+if "READTHEDOCS" not in os.environ:
+
+    ## myst_nb default settings
+
+    # Custom formats for reading notebook; suffix -> reader
+    # nb_custom_formats = {}
+
+    # Notebook level metadata key for config overrides
+    # nb_metadata_key = 'mystnb'
+
+    # Cell level metadata key for config overrides
+    # nb_cell_metadata_key = 'mystnb'
+
+    # Mapping of kernel name regex to replacement kernel name(applied before execution)
+    # nb_kernel_rgx_aliases = {}
+
+    # Regex that matches permitted values of eval expressions
+    # nb_eval_name_regex = '^[a-zA-Z_][a-zA-Z0-9_]*$'
+
+    # Execution mode for notebooks
+    # nb_execution_mode = 'auto'
+
+    # Path to folder for caching notebooks (default: <outdir>)
+    # nb_execution_cache_path = ''
+
+    # Exclude (POSIX) glob patterns for notebooks
+    # nb_execution_excludepatterns = ()
+
+    # Execution timeout (seconds)
+    nb_execution_timeout = 7200
+
+    # Use temporary folder for the execution current working directory
+    # nb_execution_in_temp = False
+
+    # Allow errors during execution
+    # nb_execution_allow_errors = False
+
+    # Raise an exception on failed execution, rather than emitting a warning
+    nb_execution_raise_on_error = True
+
+    # Print traceback to stderr on execution error
+    nb_execution_show_tb = True
+
+    # Merge stdout/stderr execution output streams
+    nb_merge_streams = True
+
+    # The entry point for the execution output render class (in group `myst_nb.output_renderer`)
+    # nb_render_plugin = 'default'
+
+    # Remove code cell source
+    # nb_remove_code_source = False
+
+    # Remove code cell outputs
+    # nb_remove_code_outputs = False
+
+    # Prompt to expand hidden code cell {content|source|outputs}
+    # nb_code_prompt_show = 'Show code cell {type}'
+
+    # Prompt to collapse hidden code cell {content|source|outputs}
+    # nb_code_prompt_hide = 'Hide code cell {type}'
+
+    # Number code cell source lines
+    # nb_number_source_lines = False
+
+    # Overrides for the base render priority of mime types: list of (builder name, mime type, priority)
+    # nb_mime_priority_overrides = ()
+
+    # Behaviour for stderr output
+    # nb_output_stderr = 'show'
+
+    # Pygments lexer applied to stdout/stderr and text/plain outputs
+    # nb_render_text_lexer = 'myst-ansi'
+
+    # Pygments lexer applied to error/traceback outputs
+    # nb_render_error_lexer = 'ipythontb'
+
+    # Options for image outputs (class|alt|height|width|scale|align)
+    # nb_render_image_options = {}
+
+    # Options for figure outputs (classes|name|caption|caption_before)
+    # nb_render_figure_options = {}
+
+    # The format to use for text/markdown rendering
+    # nb_render_markdown_format = 'commonmark'
+
+    # Javascript to be loaded on pages containing ipywidgets
+    # nb_ipywidgets_js = {'https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js': {'integrity': 'sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=', 'crossorigin': 'anonymous'}, 'https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@1.0.6/dist/embed-amd.js': {'data-jupyter-widgets-cdn': 'https://cdn.jsdelivr.net/npm/', 'crossorigin': 'anonymous'}}

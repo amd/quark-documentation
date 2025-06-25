@@ -1,1 +1,4 @@
-rocm-docs-core==0.24.2
+myst-nb
+sphinx-autoapi==3.6.0
+rocm-docs-core==1.7.2
+astroid<4.0  # https://github.com/zarr-developers/zarr-python/pull/2796 and https://gitenterprise.xilinx.com/AMDNeuralOpt/Quark/pull/2142
