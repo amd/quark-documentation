@@ -16,6 +16,7 @@
 import os
 import sys
 import urllib.parse
+from datetime import datetime
 # import recommonmark
 # from recommonmark.transform import AutoStructify
 # from recommonmark.parser import CommonMarkParser
@@ -24,6 +25,9 @@ import urllib.parse
 sys.path.insert(0, os.path.abspath('_ext'))
 sys.path.insert(0, os.path.abspath('docs'))
 
+def get_version_from_file():
+    with open('version.txt', 'r') as f:
+        return f.read().strip()
 # -- Project information -----------------------------------------------------
 
 project = 'Quark'
@@ -31,11 +35,10 @@ copyright = '2024, Advanced Micro Devices, Inc'
 author = 'Advanced Micro Devices, Inc'
 
 # The short X.Y version
-version = '0.2.0'
+version = '.'.join(get_version_from_file().split('.')[:2])
 # The full version, including alpha/beta/rc tags
-release = '0.2.0'
-html_last_updated_fmt = 'Aug 14, 2024'
-
+release = get_version_from_file()
+html_last_updated_fmt = datetime.now().strftime('%b %d, %Y')
 
 # -- General configuration ---------------------------------------------------
 
@@ -47,6 +50,7 @@ html_last_updated_fmt = 'Aug 14, 2024'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'myst_parser',
     'sphinx.ext.graphviz',
     'breathe',
     'sphinx.ext.autodoc',
@@ -58,14 +62,33 @@ extensions = [
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
-    "notfound.extension",
+    'notfound.extension',
+    'quark_version_substitution',
+    'quark_autoapi_build'
 	#'recommonmark',
 	#'sphinx_markdown_tables',
 	#'edit_on_github',
     # Auto-generate section labels.
-    #'sphinx.ext.autosectionlabel',	
+    #'sphinx.ext.autosectionlabel',
 	#'rst2pdf.pdfbuilder'
 ]
+
+generate_autoapi_docs = "QUARK_SKIP_DOC_AUTOAPI" not in os.environ or os.environ["QUARK_SKIP_DOC_AUTOAPI"].lower() in ("0", "false", "off")
+if generate_autoapi_docs:
+    extensions.append('sphinx.ext.autodoc')
+
+if "READTHEDOCS" not in os.environ:
+    # TODO: Pages from https://quark.docs.amd.com are built by readthedocs.com based on github.com/amd/quark-documentation repo
+    # which does not contain source-code, thus autoapi cannot be ran on READTHEDOCS infra
+    # Instead, we must run sphinx-build locally and submit the generated autoapi rst files to github.com/amd/quark-documentation
+    # where it will be used to build the public documentation page for Quark
+    if generate_autoapi_docs:
+        extensions.append('autoapi.extension')
+        autoapi_dirs = ['../../quark']
+        autoapi_keep_files = True
+        autoapi_add_toctree_entry = False
+        autoapi_options = ["members", "show-module-summary"]
+        autoapi_ignore = []
 
 graphviz_output_format = 'svg'
 
@@ -116,7 +139,7 @@ source_suffix = {
 source_parsers = {
     #'.md': CommonMarkParser,
 	# myst_parser testing
-	#'.md': 
+	#'.md':
 }
 
 # The master toctree document.
@@ -134,6 +157,12 @@ language = 'en'
 # This patterns also effect to html_static_path and html_extra_path
 exclude_patterns = ['include', 'api_rst', '_build', 'Thumbs.db', '.DS_Store']
 
+# 'autoapi' pages are included on main index.rst by a sphinx extension (docs/source/_ext/quark_autoapi_build.py)
+# This is hacky, but needed to allow QUARK_SKIP_DOC_AUTOAPI=1 to pass without warnings during sphinx-build
+# that would the build to fail  when QUARK_DOC_FAIL_ON_WARNING=1
+if not generate_autoapi_docs:
+    exclude_patterns += ['autoapi']
+
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
 
@@ -149,8 +178,15 @@ highlight_language = 'none'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-##html_theme = 'karma_sphinx_theme'
+# html_theme = 'sphinx_book_theme'
 html_theme = 'rocm_docs_theme'
+
+# For 'rocm_docs_theme' them
+html_context = {}
+html_context["projects"] = {"quark": "https://quark.docs.amd.com"}
+if "READTHEDOCS" in os.environ:
+    html_context["READTHEDOCS"] = True
+
 ##html_theme_path = ["./_themes"]
 
 
@@ -158,10 +194,21 @@ html_theme = 'rocm_docs_theme'
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-##html_logo = '_static/xilinx-header-logo.svg'
+
+# Add any theme-specific options here
+# Add this part to expand the TOC
 html_theme_options = {
-    "link_main_doc": False,
-    "flavor": "local"
+    'collapse_navigation': False,  # Set to False to expand all sections
+}
+
+##html_logo = '_static/xilinx-header-logo.svg'
+external_projects_current_project = "quark"
+html_theme_options = {
+    # "flavor": "rocm-docs-home",
+    "flavor": "local",
+    "repository_url": "https://gitenterprise.xilinx.com/AMDNeuralOpt/Quark",
+    "repository_provider": "github",
+    "link_main_doc": False
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
