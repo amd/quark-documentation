@@ -21,7 +21,7 @@ def update_jupyter_notebook_toc_placeholder(app, docname, source):
     ```
     """
 
-    jupyter_notebook_index_rst = os.path.join('source', 'jupyter_notebook_index.rst_')
+    jupyter_notebook_index_rst = os.path.join('.', 'jupyter_notebook_index.rst_')
     jupyter_notebook_toc_placeholder = '@quark_jupyter_notebook_toc_placeholder@'
     with open(jupyter_notebook_index_rst, 'r') as f:
         quark_jupyter_notebook_toc = f.read().strip()

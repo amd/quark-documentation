@@ -13,7 +13,7 @@ def update_autoapi_toc_placeholder(app, docname, source):
     Replace `@quark_autoapi_toc_placeholder@` with actual autoapi toc when QUARK_SPHINX_BUILD_SKIP_AUTOAPI is not set on env var
     """
 
-    autoapi_index_rst = os.path.join('source', 'autoapi_index.rst_')
+    autoapi_index_rst = os.path.join('.', 'autoapi_index.rst_')
     autoapi_toc_placeholder = '@quark_autoapi_toc_placeholder@'
     with open(autoapi_index_rst, 'r') as f:
         quark_autoapi_toc = f.read().strip()
