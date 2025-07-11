@@ -53,7 +53,7 @@ extensions = [
     'notfound.extension',
     'quark_version_substitution',
     'quark_autoapi_build',
-    'toctree_filter',
+    'quark_jupyter_notebook_build',
     'sphinx.ext.coverage',
     'sphinx.ext.doctest',
     'sphinx.ext.githubpages',
@@ -65,7 +65,7 @@ extensions = [
     'sphinx.ext.viewcode',
 ]
 
-generate_autoapi_docs = "QUARK_SKIP_DOC_AUTOAPI" not in os.environ or os.environ["QUARK_SKIP_DOC_AUTOAPI"].lower() in ("0", "false", "off")
+generate_autoapi_docs = "QUARK_SPHINX_BUILD_SKIP_AUTOAPI" not in os.environ or os.environ["QUARK_SPHINX_BUILD_SKIP_AUTOAPI"].lower() in ("0", "false", "off")
 if generate_autoapi_docs:
     extensions.append('sphinx.ext.autodoc')
 
@@ -184,7 +184,7 @@ exclude_patterns = ['include', 'api_rst', '_build', 'Thumbs.db', '.DS_Store', '*
 nitpicky = True
 
 # 'autoapi' pages are included on main index.rst by a sphinx extension (docs/source/_ext/quark_autoapi_build.py)
-# This is hacky, but needed to allow QUARK_SKIP_DOC_AUTOAPI=1 to pass without warnings during sphinx-build
+# This is hacky, but needed to allow QUARK_SPHINX_BUILD_SKIP_AUTOAPI=1 to pass without warnings during sphinx-build
 # that would the build to fail  when QUARK_DOC_FAIL_ON_WARNING=1
 if not generate_autoapi_docs:
     exclude_patterns += ['autoapi']
@@ -341,11 +341,6 @@ rinoh_documents = [dict(doc='index',        # top-level file (index.rst)
 if "READTHEDOCS" in os.environ:
     components = urllib.parse.urlparse(os.environ["READTHEDOCS_CANONICAL_URL"])
     notfound_urls_prefix = components.path
-
-# Tutorials build take long time. Only build it when requested
-toctree_filter_exclude = []
-if "QUARK_SPHINX_BUILD_SKIP_TUTORIALS" in os.environ or "READTHEDOCS" in os.environ:
-    toctree_filter_exclude = ['tutorials']
 
 # -- Extension configuration -------------------------------------------------
 # At the bottom of conf.py

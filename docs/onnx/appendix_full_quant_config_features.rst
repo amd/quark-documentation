@@ -539,10 +539,18 @@ Quantization Configuration
          the input data is from the float module fully, 1 represents all
          from the quantized module. The default value is 1.
       -  **MemOptLevel**: (Int) Specifies the level of memory optimization.
-         Options are 0 and 1. If 0, it means no memory optimization is applied,
-         which will be faster but requires more memory for caching. If 1, it
-         caches the ground-truth for finetuning layer by layer instead of all,
-         which consumes less memory but may take longer time. The default is 1.
+         Options are 0, 1 and 2. Setting it to 0 disables optimization,
+         making training faster but using more memory for caching.
+         Setting it to 1 caches data one layer at a time, reducing memory
+         usage at the cost of longer training times. Setting it to 2
+         saves layer data to a cache directory on disk and loads only
+         one batch at a time, greatly lowering memory consumption but further
+         increasing training time. The default value is 1.
+      -  **CacheDir**: (String) Specifies the directory used to cache
+         intermediate files during fine-tuning. This option is only effective
+         when the MemOptLevel is set to 2. Please note that after fine-tuning,
+         some intermediate files may remain in this directory. The default value
+         is None, in which case a temporary directory will be used for the caching.
       -  **LogPeriod**: (Int) Indicate how many iterations to print the
          log once. The default value is NumIterations/10.
 

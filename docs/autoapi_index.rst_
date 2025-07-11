@@ -1,0 +1,7 @@
+.. toctree::
+   :hidden:
+   :caption: APIs
+   :maxdepth: 1
+
+   PyTorch APIs <autoapi/pytorch_apis>
+   ONNX APIs <autoapi/onnx_apis>
