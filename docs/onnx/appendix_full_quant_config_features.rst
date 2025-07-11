@@ -113,9 +113,12 @@ Quantization Configuration
    replacing the existing configuration (e.g., ['Gemm'] to include Gemm
    layers in addition to the currently specified types). By default, no
    extra operator types will be added for quantization.
-*  **nodes_to_exclude**:(List of Strings or None) If specified, the
-   nodes in this list will be excluded from quantization. The default
-   value is an empty list ([]).
+*  **nodes_to_exclude**:(List of Strings or None) If specified, the nodes 
+   in this list will be excluded from quantization. The elements in this list
+   can be either regular expression patterns with .\* or exact node names. 
+   For instance, to exclude all nodes whose names start with /layer0/, you can 
+   include a pattern like ^/layer0/.* in the list. The default value is an empty
+   list ([]).
 *  **subgraphs_to_exclude**:(List or None) If specified, the
    nodes in these subgraphs will be excluded from quantization. For example,
    you can use [(["Conv1"], ["Conv2"]), (["Relu9", "MatMul10"])] if you do
@@ -417,6 +420,14 @@ Quantization Configuration
       reshape when NPULimitationCheck is True. The default is False.
    -  **AdjustBiasScale**: (Boolean) If True, adjust the bias scale equal to activation scale
       multiply by weights scale. The default is True.
+   -  **TensorsRangeFile**: (None or String) This parameter is used to manage tensor range information,
+      and it should has a ".json" suffix because this file will be save in that format.
+      When set to None, the tensor ranges will be calculated from scratch and will not be saved. 
+      If set to a string representing a file path, and the file does not exist, the tensor range 
+      information will be computed and saved to that file. If the file already exists, the tensor 
+      range information will be loaded from it and will not be recalculated. This file can help to 
+      save the calibration time when to rerun FastFinetune algorithm or to reproduce some calibrated 
+      models. The default value is None.
    -  **BFPAttributes**: (Dictionary) A parameter used to specify the
       attributes for BFP quantization nodes.
 
@@ -492,7 +503,7 @@ Quantization Configuration
          ONNX model inference during fast finetuning. Optional values are
          "cpu" and "cuda:0". The default value is "cpu".
       -  **FixedSeed**: (Int) Seed for random data generator, that makes
-         the fast finetuned results could be reproduced.
+         the fast finetuned results could be reproduced. The default value is 1705472343.
       -  **DataSize**: (Int) Specifies the size of the data used for
          finetuning. Its recommended setting the batch size of the data to
          1 in the data reader to ensure counting the size accurately. It
@@ -679,6 +690,11 @@ Quantization Configuration
       -  **Symmetric**: (Boolean) If True, symmetrize quantization for weights. The default is True.
       -  **Bits**: (int) The target bits to quantize. Only 4b quantization is supported for inference, additional bits support is planned.
       -  **AccuracyLevel**: (int) The quantization level of input, can be: 0(unset), 1(fp32), 2(fp16), 3(bf16), or 4(int8). The default is 0.
+   *  **EvalMetrics**: (Boolean) If True, enables evaluation of the quantized model
+      by measuring cosine similarity and L2 loss. The default is False.
+   *  **EvalDataReader**: (DataReader) This parameter is used only when EvalMetrics is set to True.
+      It allows the user to provide a custom data reader for evaluating the quantized
+      model's cosine similarity and L2 loss metrics against the float model.
 
 
 Table 7. Quantize Types can be selected for different Quantize Formats

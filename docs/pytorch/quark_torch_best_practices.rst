@@ -64,7 +64,7 @@ SmoothQuant reduces activation outliers by shifting the quantization challenge f
 
    python3 quantize_quark.py --model_dir meta-llama/Llama-3.1-8B-Instruct \
                              --quant_scheme w_int8_a_int8_per_tensor_sym \
-                             --pre_quantization_optimization smoothquant
+                             --quant_algo smoothquant
 
 - **AutoSmoothQuant**
 
@@ -86,7 +86,7 @@ QuaRot eliminates activation outliers using a rotation technique (Hadamard trans
 
    python3 quantize_quark.py --model_dir meta-llama/Llama-3.1-8B-Instruct \
                              --quant_scheme w_int8_a_int8_per_tensor_sym \
-                             --pre_quantization_optimization quarot
+                             --quant_algo quarot
 
 
 
@@ -98,7 +98,7 @@ QuaRot employs an online Hadamard transform in its algorithm, requiring kernel s
 
    python3 quantize_quark.py --model_dir meta-llama/Llama-3.1-8B-Instruct \
                              --quant_scheme w_int8_a_int8_per_tensor_sym \
-                             --pre_quantization_optimization rotation
+                             --quant_algo rotation
 
 Try Different Quantization Schemes
 ----------------------------------
