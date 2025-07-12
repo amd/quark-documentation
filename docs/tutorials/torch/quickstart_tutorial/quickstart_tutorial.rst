@@ -1,5 +1,5 @@
-AMD Quark Tutorial: PyTorch Quickstart!
-=======================================
+AMD Quark Tutorial: PyTorch Quickstart
+======================================
 
 This tutorial follows on from PyTorch’s own
 `QuickStart <https://pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html>`__
