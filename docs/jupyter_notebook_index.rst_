@@ -2,4 +2,4 @@
    :maxdepth: 2
    :caption: Tutorials
 
-   :tutorials:tutorials/torch/quickstart_tutorial/quickstart_tutorial.ipynb
+   tutorials/torch/quickstart_tutorial/quickstart_tutorial.ipynb

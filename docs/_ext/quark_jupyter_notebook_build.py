@@ -21,7 +21,10 @@ def update_jupyter_notebook_toc_placeholder(app, docname, source):
     ```
     """
 
-    jupyter_notebook_index_rst = os.path.join('.', 'jupyter_notebook_index.rst_')
+    jupyter_notebook_index_rst = 'jupyter_notebook_index.rst_'
+    if "READTHEDOCS" not in os.environ:
+        # TODO: Start using github.com/amd/quark on readthedocs.com project which has same folder structure
+        jupyter_notebook_index_rst = os.path.join('source', jupyter_notebook_index_rst)
     jupyter_notebook_toc_placeholder = '@quark_jupyter_notebook_toc_placeholder@'
     with open(jupyter_notebook_index_rst, 'r') as f:
         quark_jupyter_notebook_toc = f.read().strip()
@@ -29,7 +32,6 @@ def update_jupyter_notebook_toc_placeholder(app, docname, source):
     generate_jupyter_notebook_docs = "QUARK_SPHINX_BUILD_SKIP_TUTORIALS" not in os.environ or os.environ["QUARK_SPHINX_BUILD_SKIP_TUTORIALS"].lower() in ("0", "false", "off")
     if not generate_jupyter_notebook_docs:
         quark_jupyter_notebook_toc = quark_jupyter_notebook_toc.replace('.ipynb', '.rst')
-        quark_jupyter_notebook_toc = quark_jupyter_notebook_toc.replace(':tutorials:', '')
 
     if jupyter_notebook_toc_placeholder in source[0]:  # Only process documents containing `jupyter_notebook_toc_placeholder`
         source[0] = source[0].replace(jupyter_notebook_toc_placeholder, quark_jupyter_notebook_toc)
