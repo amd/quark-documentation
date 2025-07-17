@@ -13,7 +13,7 @@ AMD Quark supports the QuaRot method for Llama models by default and can be run 
 
 .. code-block:: bash
 
-    python quantize_quark.py --model_dir meta-llama/Meta-Llama-3-8B --quant_scheme w_int8_a_int8_per_tensor_sym --quant_algo quarot
+    python quantize_quark.py --model_dir meta-llama/Meta-Llama-3-8B --quant_scheme w_int8_a_int8_per_tensor_sym --pre_quantization_optimization quarot
 
 Here are the results for the perplexity of the quantized model Llama-3-8B, with and without Quarot:
 

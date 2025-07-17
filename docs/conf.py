@@ -351,9 +351,7 @@ if "READTHEDOCS" in os.environ:
 #            }, True)
 #    app.add_transform(AutoStructify)
 
-if "READTHEDOCS" in os.environ:
-    os.environ['QUARK_SPHINX_BUILD_SKIP_TUTORIALS'] = '1'
-else:
+if "READTHEDOCS" not in os.environ:
 
     ## myst_nb default settings
 

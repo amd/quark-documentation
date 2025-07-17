@@ -58,7 +58,7 @@ Pip requirements
 
 Install the necessary python packages:
 
-::
+.. code-block:: bash
 
    python -m pip install -r requirements.txt
 
@@ -79,7 +79,7 @@ need to register and download **val_images.tar.gz**.
 
 Then, create the validation dataset and calibration dataset:
 
-::
+.. code-block:: bash
 
    mkdir val_data && tar -xzf val_images.tar.gz -C val_data
    python prepare_data.py val_data calib_data
@@ -128,7 +128,7 @@ as follows:
 
 Finally, download the onnx float model from onnx/models repo.
 
-::
+.. code-block:: bash
 
    wget -P models https://github.com/onnx/models/raw/new-models/vision/classification/resnet/model/resnet50-v1-12.onnx
 
@@ -137,7 +137,7 @@ Model Quantization
 
 The quantizer takes the float model and produce a quantized model.
 
-::
+.. code-block:: bash
 
    python quantize_model.py --input_model_path models/resnet50-v1-12.onnx \
                             --output_model_path models/resnet50-v1-12_quantized.onnx \
@@ -152,13 +152,13 @@ Evaluation
 
 Test the accuracy of the float model on ImageNet val dataset:
 
-::
+.. code-block:: bash
 
    python onnx_validate.py val_data --batch-size 1 --onnx-input models/resnet50-v1-12.onnx
 
 Test the accuracy of the quantized model on ImageNet val dataset:
 
-::
+.. code-block:: bash
 
    python onnx_validate.py val_data --batch-size 1 --onnx-input models/resnet50-v1-12_quantized.onnx
 

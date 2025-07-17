@@ -21,10 +21,6 @@ The core idea is to explore different configurations to find the optimal setting
    :width: 600px
    :align: center
 
-Auto Search Premium Features
-----------------------------
-1. **Two-Stage Search**: Divides the search process into two parts: **Calibration** and **FastFinetune**. 
-
 Components
 ----------
 
@@ -63,27 +59,6 @@ The stop condition evaluates the results provided by the evaluator and determine
 - If the maximum number of iterations or time allocated for the search process is exceeded, the loop is also stopped.
 
 The stop condition ensures that the search process concludes either when a satisfactory set of configurations is found or when the time/resources allocated for the search are exhausted.
-
-**Two-Stage Search**
-When **two_stage_search** is set to True, Auto Search will first look for the best configuration within the **Calibration search space**. Based on the best configuration found in Calibration, it will then proceed to search for the best configuration within the **FastFinetune search space**.
-To enable **two_stage_search**, set the corresponding option in the `auto_search_config`:
-
-.. code-block:: python
-
-    class Auto_search_config:
-        # ... other auto search configs
-        two_stage_search = True  # Default value is False
-
-Important notes:
-- Search Space Requirements:
-The final search space (which may consist of multiple search spaces) must contain both Calibration and FastFinetune parts. If either of these is missing, the two_stage_search parameter will be ineffective, and the auto search will proceed with the standard search process.
-- FastFinetune Configuration:
-Ensure that the include_fast_ft parameter is set to True in either the quant_config or auto_search_config. This will ensure that the FastFinetune phase can proceed correctly. Without this setting, the FastFinetune search will not take place.
-- Parallel Computing:
-Both Calibration and FastFinetune phases currently do not support parallel computation.
-- Search Space Size:
-Since the purpose of two_stage_search is to exhaustively search for the best Calibration and FastFinetune configurations, the stop conditions for the search process will be disabled. To save time, it is recommended to keep the search spaces for both Calibration and FastFinetune small.
-
 
 Flow Diagram
 -------------
@@ -141,7 +116,6 @@ Example Configuration:
                 'NumIterations': [100, 1000],
                 'OptimAlgorithm': ['adaround', 'adaquant'],
                 'LearningRate': [0.01, 0.001, 0.0001],
-                'FixedSeed': [42],
             }
         }
     }

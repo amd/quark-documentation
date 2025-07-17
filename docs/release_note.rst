@@ -57,7 +57,7 @@ Release 0.9
 
    -  Model Support:
 
-      -  Support Gemma2 in OGA flow. 
+      -  Support Gemma2 in OGA flow.
 
    -  Quantization and Export:
 
